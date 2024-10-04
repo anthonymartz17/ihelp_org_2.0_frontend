@@ -11,6 +11,10 @@ export default {
 				grayLight: "#F6F5F5",
 				white: "#FFFFFF",
 			},
+			boxShadow: {
+				'custom': 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
+
+      },
 		},
 	},
 	plugins: [],
