@@ -1,8 +1,9 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+
 import NotFoundPage from "../pages/NotFoundPage";
 import LoginPage from "../pages/LoginPage";
 import Dashboard from "../pages/DashboardPage";
-import RequestsListPage from "../pages/requests/RequestsListPage";
+import RequestsListPage from "../pages/requests/RequestListPage";
 import RequestDetailPage from "../pages/requests/RequestDetailPage";
 import RequestNewPage from "../pages/requests/RequestNewPage";
 import RequestEditPage from "../pages/requests/RequestEditPage";
@@ -14,7 +15,14 @@ import RequesterListPage from "../pages/requesters/RequesterListPage";
 import RequesterDetailPage from "../pages/requesters/RequesterDetailPage";
 import RequesterNewPage from "../pages/requesters/RequesterNewPage";
 import RequesterEditPage from "../pages/requesters/RequesterEditPage";
-
+import BadgeListPage from "../pages/badges/BadgeListPage";
+import BadgeDetailPage from "../pages/badges/BadgeDetailPage";
+import BadgeNewPage from "../pages/badges/BadgeNewPage";
+import BadgeEditPage from "../pages/badges/BadgeEditPage";
+import RewardListPage from "../pages/rewards/RewardListPage";
+import RewardDetailPage from "../pages/rewards/RewardDetailPage";
+import RewardNewPage from "../pages/rewards/RewardNewPage";
+import RewardEditPage from "../pages/rewards/RewardEditPage";
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -45,7 +53,6 @@ const router = createBrowserRouter([
 				element: <RequestEditPage />,
 			},
 
-			
 			{
 				path: "volunteers",
 				element: <VolunteerListPage />,
@@ -62,7 +69,7 @@ const router = createBrowserRouter([
 				path: "volunteers/:id/edit",
 				element: <VolunteerEditPage />,
 			},
-			
+
 			{
 				path: "requesters",
 				element: <RequesterListPage />,
@@ -79,7 +86,38 @@ const router = createBrowserRouter([
 				path: "requesters/:id/edit",
 				element: <RequesterEditPage />,
 			},
-			
+			{
+				path: "badges",
+				element: <BadgeListPage />,
+			},
+			{
+				path: "badges/:id",
+				element: <BadgeDetailPage />,
+			},
+			{
+				path: "badges/new",
+				element: <BadgeNewPage />,
+			},
+			{
+				path: "badges/:id/edit",
+				element: <BadgeEditPage />,
+			},
+			{
+				path: "rewards",
+				element: <RewardListPage />,
+			},
+			{
+				path: "rewards/:id",
+				element: <RewardDetailPage />,
+			},
+			{
+				path: "rewards/new",
+				element: <RewardNewPage />,
+			},
+			{
+				path: "rewards/:id/edit",
+				element: <RewardEditPage />,
+			},
 		],
 	},
 	{

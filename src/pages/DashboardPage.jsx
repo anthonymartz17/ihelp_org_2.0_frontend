@@ -3,15 +3,15 @@ import Header from "../components/Header";
 import Sidebar from "../components/sidebar";
 export default function DashboardPage() {
 	return (
-		<div className="flex h-screen">
-			<aside className="w-1/6 bg-green-300">
+		<div className="flex h-screen bg-grayLight ">
+			<aside className="w-1/6 bg-white shadow-custom">
 				<Sidebar />
 			</aside>
 
 			<div className="flex flex-col  h-full w-full">
-				<Header className="bg-green-300" />
+				<Header />
 
-				<main className="bg-slate-500 flex-grow">
+				<main>
 					<Outlet />
 				</main>
 			</div>
