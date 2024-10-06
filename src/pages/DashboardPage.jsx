@@ -4,7 +4,7 @@ import Sidebar from "../components/sidebar";
 export default function DashboardPage() {
 	return (
 		<div className="flex h-screen bg-grayLight ">
-			<aside className="w-1/6 bg-white shadow-custom">
+			<aside className="w-1/6 bg-purplePrimary shadow-custom text-white">
 				<Sidebar />
 			</aside>
 
