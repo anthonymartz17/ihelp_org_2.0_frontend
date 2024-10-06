@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
-
+import ConfirmationModal from "../ConfirmationModal";
 const requests = [
 	{
 		id: 1,
@@ -137,31 +137,48 @@ const requests = [
 
 export default function RequestListTable({}) {
 	const navigate = useNavigate();
-	return (
-		<div>
-			<div className="flex justify-between items-center mb-2">
-				<form className="w-[25em]">
-					<label
-						htmlFor="default-search"
-						className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-					>
-						Search
-					</label>
-					<div className="relative">
-						<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-							<span className="material-symbols-outlined">search</span>
-						</div>
-						<input
-							type="search"
-							id="default-search"
-							className="block w-full p-4 ps-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-gray-300 focus:border-gray-500"
-							placeholder="Search Mockups, Logos..."
-							required
-						/>
-					</div>
-				</form>
+	const [showModal, setShowModal] = useState(false);
+	const [itemToDelete, setItemToDelete] = useState(null);
 
+	function tryDelete(id) {
+		console.log("delete", id);
+		setShowModal((prev) => !prev);
+		setItemToDelete(id);
+	}
+	function cancelDelete() {
+		setShowModal((prev) => !prev);
+		setItemToDelete(null);
+	}
+
+	function confirmDelete() {
+		// Perform the actual delete operation here
+		setShowModal((prev) => !prev);
+		setItemToDelete(null);
+	}
+	return (
+		<div className="mt-10">
+			<div className="flex justify-between items-center mb-2">
 				<div className="flex gap-2 justify-end">
+					<form className="w-[25em]">
+						<label
+							htmlFor="default-search"
+							className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+						>
+							Search
+						</label>
+						<div className="relative">
+							<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+								<span className="material-symbols-outlined">search</span>
+							</div>
+							<input
+								type="search"
+								id="default-search"
+								className="block w-full p-4 ps-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-gray-300 focus:border-gray-500"
+								placeholder="Search Mockups, Logos..."
+								required
+							/>
+						</div>
+					</form>
 					<div>
 						<button
 							id="dropdownDefaultButton"
@@ -222,20 +239,21 @@ export default function RequestListTable({}) {
 							</ul>
 						</div>
 					</div>
-					<div>
-						<button
-							onClick={() => navigate("/dashboard/requests/new")}
-							type="button"
-							className=" h-full w-56  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-l px-5 py-2.5 ml-6 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-						>
-							+ New Request
-						</button>
-					</div>
+				</div>
+
+				<div>
+					<button
+						onClick={() => navigate("/dashboard/requests/new")}
+						type="button"
+						className=" h-full w-56  text-white bg-primary hover:bg-primaryLighter focus:ring-4 focus:outline-none focus:ring-primaryLighter text-l rounded-lg py-2.5 flex justify-center items-center dark:bg-primary dark:hover:bg-primaryLighter dark:focus:ring-primaryLighter"
+					>
+						+ New Request
+					</button>
 				</div>
 			</div>
-			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-				<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-					<thead className="text-gray-700 bg-gray-50 dark:bg-purplePrimary dark:text-gray-400">
+			<div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
+				<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray">
+					<thead className="text-gray-700 bg-gray-50 dark:bg-secondary dark:text-gray-400">
 						<tr className="text-white">
 							<th scope="col" className="px-6 py-3">
 								ID
@@ -255,7 +273,7 @@ export default function RequestListTable({}) {
 							<th scope="col" className="px-6 py-3">
 								Due Date
 							</th>
-							<th scope="col" className="px-6 py-3">
+							<th scope="col" className="px-12 py-3 ">
 								Action
 							</th>
 						</tr>
@@ -272,9 +290,22 @@ export default function RequestListTable({}) {
 								<td className="px-6 py-4">{request.description}</td>
 								<td className="px-6 py-4">{request.status_name}</td>
 								<td className="px-6 py-4">{request.created_at}</td>
-								<td className="px-6 py-4">
-									<span className="material-symbols-outlined cursor-pointer">
-										more_vert
+								<td className="px-6 py-4 flex gap-4">
+									<Link to={`/dashboard/requests/${request.id}`}>
+										<span class="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">
+											visibility
+										</span>
+									</Link>
+									<Link to={`/dashboard/requests/${request.id}/edit`}>
+										<span class="material-symbols-outlined cursor-pointer hover:text-yellow-600 ">
+											edit
+										</span>
+									</Link>
+									<span
+										onClick={() => tryDelete(request.id)}
+										class="material-symbols-outlined cursor-pointer hover:text-red-500 "
+									>
+										delete
 									</span>
 								</td>
 							</tr>
@@ -282,6 +313,13 @@ export default function RequestListTable({}) {
 					</tbody>
 				</table>
 			</div>
+			{showModal && (
+				<ConfirmationModal
+					message={"Are you sure you want to delete this request?"}
+					onCancel={cancelDelete}
+					onConfirm={confirmDelete}
+				/>
+			)}
 		</div>
 	);
 }

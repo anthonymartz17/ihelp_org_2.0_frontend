@@ -5,7 +5,7 @@ export default {
 		extend: {
 			colors: {
 				primary: "#1985A1",
-				primaryLighter: "##289dbc",
+				primaryLighter: "#289dbc",
 				secondary: "#4C5C68",
 				secondaryLighter: "#657581",
 				dark: "#46494C",
@@ -14,9 +14,8 @@ export default {
 				white: "#FFFFFF",
 			},
 			boxShadow: {
-				'custom': 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
-
-      },
+				custom: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+			},
 		},
 	},
 	plugins: [],
