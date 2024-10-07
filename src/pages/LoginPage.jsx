@@ -9,7 +9,7 @@ export default function LoginPage() {
         <h2 className="w-max py-[10px] px-[40px] text-[30px]">iHelp</h2>
         <div className="flex flex-col items-center justify-center mt-[15%]">
           <h1 className="text-[36px] mb-[6%]">Sign in</h1>
-          <form className="flex flex-col w-[55%]">
+          <form className="flex flex-col w-[55%] relative z-10">
             <label htmlFor="email" className="flex flex-col gap-1 mb-[5%]">
               Email:
               <input
@@ -47,7 +47,7 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
-        <div className="absolute bottom-0 w-[500px] h-[500px] overflow-hidden rounded-tr-[100%] rounded-bl-none rounded-br-none rounded-tl-none">
+        <div className="absolute bottom-0 w-[50%] h-[50%] overflow-hidden rounded-tr-[100%] rounded-bl-none rounded-br-none rounded-tl-none">
           <img
             src="https://shorturl.at/uL9TJ"
             alt="Volunteers helping out with donations"
@@ -65,14 +65,14 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <div className="flex absolute top-0 w-[35%] h-[35%]">
+        <div className="flex absolute top-0 w-[40%] h-[40%]">
           <div className="bg-[#1985A1] w-[25%] h-[100%]"></div>
           <div className="bg-[#1985A1] w-[25%] h-[75%]"></div>
           <div className="bg-[#1985A1] w-[25%] h-[50%]"></div>
           <div className="bg-[#1985A1] w-[25%] h-[25%]"></div>
         </div>
 
-        <div className="flex absolute bottom-0 right-0 w-[35%] h-[35%] scale-[-1]">
+        <div className="flex absolute bottom-0 right-0 w-[40%] h-[40%] scale-[-1]">
           <div className="bg-[#1985A1] w-[25%] h-[100%]"></div>
           <div className="bg-[#1985A1] w-[25%] h-[75%]"></div>
           <div className="bg-[#1985A1] w-[25%] h-[50%]"></div>
