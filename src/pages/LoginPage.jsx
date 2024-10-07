@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   return (
-    <div className="grid grid-cols-[40%_60%] h-screen roboto-bold">
+    <div className="grid lg:grid-cols-[40%_60%] grid-cols-[100%] h-screen roboto-bold">
       <div className="text-[#6f6b71]">
-        <div className="absolute bottom-0 left-0 w-0 h-0 border-r-[500px] border-r-transparent border-b-[300px] border-b-[#333]"></div>
+        <div className="lg:block absolute bottom-0 left-0 w-0 h-0 border-r-[500px] border-r-transparent border-b-[300px] border-b-[#333] hidden"></div>
         <h2 className="w-max py-[10px] px-[40px] text-[30px]">iHelp</h2>
-        <div className="flex flex-col items-center justify-center mt-[15%]">
+        <div className="flex flex-col items-center justify-center lg:mt-[15%] mt-[35%]">
           <h1 className="text-[36px] mb-[6%]">Sign in</h1>
-          <form className="flex flex-col w-[55%] relative z-10">
+          <form className="flex flex-col lg:w-[55%] w-[85%] relative z-10">
             <label htmlFor="email" className="flex flex-col gap-1 mb-[5%]">
               Email:
               <input
@@ -37,7 +37,7 @@ export default function LoginPage() {
           </Link>
         </div>
       </div>
-      <div className="bg-[#289dbc] text-white relative">
+      <div className="bg-[#289dbc] text-white relative lg:block hidden">
         <div className="w-[100%] h-[85%] flex items-center justify-center">
           <div className="w-[40%] flex flex-col items-center justify-center relative z-10 text-center">
             <p className="text-[36px] roboto-medium">Turn your ideas</p>
