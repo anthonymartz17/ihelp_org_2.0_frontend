@@ -8,11 +8,13 @@ export default function sidebar() {
 				<h1>Logo</h1>
 			</div>
 
-			<ul>
+			<ul className="py-[3em]">
 				{menuItems.map((item) => (
-					<li key={item.title} className="hover:bg-purpleLighter">
+					<li key={item.title} className="hover:bg-primaryLighter">
 						<Link to={item.link} className="flex items-center gap-3 p-4">
-							<span className="material-symbols-outlined text-xl">{item.icon}</span>
+							<span className="material-symbols-outlined text-xl">
+								{item.icon}
+							</span>
 							{item.title}
 						</Link>
 					</li>
