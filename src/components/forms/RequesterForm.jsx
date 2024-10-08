@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-export default function RequesterForm() {
+export default function RequesterForm({ initialData = {}, onSubmit }) {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -10,6 +10,7 @@ export default function RequesterForm() {
     city: "",
     state: "",
     zip: "",
+    ...initialData,
   });
 
   const states = [
@@ -66,6 +67,10 @@ export default function RequesterForm() {
     { value: "WY", name: "Wyoming" },
   ];
 
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, ...initialData }));
+  }, [initialData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -76,7 +81,7 @@ export default function RequesterForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    onSubmit(formData); // Delegate the submit logic to the parent component
   };
 
   return (
@@ -85,6 +90,7 @@ export default function RequesterForm() {
         onSubmit={handleSubmit}
         className="bg-white rounded-[12px] p-[20px] w-[50%]"
       >
+        {/* Form content */}
         <div className="grid grid-cols-[1fr_1fr] gap-4">
           <label className="flex flex-col mb-[2%]" htmlFor="firstName">
             First Name:
