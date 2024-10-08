@@ -1,15 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
 export default function LoginPage() {
+  const [forgotPassword, setForgotPassword] = useState(false);
+
+  const handleForgotPass = () => setForgotPassword(true);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setForgotPassword(false);
+  };
+
   return (
     <div className="grid lg:grid-cols-[40%_60%] grid-cols-[100%] h-screen roboto-bold">
       <div className="text-[#6f6b71]">
         <div className="lg:block absolute bottom-0 left-0 w-0 h-0 border-r-[500px] border-r-transparent border-b-[300px] border-b-[#333] hidden"></div>
         <h2 className="w-max py-[10px] px-[40px] text-[30px]">iHelp</h2>
         <div className="flex flex-col items-center justify-center lg:mt-[15%] mt-[35%]">
-          <h1 className="text-[36px] mb-[6%]">Sign in</h1>
-          <form className="flex flex-col lg:w-[55%] w-[85%] relative z-10">
+          <h1 className="text-[36px] mb-[6%]">
+            {forgotPassword ? "Forgot Password" : "Sign in"}
+          </h1>
+          <form
+            className="flex flex-col lg:w-[55%] w-[85%] relative z-10"
+            onSubmit={handleSubmit}
+          >
             <label htmlFor="email" className="flex flex-col gap-1 mb-[5%]">
               Email:
               <input
@@ -18,23 +31,33 @@ export default function LoginPage() {
                 className="py-[5px] border-[1px] border-[#7b777d] rounded-[5px]"
               />
             </label>
-            <label htmlFor="password" className="flex flex-col gap-1 mb-[12%]">
-              Password:
-              <input
-                required
-                type="password"
-                className="py-[5px] border-[1px] border-[#7b777d] rounded-[5px]"
-              />
-            </label>
+            {!forgotPassword && (
+              <label
+                htmlFor="password"
+                className="flex flex-col gap-1 mb-[12%]"
+              >
+                Password:
+                <input
+                  required
+                  type="password"
+                  className="py-[5px] border-[1px] border-[#7b777d] rounded-[5px]"
+                />
+              </label>
+            )}
             <input
               type="submit"
-              value="Login"
+              value={forgotPassword ? "Send Request" : "Login"}
               className="py-[5px] text-white bg-[#1985A1] rounded-[5px] cursor-pointer text-[16px] roboto-regular mb-[5%]"
             />
           </form>
-          <Link to={"/login/forgot-password"} className="roboto-regular">
-            Forgot password
-          </Link>
+          {!forgotPassword && (
+            <p
+              className="roboto-regular cursor-pointer"
+              onClick={handleForgotPass}
+            >
+              Forgot password
+            </p>
+          )}
         </div>
       </div>
       <div className="bg-[#289dbc] text-white relative lg:block hidden">
