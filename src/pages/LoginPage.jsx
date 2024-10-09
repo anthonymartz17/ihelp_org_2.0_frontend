@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { auth } from "./firebaseConfig.";
+import { auth } from "../../firebaseConfig";
 
 export default function LoginPage() {
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -86,7 +86,6 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="bg-[#289dbc] text-white relative lg:block hidden">
-        {/* Right side of the screen (static content) */}
         <div className="w-[100%] h-[85%] flex items-center justify-center">
           <div className="w-[40%] flex flex-col items-center justify-center relative z-10 text-center">
             <p className="text-[36px] roboto-medium">Turn your ideas</p>
@@ -98,7 +97,7 @@ export default function LoginPage() {
         </div>
         <div className="absolute bottom-0 w-[50%] h-[50%] overflow-hidden rounded-tr-[100%] rounded-bl-none rounded-br-none rounded-tl-none">
           <img
-            src="https: //shorturl.at/uL9TJ"
+            src="https:shorturl.at/uL9TJ"
             alt="Volunteers helping out with donations"
             className="w-full h-full object-cover"
           />
