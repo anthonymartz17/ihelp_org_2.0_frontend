@@ -1,13 +1,33 @@
 import React, { useState } from "react";
+import { auth } from "./firebaseConfig.";
 
 export default function LoginPage() {
   const [forgotPassword, setForgotPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleForgotPass = () => setForgotPassword(true);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setForgotPassword(false);
+    setError("");
+
+    if (forgotPassword) {
+      try {
+        await auth.sendPasswordResetEmail(email);
+        alert("Password reset email sent!");
+      } catch (err) {
+        setError("Failed to send password reset email. Please try again.");
+      }
+    } else {
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        alert("Login successful!");
+      } catch (err) {
+        setError("Login failed. Please check your credentials.");
+      }
+    }
   };
 
   return (
@@ -19,6 +39,7 @@ export default function LoginPage() {
           <h1 className="text-[36px] mb-[6%]">
             {forgotPassword ? "Forgot Password" : "Sign in"}
           </h1>
+          {error && <p className="text-red-500">{error}</p>}
           <form
             className="flex flex-col lg:w-[55%] w-[85%] relative z-10"
             onSubmit={handleSubmit}
@@ -28,6 +49,8 @@ export default function LoginPage() {
               <input
                 required
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="py-[5px] border-[1px] border-[#7b777d] rounded-[5px]"
               />
             </label>
@@ -40,6 +63,8 @@ export default function LoginPage() {
                 <input
                   required
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="py-[5px] border-[1px] border-[#7b777d] rounded-[5px]"
                 />
               </label>
@@ -61,6 +86,7 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="bg-[#289dbc] text-white relative lg:block hidden">
+        {/* Right side of the screen (static content) */}
         <div className="w-[100%] h-[85%] flex items-center justify-center">
           <div className="w-[40%] flex flex-col items-center justify-center relative z-10 text-center">
             <p className="text-[36px] roboto-medium">Turn your ideas</p>
@@ -72,7 +98,7 @@ export default function LoginPage() {
         </div>
         <div className="absolute bottom-0 w-[50%] h-[50%] overflow-hidden rounded-tr-[100%] rounded-bl-none rounded-br-none rounded-tl-none">
           <img
-            src="https://shorturl.at/uL9TJ"
+            src="https: //shorturl.at/uL9TJ"
             alt="Volunteers helping out with donations"
             className="w-full h-full object-cover"
           />
