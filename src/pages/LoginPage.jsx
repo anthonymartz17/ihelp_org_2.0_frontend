@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { auth } from "../../firebaseConfig";
+import { useNavigate } from "react-router-dom";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 export default function LoginPage() {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleForgotPass = () => setForgotPassword(true);
 
@@ -15,15 +21,16 @@ export default function LoginPage() {
 
     if (forgotPassword) {
       try {
-        await auth.sendPasswordResetEmail(email);
+        await sendPasswordResetEmail(auth, email);
         alert("Password reset email sent!");
       } catch (err) {
         setError("Failed to send password reset email. Please try again.");
       }
     } else {
       try {
-        await auth.signInWithEmailAndPassword(email, password);
+        await signInWithEmailAndPassword(auth, email, password);
         alert("Login successful!");
+        navigate("/dashboard");
       } catch (err) {
         setError("Login failed. Please check your credentials.");
       }
@@ -33,7 +40,6 @@ export default function LoginPage() {
   return (
     <div className="grid lg:grid-cols-[40%_60%] grid-cols-[100%] h-screen roboto-bold">
       <div className="text-[#6f6b71]">
-        <div className="lg:block absolute bottom-0 left-0 w-0 h-0 border-r-[500px] border-r-transparent border-b-[300px] border-b-[#333] hidden"></div>
         <h2 className="w-max py-[10px] px-[40px] text-[30px]">iHelp</h2>
         <div className="flex flex-col items-center justify-center lg:mt-[15%] mt-[35%]">
           <h1 className="text-[36px] mb-[6%]">
