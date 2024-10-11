@@ -4,8 +4,6 @@ ihelp-frontend/
 │
 ├── node_modules/
 ├── public/
-│   └── vite.svg
-│
 ├── src/
 │   ├── assets/
 │   │   ├── images/
