@@ -81,7 +81,7 @@ export default function RequesterForm({ initialData = {}, onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData); // Delegate the submit logic to the parent component
+    onSubmit(formData);
   };
 
   return (
@@ -90,7 +90,6 @@ export default function RequesterForm({ initialData = {}, onSubmit }) {
         onSubmit={handleSubmit}
         className="bg-white rounded-[12px] p-[20px] w-[50%]"
       >
-        {/* Form content */}
         <div className="grid grid-cols-[1fr_1fr] gap-4">
           <label className="flex flex-col mb-[2%]" htmlFor="firstName">
             First Name:

@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-
+import React, { useState } from "react";
 
 export default function VolunteersForm() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    streetAddress: '',
-    age: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    streetAddress: "",
+    age: "",
   });
 
   const handleChange = (e) => {
@@ -25,7 +24,10 @@ export default function VolunteersForm() {
       <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-xl">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-md font-bold text-gray-700" htmlFor="firstName">
+            <label
+              className="block text-md font-bold text-gray-700"
+              htmlFor="firstName"
+            >
               First name
             </label>
             <input
@@ -40,7 +42,10 @@ export default function VolunteersForm() {
           </div>
 
           <div className="mb-4">
-            <label className="block text-md font-bold text-gray-700" htmlFor="lastName">
+            <label
+              className="block text-md font-bold text-gray-700"
+              htmlFor="lastName"
+            >
               Last name
             </label>
             <input
@@ -55,7 +60,10 @@ export default function VolunteersForm() {
           </div>
 
           <div className="mb-4">
-            <label className="block text-md font-bold text-gray-700" htmlFor="email">
+            <label
+              className="block text-md font-bold text-gray-700"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
@@ -70,7 +78,10 @@ export default function VolunteersForm() {
           </div>
 
           <div className="mb-4">
-            <label className="block text-md font-bold text-gray-700" htmlFor="streetAddress">
+            <label
+              className="block text-md font-bold text-gray-700"
+              htmlFor="streetAddress"
+            >
               Street address
             </label>
             <input
@@ -85,7 +96,10 @@ export default function VolunteersForm() {
           </div>
 
           <div className="mb-4">
-            <label className="block text-md font-bold text-gray-700" htmlFor="age">
+            <label
+              className="block text-md font-bold text-gray-700"
+              htmlFor="age"
+            >
               Age
             </label>
             <input
