@@ -12,8 +12,6 @@ export default function RequestListTable() {
     const fetchRequests = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log("Token:", token);
-
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/requests`,
           {
