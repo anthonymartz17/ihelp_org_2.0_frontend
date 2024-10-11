@@ -1,7 +1,3 @@
-
-
 export default function BadgesDetailPage() {
-  return (
-    <div>BadgesDetailPage</div>
-  )
+  return <div>BadgesDetailPage</div>;
 }

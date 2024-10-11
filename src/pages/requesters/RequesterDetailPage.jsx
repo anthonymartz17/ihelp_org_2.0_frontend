@@ -1,7 +1,3 @@
-
-
 export default function RequesterDetailPage() {
-  return (
-    <div>RequesterDetailPage</div>
-  )
+  return <div>RequesterDetailPage</div>;
 }
