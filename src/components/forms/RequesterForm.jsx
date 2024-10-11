@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 
 export default function RequesterForm({ initialData = {}, onSubmit }) {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    ...initialData,
+    firstName: initialData.firstName || "",
+    lastName: initialData.lastName || "",
+    phone: initialData.phone || "",
+    addressOne: initialData.addressOne || "",
+    addressTwo: initialData.addressTwo || "",
+    city: initialData.city || "",
+    state: initialData.state || "",
+    zip: initialData.zip || "",
   });
 
   const states = [
@@ -62,21 +66,17 @@ export default function RequesterForm({ initialData = {}, onSubmit }) {
     { value: "WY", name: "Wyoming" },
   ];
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const finalData = {
-      name: `${formData.firstName} ${formData.lastName}`,
-      phone: formData.phone,
-    };
-    onSubmit(finalData);
   };
 
   return (
@@ -93,6 +93,7 @@ export default function RequesterForm({ initialData = {}, onSubmit }) {
               type="text"
               id="firstName"
               name="firstName"
+              value={formData.firstName}
               onChange={handleChange}
             />
           </label>
@@ -103,6 +104,7 @@ export default function RequesterForm({ initialData = {}, onSubmit }) {
               type="text"
               id="lastName"
               name="lastName"
+              value={formData.lastName}
               onChange={handleChange}
             />
           </label>
@@ -121,11 +123,80 @@ export default function RequesterForm({ initialData = {}, onSubmit }) {
           />
         </label>
 
+        <label className="flex flex-col mb-[2%]" htmlFor="addressOne">
+          Street Address:
+          <input
+            className="border border-[1px] border-[#C5C3C6] rounded pl-[5px] py-[2px]"
+            type="text"
+            id="addressOne"
+            name="addressOne"
+            value={formData.addressOne}
+            onChange={handleChange}
+          />
+        </label>
+        <label className="flex flex-col mb-[2%]" htmlFor="addressTwo">
+          Apt/Suite:
+          <input
+            className="border border-[1px] border-[#C5C3C6] rounded pl-[5px] py-[2px]"
+            type="text"
+            id="addressTwo"
+            name="addressTwo"
+            value={formData.addressTwo}
+            onChange={handleChange}
+          />
+        </label>
+
+        <div className="grid grid-cols-[1fr_1fr_1fr] gap-4">
+          <label className="flex flex-col mb-[2%]" htmlFor="city">
+            City:
+            <input
+              className="border border-[1px] border-[#C5C3C6] rounded pl-[5px] py-[2px]"
+              type="text"
+              id="city"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+            />
+          </label>
+          <label className="flex flex-col mb-[2%]" htmlFor="state">
+            State:
+            <select
+              id="state"
+              name="state"
+              value={formData.state}
+              onChange={handleChange}
+              className="border border-[1px] border-[#C5C3C6] rounded pl-[5px] py-[4px]"
+            >
+              <option value="" disabled>
+                onChange={handleChange}
+                Select
+              </option>
+              {states.map((state) => (
+                <option key={state.value} value={state.value}>
+                  onChange={handleChange}
+                  {state.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex flex-col mb-[2%]" htmlFor="zip">
+            Zip Code:
+            <input
+              className="border border-[1px] border-[#C5C3C6] rounded pl-[5px] py-[2px]"
+              type="text"
+              id="zip"
+              name="zip"
+              value={formData.zip}
+              onChange={handleChange}
+            />
+          </label>
+        </div>
         <div className="flex justify-end mt-[2%]">
           <input
             className="bg-[#289dbc] rounded px-[40px] py-[5px] text-white roboto-bold"
             type="submit"
             value="Submit"
+            onChange={handleChange}
           />
         </div>
       </form>
