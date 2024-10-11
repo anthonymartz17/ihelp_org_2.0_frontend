@@ -11,21 +11,29 @@ export default function RequestListTable() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
+        const token = localStorage.getItem("token");
+        console.log("Token:", token);
+
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/requests`,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
+
         if (!response.ok) {
-          throw new Error("Failed to fetch requests");
+          const errorData = await response.json();
+          throw new Error(
+            `Failed to fetch requests: ${response.status} ${errorData.message}`
+          );
         }
+
         const data = await response.json();
         setRequests(data);
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching requests:", error.message);
       }
     };
 
