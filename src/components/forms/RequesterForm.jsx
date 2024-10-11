@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 
 export default function RequesterForm({ initialData = {}, onSubmit }) {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    addressOne: "",
-    addressTwo: "",
-    city: "",
-    state: "",
-    zip: "",
-    ...initialData,
+    firstName: initialData.firstName || "",
+    lastName: initialData.lastName || "",
+    phone: initialData.phone || "",
+    addressOne: initialData.addressOne || "",
+    addressTwo: initialData.addressTwo || "",
+    city: initialData.city || "",
+    state: initialData.state || "",
+    zip: initialData.zip || "",
   });
 
   const states = [
@@ -67,9 +66,10 @@ export default function RequesterForm({ initialData = {}, onSubmit }) {
     { value: "WY", name: "Wyoming" },
   ];
 
-  useEffect(() => {
-    setFormData((prev) => ({ ...prev, ...initialData }));
-  }, [initialData]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,18 +79,12 @@ export default function RequesterForm({ initialData = {}, onSubmit }) {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData); // Delegate the submit logic to the parent component
-  };
-
   return (
     <div className="flex flex-col items-center">
       <form
         onSubmit={handleSubmit}
         className="bg-white rounded-[12px] p-[20px] w-[50%]"
       >
-        {/* Form content */}
         <div className="grid grid-cols-[1fr_1fr] gap-4">
           <label className="flex flex-col mb-[2%]" htmlFor="firstName">
             First Name:
@@ -200,6 +194,7 @@ export default function RequesterForm({ initialData = {}, onSubmit }) {
             className="bg-[#289dbc] rounded px-[40px] py-[5px] text-white roboto-bold"
             type="submit"
             value="Submit"
+            onChange={handleChange}
           />
         </div>
       </form>

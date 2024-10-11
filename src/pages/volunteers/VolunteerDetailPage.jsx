@@ -1,3 +1,3 @@
 export default function VolunteerDetailPage() {
-	return <div>VolunteersDetailPage</div>;
+  return <div>VolunteersDetailPage</div>;
 }
