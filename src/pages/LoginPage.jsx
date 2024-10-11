@@ -29,7 +29,6 @@ export default function LoginPage() {
     } else {
       try {
         await signInWithEmailAndPassword(auth, email, password);
-        alert("Login successful!");
         navigate("/dashboard");
       } catch (err) {
         setError("Login failed. Please check your credentials.");
