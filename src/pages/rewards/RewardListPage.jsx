@@ -122,9 +122,6 @@ export default function RewardListPage() {
                   <td className="px-6 py-4">{reward.name}</td>
                   <td className="px-6 py-4">{reward.description}</td>
                   <td className="px-6 py-4">{reward.points_required}</td>
-                  <td className="px-6 py-4">
-                    {reward.is_active ? "Active" : "Inactive"}
-                  </td>
                   <td className="px-6 py-4 flex gap-4">
                     <Link to={`/dashboard/rewards/${reward.id}`}>
                       <span className="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">
