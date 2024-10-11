@@ -1,5 +1,5 @@
 import React from "react";
-import RequestListTable from "../../components/requests-componets/RequestListTable";
+import RequestListTable from "../../components/requests-components/RequestListTable";
 import { useRequestsContext } from "../../context/RequestContextProvider";
 
 export default function RequestsList() {

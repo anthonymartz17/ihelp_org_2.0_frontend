@@ -14,10 +14,12 @@
 	--grayLight: "#DCDCDD";
 	--white: "#FFFFFF";
 }
+
 * {
 	font-family: "Roboto", sans-serif;
 	font-size: 13px;
 }
+
 /* Fonts */
 .roboto-thin {
 	font-family: "Roboto", sans-serif;
