@@ -10,16 +10,7 @@ export default function badgeListPage() {
   useEffect(() => {
     const fetchBadges = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/badges`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/badges`);
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(
@@ -41,9 +32,6 @@ export default function badgeListPage() {
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/badges/${itemToDelete}`, {
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
       });
       setBadges(badges.filter((badge) => badge.id !== itemToDelete));
     } catch (error) {
@@ -105,7 +93,7 @@ export default function badgeListPage() {
                   Description
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Points Required
+                  Requirements
                 </th>
                 <th scope="col" className="px-12 py-3 ">
                   Action
@@ -121,7 +109,7 @@ export default function badgeListPage() {
                   <td className="px-6 py-4">{badge.id}</td>
                   <td className="px-6 py-4">{badge.name}</td>
                   <td className="px-6 py-4">{badge.description}</td>
-                  <td className="px-6 py-4">{badge.points_required}</td>
+                  <td className="px-6 py-4">{badge.requirement}</td>
                   <td className="px-6 py-4 flex gap-4">
                     <Link to={`/dashboard/badges/${badge.id}`}>
                       <span className="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">
