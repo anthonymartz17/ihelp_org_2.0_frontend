@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchRequests } from "../services/RequestServices";
+import { fetchRequests } from "../services/requestServices";
 
 const RequestContext = createContext({});
 

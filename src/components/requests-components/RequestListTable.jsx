@@ -292,18 +292,18 @@ export default function RequestListTable({}) {
                 <td className="px-6 py-4">{request.created_at}</td>
                 <td className="px-6 py-4 flex gap-4">
                   <Link to={`/dashboard/requests/${request.id}`}>
-                    <span class="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">
+                    <span className="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">
                       visibility
                     </span>
                   </Link>
                   <Link to={`/dashboard/requests/${request.id}/edit`}>
-                    <span class="material-symbols-outlined cursor-pointer hover:text-yellow-600 ">
+                    <span className="material-symbols-outlined cursor-pointer hover:text-yellow-600 ">
                       edit
                     </span>
                   </Link>
                   <span
                     onClick={() => tryDelete(request.id)}
-                    class="material-symbols-outlined cursor-pointer hover:text-red-500 "
+                    className="material-symbols-outlined cursor-pointer hover:text-red-500 "
                   >
                     delete
                   </span>
