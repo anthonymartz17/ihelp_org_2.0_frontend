@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import ConformationModal from "../../components/ConfirmationModal";
 
 export default function RequesterListPage() {
   const navigate = useNavigate();
@@ -130,7 +131,9 @@ export default function RequesterListPage() {
                   <td className="px-6 py-4">{requester.name}</td>
                   <td className="px-6 py-4">{requester.phone}</td>
                   <td className="px-6 py-4">{requester.created_at}</td>
-                  <td className="px-6 py-4">{requester.is_active ? "Active" : "Inactive"}</td>
+                  <td className="px-6 py-4">
+                    {requester.is_active ? "Active" : "Inactive"}
+                  </td>
                   <td className="px-6 py-4 flex gap-4">
                     <Link to={`/dashboard/requesters/${requester.id}`}>
                       <span className="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">
@@ -158,7 +161,7 @@ export default function RequesterListPage() {
           </table>
         </div>
         {showModal && (
-          <ConfirmationModal
+          <ConformationModal
             message={"Are you sure you want to delete this request?"}
             onCancel={() => setShowModal(false)}
             onConfirm={confirmDelete}
