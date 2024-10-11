@@ -56,7 +56,7 @@ export default function RewardListPage() {
 
   return (
     <div className="flex flex-col gap-4 py-[4em] px-6">
-      <h1 className="roboto-bold text-xl">rewards</h1>
+      <h1 className="roboto-bold text-xl">Rewards</h1>
       <div className="mt-10">
         <div className="flex justify-between items-center mb-2">
           <div className="flex gap-2 justify-end">
@@ -86,7 +86,7 @@ export default function RewardListPage() {
                 type="button"
                 className=" h-full w-56 text-white bg-primary hover:bg-primaryLighter focus:ring-4 focus:outline-none focus:ring-primaryLighter text-l rounded-lg py-2.5 flex justify-center items-center"
               >
-                + New reward
+                + New Reward
               </button>
             </div>
           </div>
@@ -140,7 +140,7 @@ export default function RewardListPage() {
                       }}
                       className="material-symbols-outlined cursor-pointer hover:text-red-500 "
                     >
-                      delete
+                      Delete
                     </span>
                   </td>
                 </tr>
