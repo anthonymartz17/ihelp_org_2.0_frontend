@@ -28,7 +28,17 @@ export default function LoginPage() {
       }
     } else {
       try {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const user = userCredential.user;
+
+        const token = await user.getIdToken();
+
+        localStorage.setItem("token", token);
+
         navigate("/dashboard");
       } catch (err) {
         setError("Login failed. Please check your credentials.");
