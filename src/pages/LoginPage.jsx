@@ -34,7 +34,6 @@ export default function LoginPage() {
           password
         );
         const user = userCredential.user;
-
         const token = await user.getIdToken();
 
         localStorage.setItem("token", token);
