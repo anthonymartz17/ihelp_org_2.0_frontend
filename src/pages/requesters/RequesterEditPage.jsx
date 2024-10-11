@@ -5,16 +5,46 @@ export default function RequesterEditPage({ requesterId }) {
   const [requesterData, setRequesterData] = useState(null);
 
   useEffect(() => {
-    const fetchRequester = async () => {
-      const data = await fakeApiCall(requesterId);
-      setRequesterData(data);
+    const fetchRequesterData = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/requesters/${requesterId}`
+        );
+        if (!response.ok) {
+          throw new Error("Error fetching requester data");
+        }
+        const data = await response.json();
+        setRequesterData(data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     };
 
-    fetchRequester();
+    fetchRequesterData();
   }, [requesterId]);
 
-  const handleUpdate = (formData) => {
-    console.log("Updating requester:", formData);
+  const handleUpdate = async (formData) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/requesters/${requesterId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Error updating requester");
+      }
+
+      const data = await response.json();
+      console.log("Requester updated:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -28,15 +58,3 @@ export default function RequesterEditPage({ requesterId }) {
     </div>
   );
 }
-const fakeApiCall = async (id) => {
-  return {
-    firstName: "John",
-    lastName: "Doe",
-    phone: "(123) 456-7890",
-    addressOne: "123 Main St",
-    addressTwo: "Apt 4B",
-    city: "Somewhere",
-    state: "NY",
-    zip: "10001",
-  };
-};
