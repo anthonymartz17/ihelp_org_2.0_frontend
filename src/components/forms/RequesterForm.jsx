@@ -168,12 +168,10 @@ export default function RequesterForm({ initialData = {}, onSubmit }) {
               className="border border-[1px] border-[#C5C3C6] rounded pl-[5px] py-[4px]"
             >
               <option value="" disabled>
-                onChange={handleChange}
                 Select
               </option>
               {states.map((state) => (
                 <option key={state.value} value={state.value}>
-                  onChange={handleChange}
                   {state.name}
                 </option>
               ))}
