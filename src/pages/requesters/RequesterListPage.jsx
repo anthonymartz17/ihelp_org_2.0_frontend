@@ -128,7 +128,7 @@ export default function RequesterListPage() {
                   className="odd:dark:bg-transparent even:bg-purpleLighter even:dark:bg-purpleLightest border-b dark:border-gray-200"
                 >
                   <td className="px-6 py-4">{requester.id}</td>
-                  <td className="px-6 py-4">{requester.name}</td>
+                  <td className="px-6 py-4">{requester.first_name} {requester.last_name}</td>
                   <td className="px-6 py-4">{requester.phone}</td>
                   <td className="px-6 py-4">{requester.created_at}</td>
                   <td className="px-6 py-4">
