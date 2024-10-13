@@ -100,6 +100,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     if (onSubmit) {
       onSubmit(formData);
     }
