@@ -8,8 +8,8 @@ export default function RequestNewPage() {
 
   return (
     <div>
-      <h1 className="text-center text-[24px] font-bold mb-4">
-        Create New Request
+      <h1 className="ml-4 text-[18px] font-bold mb-4">
+        New Request
       </h1>
       <RequestForm onSubmit={handleCreate} />
     </div>
