@@ -76,7 +76,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onSubmit) {
-      onSubmit(formData); // Send the complete form data to the parent
+      onSubmit(formData);
     }
   };
 
@@ -174,7 +174,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                 />
                 <button
                   type="button"
-                  className="bg-blue-500 text-white rounded-md p-[5px_10px]"
+                  className="bg-[#46494C] text-white rounded-md p-[5px_10px]"
                   onClick={handleAddTask}
                 >
                   Add
@@ -204,7 +204,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
         <div className="flex justify-end w-[100%] mt-[1.5%]">
           <button
             type="submit"
-            className="bg-black text-white rounded-lg p-[5px_20px]"
+            className="bg-[#1985A1] text-white rounded-lg p-[5px_20px]"
           >
             Submit
           </button>
