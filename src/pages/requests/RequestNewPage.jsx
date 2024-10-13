@@ -4,8 +4,8 @@ import RequestForm from "../../components/forms/RequestForm";
 
 export default function NewRequestPage() {
   const navigate = useNavigate();
-
-  const handleFormSubmit = async (formData) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`${import.meta.env.VITE_API_URL}/requests`, {
@@ -19,21 +19,22 @@ export default function NewRequestPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(`Failed to create request: ${errorData.message}`);
+        throw new Error(
+          `Failed to create request: ${response.status} ${errorData.message}`
+        );
       }
 
       alert("Request created successfully!");
-      navigate("/requests");
     } catch (error) {
       console.error("Error creating request:", error.message);
-      alert("An error occurred. Please try again.");
+      alert("Failed to create request.");
     }
   };
 
   return (
     <div>
       <h1 className="ml-4 text-[18px] font-bold mb-4">New Request</h1>
-      <RequestForm onSubmit={handleFormSubmit} />
+      <RequestForm onSubmit={handleSubmit} />
     </div>
   );
 }

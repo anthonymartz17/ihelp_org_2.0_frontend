@@ -9,10 +9,12 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
     description: initialData.description || "",
     date: initialData.date || today,
     tasks: initialData.tasks || [],
+    volunteer: initialData.volunteer || "",
   });
 
   const [taskInput, setTaskInput] = useState({ task: "", points: "" });
   const [requesters, setRequesters] = useState([]);
+  const [volunteers, setVolunteers] = useState([]);
 
   const categories = [
     "Errands",
@@ -47,7 +49,31 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
         console.error("Error fetching requesters:", error.message);
       }
     };
+    const fetchVolunteers = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/volunteers`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(
+            `Failed to fetch volunteers: ${response.status} ${errorData.message}`
+          );
+        }
+
+        const data = await response.json();
+        setVolunteers(data);
+      } catch (error) {
+        console.error("Error fetching volunteers:", error.message);
+      }
+    };
+
+    fetchVolunteers();
     fetchRequesters();
   }, []);
 
@@ -74,7 +100,6 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     if (onSubmit) {
       onSubmit(formData);
     }
@@ -86,7 +111,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
         <div className="flex gap-4">
           <div className="p-2 w-[50%]">
             <div className="flex items-center gap-7 mb-3">
-              <label className="w-[50%]">
+              <label>
                 Requester
                 <br />
                 <select
@@ -106,7 +131,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                 </select>
               </label>
 
-              <label className="w-[50%]">
+              <label>
                 Category
                 <br />
                 <select
@@ -121,6 +146,26 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                   {categories.map((category) => (
                     <option key={category} value={category}>
                       {category}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label>
+                Volunteer
+                <br />
+                <select
+                  name="volunteer"
+                  value={formData.volunteer}
+                  onChange={handleChange}
+                  className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] mt-[3%]"
+                >
+                  <option disabled value="">
+                    Select
+                  </option>
+                  {volunteers.map((volunteer) => (
+                    <option key={volunteer.id} value={volunteer.id}>
+                      {volunteer.name}
                     </option>
                   ))}
                 </select>
