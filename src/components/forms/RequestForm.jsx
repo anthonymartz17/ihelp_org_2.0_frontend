@@ -8,11 +8,9 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
     category: initialData.category || "",
     description: initialData.description || "",
     date: initialData.date || today,
-    points: initialData.points || "",
-    task: initialData.task || "",
+    tasks: initialData.tasks || [],
   });
 
-  const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState({ task: "", points: "" });
   const [requesters, setRequesters] = useState([]);
 
@@ -55,27 +53,49 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 
   const handleAddTask = () => {
     if (taskInput.task && taskInput.points) {
-      setTasks([...tasks, taskInput]);
+      setFormData((prev) => ({
+        ...prev,
+        tasks: [...prev.tasks, taskInput],
+      }));
       setTaskInput({ task: "", points: "" });
     }
   };
 
   const handleDeleteTask = (index) => {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
-    setTasks(updatedTasks);
+    setFormData((prev) => ({
+      ...prev,
+      tasks: prev.tasks.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (onSubmit) {
+      onSubmit(formData); // Send the complete form data to the parent
+    }
   };
 
   return (
     <div className="flex items-center justify-center">
-      <form className="w-[100%] p-[5px_20px]">
+      <form className="w-[100%] p-[5px_20px]" onSubmit={handleSubmit}>
         <div className="flex gap-4">
           <div className="p-2 w-[50%]">
             <div className="flex items-center gap-7 mb-3">
               <label className="w-[50%]">
                 Requester
                 <br />
-                <select className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] mt-[3%]">
-                  <option selected disabled value="">
+                <select
+                  name="requester"
+                  value={formData.requester}
+                  onChange={handleChange}
+                  className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] mt-[3%]"
+                >
+                  <option disabled value="">
                     Select
                   </option>
                   {requesters.map((requester) => (
@@ -85,11 +105,17 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                   ))}
                 </select>
               </label>
+
               <label className="w-[50%]">
                 Category
                 <br />
-                <select className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] mt-[3%]">
-                  <option selected disabled value="">
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] mt-[3%]"
+                >
+                  <option disabled value="">
                     Select
                   </option>
                   {categories.map((category) => (
@@ -100,29 +126,30 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                 </select>
               </label>
             </div>
+
             <div className="flex flex-col gap-4">
               <label className="flex flex-col gap-2">
                 General Description
                 <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
                   className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] resize-none overflow-auto"
                   placeholder="Write your description..."
                   style={{ maxHeight: "150px" }}
-                  value={formData.description}
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
                 />
               </label>
+
               <input
-                className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
                 type="date"
+                name="date"
                 value={formData.date}
-                onChange={(e) =>
-                  setFormData({ ...formData, date: e.target.value })
-                }
+                onChange={handleChange}
+                className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
               />
             </div>
           </div>
+
           <div className="p-2 w-[50%]">
             <h3>Tasks</h3>
             <div className="border border-gray-500 rounded-lg px-7 py-4 mt-[1%] h-[90%]">
@@ -130,20 +157,20 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                 <input
                   type="text"
                   placeholder="Describe Task"
-                  className="border border-gray-500 rounded-md p-[5px_10px]"
                   value={taskInput.task}
                   onChange={(e) =>
                     setTaskInput({ ...taskInput, task: e.target.value })
                   }
+                  className="border border-gray-500 rounded-md p-[5px_10px]"
                 />
                 <input
                   type="number"
                   placeholder="Points"
-                  className="border border-gray-500 rounded-md p-[5px_10px]"
                   value={taskInput.points}
                   onChange={(e) =>
                     setTaskInput({ ...taskInput, points: e.target.value })
                   }
+                  className="border border-gray-500 rounded-md p-[5px_10px]"
                 />
                 <button
                   type="button"
@@ -153,8 +180,9 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                   Add
                 </button>
               </div>
+
               <ul className="list-disc pl-5 space-y-2">
-                {tasks.map((task, index) => (
+                {formData.tasks.map((task, index) => (
                   <li key={index} className="flex justify-between items-center">
                     <span>
                       {task.task} - {task.points} Points
@@ -172,8 +200,12 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
             </div>
           </div>
         </div>
+
         <div className="flex justify-end w-[100%] mt-[1.5%]">
-          <button className="bg-black text-white rounded-lg p-[5px_20px]">
+          <button
+            type="submit"
+            className="bg-black text-white rounded-lg p-[5px_20px]"
+          >
             Submit
           </button>
         </div>
