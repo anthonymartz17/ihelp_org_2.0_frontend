@@ -1,3 +1,10 @@
+import RewardForm from "../../components/forms/RewardForm";
+
 export default function RewardNewPage() {
-  return <div>RewardNewPage</div>;
-}
+  return (
+  <div>
+    RewardNewPage:
+    <RewardForm />
+    </div>
+    ); 
+ }
