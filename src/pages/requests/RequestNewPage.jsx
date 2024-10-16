@@ -6,6 +6,8 @@ export default function NewRequestPage() {
   const navigate = useNavigate();
 
   const handleSubmit = async (formData) => {
+    console.log(JSON.stringify(formData));
+    console.log(formData);
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`${import.meta.env.VITE_API_URL}/requests`, {

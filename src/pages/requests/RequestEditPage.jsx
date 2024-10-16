@@ -7,6 +7,7 @@ export default function EditRequestPage() {
   const navigate = useNavigate();
   const [initialData, setInitialData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchRequestData = async () => {
@@ -26,16 +27,16 @@ export default function EditRequestPage() {
 
         const data = await response.json();
         setInitialData(data);
+      } catch (err) {
+        console.error("Error fetching request data:", err.message);
+        setError("Failed to load request data. Please try again.");
+      } finally {
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching request data:", error.message);
-        alert("Failed to load request data. Please try again.");
-        navigate("/requests");
       }
     };
 
     fetchRequestData();
-  }, [id, navigate]);
+  }, [id]);
 
   const handleFormSubmit = async (formData) => {
     try {
@@ -58,16 +59,15 @@ export default function EditRequestPage() {
       }
 
       alert("Request updated successfully!");
-      navigate("/requests");
-    } catch (error) {
-      console.error("Error updating request:", error.message);
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("Error updating request:", err.message);
       alert("An error occurred. Please try again.");
     }
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
 
   return (
     <div>

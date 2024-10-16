@@ -125,7 +125,7 @@ export default function RequestListTable() {
               >
                 <td className="px-6 py-4">{request.id}</td>
                 <td className="px-6 py-4">{request.requester_first_name} {request.requester_last_name}</td>
-                <td className="px-6 py-4">{request.volunteer_name}</td>
+                <td className="px-6 py-4">{request.volunteer_name ? request.volunteer_name : "Unassigned"}</td>
                 <td className="px-6 py-4">{request.description}</td>
                 <td className="px-6 py-4">{request.status_name}</td>
                 <td className="px-6 py-4">
