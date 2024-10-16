@@ -26,7 +26,6 @@ export default function NewRequestPage() {
         );
       }
 
-      alert("Request created successfully!");
       navigate("/dashboard");
     } catch (error) {
       console.error("Error creating request:", error.message);
