@@ -7,7 +7,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
     requester: initialData.requester || "",
     category: initialData.category || "",
     description: initialData.description || "",
-    dueDate: initialData.dueDate || today,
+    due_date: initialData.due_date || today,
     tasks: initialData.tasks || [],
     volunteer: null,
   });
@@ -167,9 +167,9 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
               </label>
 
               <input
-                type="dueDate"
-                name="dueDate"
-                value={formData.dueDate}
+                type="due_date"
+                name="due_date"
+                value={formData.due_date}
                 onChange={handleChange}
                 className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
               />

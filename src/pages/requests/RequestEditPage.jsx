@@ -30,7 +30,7 @@ export default function EditRequestPage() {
       } catch (error) {
         console.error("Error fetching request data:", error.message);
         alert("Failed to load request data. Please try again.");
-        navigate("/requests");
+        navigate("/dashboard");
       }
     };
 
