@@ -7,9 +7,9 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
     requester: initialData.requester || "",
     category: initialData.category || "",
     description: initialData.description || "",
-    date: initialData.date || today,
+    dueDate: initialData.dueDate || today,
     tasks: initialData.tasks || [],
-    volunteer: initialData.volunteer || "",
+    volunteer: null,
   });
 
   const [taskInput, setTaskInput] = useState({ task: "", points: "" });
@@ -112,7 +112,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
         <div className="flex gap-4">
           <div className="p-2 w-[50%]">
             <div className="flex items-center gap-7 mb-3">
-              <label>
+              <label className="w-[50%]">
                 Requester
                 <br />
                 <select
@@ -132,7 +132,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                 </select>
               </label>
 
-              <label>
+              <label className="w-[50%]">
                 Category
                 <br />
                 <select
@@ -147,26 +147,6 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                   {categories.map((category) => (
                     <option key={category} value={category}>
                       {category}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label>
-                Volunteer
-                <br />
-                <select
-                  name="volunteer"
-                  value={formData.volunteer}
-                  onChange={handleChange}
-                  className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] mt-[3%]"
-                >
-                  <option disabled value="">
-                    Select
-                  </option>
-                  {volunteers.map((volunteer) => (
-                    <option key={volunteer.id} value={volunteer.id}>
-                      {volunteer.name}
                     </option>
                   ))}
                 </select>
@@ -187,9 +167,9 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
               </label>
 
               <input
-                type="date"
-                name="date"
-                value={formData.date}
+                type="dueDate"
+                name="dueDate"
+                value={formData.dueDate}
                 onChange={handleChange}
                 className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
               />
