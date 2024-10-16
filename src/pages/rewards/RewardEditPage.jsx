@@ -1,4 +1,4 @@
-import RewardForm from "../../components/forms/RewardForm";
+import RewardForm from "../../components/forms/RewardsForm";
 
 export default function RewardEditPage() {
   return (
