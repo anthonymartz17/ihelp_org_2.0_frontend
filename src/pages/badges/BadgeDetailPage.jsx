@@ -19,7 +19,7 @@ export default function BadgesDetailPage() {
           }
         );
         if (!response.ok) {
-          throw new Error("Error fetching badge details");
+          throw new Error("Error fetching badges details");
         }
         const data = await response.json();
         setBadge(data);
