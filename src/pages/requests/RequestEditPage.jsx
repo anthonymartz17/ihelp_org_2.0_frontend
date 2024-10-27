@@ -58,7 +58,6 @@ export default function EditRequestPage() {
         throw new Error(`Failed to update request: ${errorData.message}`);
       }
 
-      alert("Request updated successfully!");
       navigate("/dashboard");
     } catch (err) {
       console.error("Error updating request:", err.message);

@@ -14,7 +14,6 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 
   const [taskInput, setTaskInput] = useState({ task: "", points: "" });
   const [requesters, setRequesters] = useState([]);
-  const [volunteers, setVolunteers] = useState([]);
 
   const categories = [
     "Errands",
@@ -49,31 +48,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
         console.error("Error fetching requesters:", error.message);
       }
     };
-    const fetchVolunteers = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/volunteers`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(
-            `Failed to fetch volunteers: ${response.status} ${errorData.message}`
-          );
-        }
-
-        const data = await response.json();
-        setVolunteers(data);
-      } catch (error) {
-        console.error("Error fetching volunteers:", error.message);
-      }
-    };
-
-    fetchVolunteers();
     fetchRequesters();
   }, []);
 
@@ -160,19 +135,22 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
-                  className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] resize-none overflow-auto"
+                  className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] resize-none h-[300px] overflow-scroll"
                   placeholder="Write your description..."
                   style={{ maxHeight: "150px" }}
                 />
               </label>
 
-              <input
-                type="due_date"
-                name="due_date"
-                value={formData.due_date}
-                onChange={handleChange}
-                className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
-              />
+              <label className="flex flex-col gap-2">
+                Due Date
+                <input
+                  type="due_date"
+                  name="due_date"
+                  value={formData.due_date}
+                  onChange={handleChange}
+                  className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
+                />
+              </label>
             </div>
           </div>
 
