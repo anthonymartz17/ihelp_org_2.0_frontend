@@ -22,6 +22,7 @@ export default function RequestDetailPage() {
           throw new Error("Error fetching request details");
         }
         const data = await response.json();
+        console.log(data);
         setRequestDetail(data);
       } catch (error) {
         setError(error.message);
@@ -84,7 +85,8 @@ export default function RequestDetailPage() {
           <div className="mt-4">
             <h3 className="text-xl font-bold">Requester Information</h3>
             <p>
-              <strong>Name:</strong> {requestDetail.requester.name}
+              <strong>Name:</strong> {requestDetail.requester.first_name}{" "}
+              {requestDetail.requester.last_name}
             </p>
             <p>
               <strong>Phone:</strong> {requestDetail.requester.phone}
