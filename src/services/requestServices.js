@@ -1,4 +1,4 @@
-const IHELP_API_BASE_URL = import.meta.env.VITE_API_IHELP_URL;
+const IHELP_API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function fetchRequests() {
   console.log("firring");
