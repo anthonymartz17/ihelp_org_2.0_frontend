@@ -15,6 +15,7 @@ export default function NewRequestPage() {
         task: task.task,
         points: task.points,
       })),
+      hours_needed: formData.hours_needed,
     };
 
     console.log(requestData);
@@ -40,7 +41,6 @@ export default function NewRequestPage() {
       navigate("/dashboard");
     } catch (error) {
       console.error("Error creating request:", error.message);
-      alert("Failed to create request: " + error.message);
     }
   };
 

@@ -9,6 +9,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
     description: initialData.description || "",
     due_date: initialData.due_date || today,
     tasks: initialData.tasks || [],
+    hours_needed: initialData.hours_needed || "",
   });
 
   const [taskInput, setTaskInput] = useState({ task: "", points: "" });
@@ -146,16 +147,28 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                 />
               </label>
 
-              <label className="flex flex-col gap-2">
-                Due Date
-                <input
-                  type="date"
-                  name="due_date"
-                  value={formData.due_date}
-                  onChange={handleChange}
-                  className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
-                />
-              </label>
+              <div className="flex items-center gap-7">
+                <label className="flex flex-col gap-2">
+                  Due Date
+                  <input
+                    type="date"
+                    name="due_date"
+                    value={formData.due_date}
+                    onChange={handleChange}
+                    className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
+                  />
+                </label>
+                <label className="flex flex-col gap-2">
+                  Hours Required
+                  <input
+                    type="number"
+                    name="hours_needed"
+                    value={formData.hours_needed}
+                    onChange={handleChange}
+                    className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
+                  />
+                </label>
+              </div>
             </div>
           </div>
 
