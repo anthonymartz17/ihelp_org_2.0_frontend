@@ -25,6 +25,7 @@ export default function RequestDetailPage() {
           throw new Error("Error fetching request details");
         }
         const data = await response.json();
+        console.log(data);
         setRequestDetail(data);
       } catch (error) {
         setError(error.message);
@@ -66,7 +67,7 @@ export default function RequestDetailPage() {
             <strong>Updated At:</strong>{" "}
             {new Date(requestDetail.updated_at).toLocaleString()}
           </p>
-
+          {/* 
           <div className="mt-4">
             <h3 className="text-xl font-bold">Volunteer Information</h3>
             <p>
@@ -82,7 +83,7 @@ export default function RequestDetailPage() {
               <strong>Points Earned:</strong>{" "}
               {requestDetail.volunteer.points_earned}
             </p>
-          </div>
+          </div> */}
 
           <div className="mt-4">
             <h3 className="text-xl font-bold">Requester Information</h3>
@@ -115,11 +116,11 @@ export default function RequestDetailPage() {
                       <strong>Points Earned:</strong> {task.points_earned}
                     </p>
                     <h4 className="font-bold mt-2">Assigned Volunteer:</h4>
-                    {task.assigned_volunteers.map((volunteer) => (
+                    {/* {task.assigned_volunteers.map((volunteer) => (
                       <p key={volunteer.id}>
                         {volunteer.name} ({volunteer.email})
                       </p>
-                    ))}
+                    ))} */}
                   </div>
                 ))
               ) : (
