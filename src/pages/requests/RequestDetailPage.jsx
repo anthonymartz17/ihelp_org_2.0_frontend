@@ -7,6 +7,9 @@ export default function RequestDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const formatTel = (tel) =>
+    `(${tel.slice(0, 3)}) ${tel.slice(3, 6)}-${tel.slice(6)}`;
+
   useEffect(() => {
     const fetchRequestDetail = async () => {
       try {
@@ -22,7 +25,6 @@ export default function RequestDetailPage() {
           throw new Error("Error fetching request details");
         }
         const data = await response.json();
-        console.log(data);
         setRequestDetail(data);
       } catch (error) {
         setError(error.message);
@@ -89,39 +91,41 @@ export default function RequestDetailPage() {
               {requestDetail.requester.last_name}
             </p>
             <p>
-              <strong>Phone:</strong> {requestDetail.requester.phone}
+              <strong>Phone:</strong> {formatTel(requestDetail.requester.phone)}
             </p>
           </div>
 
           <div className="mt-4">
-            <h3 className="text-xl font-bold">Task Information</h3>
-            {requestDetail.task.length > 0 ? (
-              requestDetail.task.map((task) => (
-                <div key={task.id} className="border p-2 my-2">
-                  <p>
-                    <strong>Task ID:</strong> {task.id}
-                  </p>
-                  <p>
-                    <strong>Description:</strong> {task.description}
-                  </p>
-                  <p>
-                    <strong>Due Date:</strong>{" "}
-                    {new Date(task.due_date).toLocaleString()}
-                  </p>
-                  <p>
-                    <strong>Points Earned:</strong> {task.points_earned}
-                  </p>
-                  <h4 className="font-bold mt-2">Assigned Volunteers:</h4>
-                  {task.assigned_volunteers.map((volunteer) => (
-                    <p key={volunteer.id}>
-                      {volunteer.name} ({volunteer.email})
+            <h3 className="text-xl font-bold">Tasks Information</h3>
+            <div className="block overflow-y-auto h-[200px]">
+              {requestDetail.tasks.length > 0 ? (
+                requestDetail.tasks.map((task) => (
+                  <div key={task.id} className="border p-2 my-2">
+                    <p>
+                      <strong>Task ID:</strong> {task.id}
                     </p>
-                  ))}
-                </div>
-              ))
-            ) : (
-              <p>No tasks assigned</p>
-            )}
+                    <p>
+                      <strong>Description:</strong> {task.description}
+                    </p>
+                    <p>
+                      <strong>Due Date:</strong>{" "}
+                      {new Date(task.due_date).toLocaleString()}
+                    </p>
+                    <p>
+                      <strong>Points Earned:</strong> {task.points_earned}
+                    </p>
+                    <h4 className="font-bold mt-2">Assigned Volunteer:</h4>
+                    {task.assigned_volunteers.map((volunteer) => (
+                      <p key={volunteer.id}>
+                        {volunteer.name} ({volunteer.email})
+                      </p>
+                    ))}
+                  </div>
+                ))
+              ) : (
+                <p>No tasks assigned</p>
+              )}
+            </div>
           </div>
         </div>
       ) : (
