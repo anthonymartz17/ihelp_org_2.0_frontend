@@ -9,19 +9,18 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
     description: initialData.description || "",
     due_date: initialData.due_date || today,
     tasks: initialData.tasks || [],
-    volunteer: null,
   });
 
   const [taskInput, setTaskInput] = useState({ task: "", points: "" });
   const [requesters, setRequesters] = useState([]);
 
   const categories = [
-    "Errands",
-    "Cleaning",
-    "Various",
-    "Technology",
-    "Pet Care",
-    "Meal Prep",
+    { key: 1, value: "Errands" },
+    { key: 2, value: "Cleaning" },
+    { key: 3, value: "Various" },
+    { key: 4, value: "Technology" },
+    { key: 5, value: "Pet Care" },
+    { key: 6, value: "Meal Prep" },
   ];
 
   useEffect(() => {
@@ -56,7 +55,13 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
     if (taskInput.task && taskInput.points) {
       setFormData((prev) => ({
         ...prev,
-        tasks: [...prev.tasks, taskInput],
+        tasks: [
+          ...prev.tasks,
+          {
+            ...taskInput,
+            volunteer: null,
+          },
+        ],
       }));
       setTaskInput({ task: "", points: "" });
     }
@@ -120,8 +125,8 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                     Select
                   </option>
                   {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
+                    <option key={category.key} value={category.key}>
+                      {category.value}
                     </option>
                   ))}
                 </select>
@@ -144,7 +149,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
               <label className="flex flex-col gap-2">
                 Due Date
                 <input
-                  type="due_date"
+                  type="date"
                   name="due_date"
                   value={formData.due_date}
                   onChange={handleChange}

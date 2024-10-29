@@ -25,6 +25,7 @@ export default function RequestDetailPage() {
           throw new Error("Error fetching request details");
         }
         const data = await response.json();
+        console.log(data);
         setRequestDetail(data);
       } catch (error) {
         setError(error.message);
@@ -57,6 +58,9 @@ export default function RequestDetailPage() {
           </p>
           <p>
             <strong>Status:</strong> {requestDetail.status_name}
+          </p>
+          <p>
+            <strong>Hours needed:</strong> {requestDetail.hours_needed}
           </p>
           <p>
             <strong>Created At:</strong>{" "}
