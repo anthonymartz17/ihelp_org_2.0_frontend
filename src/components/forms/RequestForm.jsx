@@ -9,20 +9,26 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
     description: initialData.description || "",
     due_date: initialData.due_date || today,
     tasks: initialData.tasks || [],
-    volunteer: null,
+    hours_needed: initialData.hours_needed || "",
   });
 
   const [taskInput, setTaskInput] = useState({ task: "", points: "" });
   const [requesters, setRequesters] = useState([]);
-  const [volunteers, setVolunteers] = useState([]);
 
   const categories = [
-    "Errands",
-    "Cleaning",
-    "Various",
-    "Technology",
-    "Pet Care",
-    "Meal Prep",
+    { key: 1, value: "Various" },
+    { key: 2, value: "Errands" },
+    { key: 3, value: "Technology" },
+    { key: 4, value: "Cleaning" },
+    { key: 5, value: "Pets" },
+    { key: 6, value: "Gardening" },
+    { key: 7, value: "Tutoring" },
+    { key: 8, value: "Meal Prep" },
+    { key: 9, value: "Event Setup" },
+    { key: 10, value: "Delivery" },
+    { key: 11, value: "Sports Coaching" },
+    { key: 12, value: "Crafts" },
+    { key: 13, value: "Office Assistance" },
   ];
 
   useEffect(() => {
@@ -49,31 +55,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
         console.error("Error fetching requesters:", error.message);
       }
     };
-    const fetchVolunteers = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/volunteers`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(
-            `Failed to fetch volunteers: ${response.status} ${errorData.message}`
-          );
-        }
-
-        const data = await response.json();
-        setVolunteers(data);
-      } catch (error) {
-        console.error("Error fetching volunteers:", error.message);
-      }
-    };
-
-    fetchVolunteers();
     fetchRequesters();
   }, []);
 
@@ -81,7 +63,13 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
     if (taskInput.task && taskInput.points) {
       setFormData((prev) => ({
         ...prev,
-        tasks: [...prev.tasks, taskInput],
+        tasks: [
+          ...prev.tasks,
+          {
+            ...taskInput,
+            volunteer: null,
+          },
+        ],
       }));
       setTaskInput({ task: "", points: "" });
     }
@@ -145,8 +133,8 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                     Select
                   </option>
                   {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
+                    <option key={category.key} value={category.key}>
+                      {category.value}
                     </option>
                   ))}
                 </select>
@@ -160,19 +148,34 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
-                  className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] resize-none overflow-auto"
+                  className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] resize-none h-[300px] overflow-scroll"
                   placeholder="Write your description..."
                   style={{ maxHeight: "150px" }}
                 />
               </label>
 
-              <input
-                type="due_date"
-                name="due_date"
-                value={formData.due_date}
-                onChange={handleChange}
-                className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
-              />
+              <div className="flex items-center gap-7">
+                <label className="flex flex-col gap-2">
+                  Due Date
+                  <input
+                    type="date"
+                    name="due_date"
+                    value={formData.due_date}
+                    onChange={handleChange}
+                    className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
+                  />
+                </label>
+                <label className="flex flex-col gap-2">
+                  Hours Required
+                  <input
+                    type="number"
+                    name="hours_needed"
+                    value={formData.hours_needed}
+                    onChange={handleChange}
+                    className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
+                  />
+                </label>
+              </div>
             </div>
           </div>
 

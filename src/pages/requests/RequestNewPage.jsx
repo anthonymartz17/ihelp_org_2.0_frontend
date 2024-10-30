@@ -6,8 +6,18 @@ export default function NewRequestPage() {
   const navigate = useNavigate();
 
   const handleSubmit = async (formData) => {
-    console.log(JSON.stringify(formData));
-    console.log(formData);
+    const requestData = {
+      requester: formData.requester,
+      category: formData.category,
+      description: formData.description,
+      due_date: formData.due_date,
+      tasks: formData.tasks.map((task) => ({
+        task: task.task,
+        points: task.points,
+      })),
+      hours_needed: formData.hours_needed,
+    };
+
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`${import.meta.env.VITE_API_URL}/requests`, {
@@ -16,7 +26,7 @@ export default function NewRequestPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(requestData),
       });
 
       if (!response.ok) {
@@ -29,7 +39,6 @@ export default function NewRequestPage() {
       navigate("/dashboard");
     } catch (error) {
       console.error("Error creating request:", error.message);
-      alert("Failed to create request.");
     }
   };
 

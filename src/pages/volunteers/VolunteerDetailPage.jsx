@@ -26,47 +26,45 @@ export default function VolunteerDetailPage() {
       } catch (error) {
         setError(error.message);
       } finally {
-        setLoading(false);  
+        setLoading(false);
       }
-      };
+    };
 
-      fetchVolunteer();
-    }, [id]);
+    fetchVolunteer();
+  }, [id]);
 
-      if (loading) {
-        return <p>Loading volunteer details...</p>;
-      }
+  if (loading) {
+    return <p>Loading volunteer details...</p>;
+  }
 
-      if (error) {
-        return <p>Error: {error}</p>;
-      }
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
-      return (
-        <div className="container mx-auto p-6">
-          <h1 className="text-3xl font-semibold mb-4">
-            Volunteer Details
-          </h1>
-          {volunteer ? (
-            <div className="border rounded-lg shadow p-4">
-              <h2 className="text-2xl font-bold mb-2">
-                Volunteer ID: {volunteer.id}
-              </h2>
-              <p>
-                <strong>Name:</strong> {volunteer.name}
-              </p>
-              <p>
-                <strong>Email:</strong> {volunteer.email}
-              </p>
-              <p>
-                <strong>Age:</strong> {volunteer.age}
-              </p>
-              <p>
-                <strong>Points Earned:</strong> {volunteer.points_earned}
-              </p>
-            </div>
-          ) : (
-            <p>No volunteer details found.</p>
-          )}
+  return (
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-semibold mb-4">Volunteer Details</h1>
+      {volunteer ? (
+        <div className="border rounded-lg shadow p-4">
+          <h2 className="text-2xl font-bold mb-2">
+            Volunteer ID: {volunteer.id}
+          </h2>
+          <p>
+            <strong>Name:</strong> {volunteer.name}
+          </p>
+          <p>
+            <strong>Email:</strong> {volunteer.email}
+          </p>
+          <p>
+            <strong>Age:</strong> {volunteer.age}
+          </p>
+          <p>
+            <strong>Points Earned:</strong> {volunteer.points_earned}
+          </p>
         </div>
-      );
-     }
+      ) : (
+        <p>No volunteer details found.</p>
+      )}
+    </div>
+  );
+}

@@ -7,6 +7,9 @@ export default function RequestDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const formatTel = (tel) =>
+    `(${tel.slice(0, 3)}) ${tel.slice(3, 6)} - ${tel.slice(6)}`;
+
   useEffect(() => {
     const fetchRequestDetail = async () => {
       try {
@@ -53,7 +56,10 @@ export default function RequestDetailPage() {
             <strong>Description:</strong> {requestDetail.description}
           </p>
           <p>
-            <strong>Status:</strong> {requestDetail.status.name}
+            <strong>Status:</strong> {requestDetail.status_name}
+          </p>
+          <p>
+            <strong>Hours needed:</strong> {requestDetail.hours_needed}
           </p>
           <p>
             <strong>Created At:</strong>{" "}
@@ -63,63 +69,46 @@ export default function RequestDetailPage() {
             <strong>Updated At:</strong>{" "}
             {new Date(requestDetail.updated_at).toLocaleString()}
           </p>
-
-          <div className="mt-4">
-            <h3 className="text-xl font-bold">Volunteer Information</h3>
-            <p>
-              <strong>Name:</strong> {requestDetail.volunteer.name}
-            </p>
-            <p>
-              <strong>Email:</strong> {requestDetail.volunteer.email}
-            </p>
-            <p>
-              <strong>Age:</strong> {requestDetail.volunteer.age}
-            </p>
-            <p>
-              <strong>Points Earned:</strong>{" "}
-              {requestDetail.volunteer.points_earned}
-            </p>
-          </div>
-
           <div className="mt-4">
             <h3 className="text-xl font-bold">Requester Information</h3>
             <p>
-              <strong>Name:</strong> {requestDetail.requester.name}
+              <strong>Name:</strong> {requestDetail.requester_first_name}{" "}
+              {requestDetail.requester_last_name}
             </p>
             <p>
-              <strong>Phone:</strong> {requestDetail.requester.phone}
+              <strong>Phone:</strong> {formatTel(requestDetail.requester_phone)}
             </p>
           </div>
 
           <div className="mt-4">
-            <h3 className="text-xl font-bold">Task Information</h3>
-            {requestDetail.task.length > 0 ? (
-              requestDetail.task.map((task) => (
-                <div key={task.id} className="border p-2 my-2">
-                  <p>
-                    <strong>Task ID:</strong> {task.id}
-                  </p>
-                  <p>
-                    <strong>Description:</strong> {task.description}
-                  </p>
-                  <p>
-                    <strong>Due Date:</strong>{" "}
-                    {new Date(task.due_date).toLocaleString()}
-                  </p>
-                  <p>
-                    <strong>Points Earned:</strong> {task.points_earned}
-                  </p>
-                  <h4 className="font-bold mt-2">Assigned Volunteers:</h4>
-                  {task.assigned_volunteers.map((volunteer) => (
-                    <p key={volunteer.id}>
-                      {volunteer.name} ({volunteer.email})
+            <h3 className="text-xl font-bold">Tasks Information</h3>
+            <div className="block overflow-y-auto h-[200px]">
+              {requestDetail.tasks.length > 0 ? (
+                requestDetail.tasks.map((task) => (
+                  <div key={task.id} className="border p-2 my-2">
+                    <p>
+                      <strong>Task ID:</strong> {task.id}
                     </p>
-                  ))}
-                </div>
-              ))
-            ) : (
-              <p>No tasks assigned</p>
-            )}
+                    <p>
+                      <strong>Description:</strong> {task.description}
+                    </p>
+                    <p>
+                      <strong>Due Date:</strong>{" "}
+                      {new Date(task.due_date).toLocaleString()}
+                    </p>
+                    <p>
+                      <strong>Points Earned:</strong> {task.points_earned}
+                    </p>
+                    <h4 className="font-bold mt-2">Assigned Volunteer:</h4>
+                    {task.volunteer_name
+                      ? `${task.volunteer_name} (${task.volunteer_email})`
+                      : "Unassigned"}
+                  </div>
+                ))
+              ) : (
+                <p>No tasks assigned</p>
+              )}
+            </div>
           </div>
         </div>
       ) : (
