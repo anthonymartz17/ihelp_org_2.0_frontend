@@ -4,11 +4,9 @@ export default function RewardEditPage() {
   return (
     <div>
       <h1 className="text-2xl text-dark ml-10 font-bold text-left mb-6">
-      RewardEditPage
+        RewardEditPage
       </h1>
       <RewardForm />
-      </div>
-    );
-  }
-  
-     
+    </div>
+  );
+}

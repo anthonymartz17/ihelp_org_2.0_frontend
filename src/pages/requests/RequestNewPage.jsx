@@ -18,8 +18,6 @@ export default function NewRequestPage() {
       hours_needed: formData.hours_needed,
     };
 
-    console.log(requestData);
-
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`${import.meta.env.VITE_API_URL}/requests`, {

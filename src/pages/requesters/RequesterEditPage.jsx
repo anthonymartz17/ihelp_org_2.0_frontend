@@ -13,9 +13,7 @@ export default function RequesterEditPage({ requesterId }) {
     fetchRequester();
   }, [requesterId]);
 
-  const handleUpdate = (formData) => {
-    console.log("Updating requester:", formData);
-  };
+  const handleUpdate = (formData) => {};
 
   return (
     <div>

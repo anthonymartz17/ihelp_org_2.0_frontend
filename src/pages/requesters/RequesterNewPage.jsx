@@ -2,9 +2,7 @@ import React from "react";
 import RequesterForm from "../../components/forms/RequesterForm.jsx";
 
 export default function RequesterNewPage() {
-  const handleCreate = (formData) => {
-    console.log("Creating requester:", formData);
-  };
+  const handleCreate = (formData) => {};
 
   return (
     <div>

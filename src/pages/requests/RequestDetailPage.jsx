@@ -25,7 +25,6 @@ export default function RequestDetailPage() {
           throw new Error("Error fetching request details");
         }
         const data = await response.json();
-        console.log(data);
         setRequestDetail(data);
       } catch (error) {
         setError(error.message);
@@ -101,8 +100,9 @@ export default function RequestDetailPage() {
                       <strong>Points Earned:</strong> {task.points_earned}
                     </p>
                     <h4 className="font-bold mt-2">Assigned Volunteer:</h4>
-                    {`${task.volunteer_name} (${task.volunteer_email})` ||
-                      "Not assigned"}
+                    {task.volunteer_name
+                      ? `${task.volunteer_name} (${task.volunteer_email})`
+                      : "Unassigned"}
                   </div>
                 ))
               ) : (
