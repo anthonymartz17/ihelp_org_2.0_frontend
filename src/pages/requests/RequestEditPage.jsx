@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import RequestForm from "../../components/forms/RequestForm";
 
@@ -7,39 +7,61 @@ export default function EditRequestPage() {
   const navigate = useNavigate();
   const [initialData, setInitialData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchRequestData = async () => {
+    const fetchRequest = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/requests/${id}`,
           {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(`Failed to fetch request: ${errorData.message}`);
+          throw new Error(
+            `Failed to fetch request: ${response.status} ${errorData.message}`
+          );
         }
 
         const data = await response.json();
-        console.log("Fetched request data:", data);
-        setInitialData(data);
-      } catch (err) {
-        console.error("Error fetching request data:", err.message);
-        setError("Failed to load request data. Please try again.");
-      } finally {
+        setInitialData({
+          requester: data.requester_id,
+          category: data.category_id,
+          description: data.description,
+          due_date: data.due_date,
+          tasks: data.tasks.map((task) => ({
+            task: task.description,
+            points: task.point_earnings,
+          })),
+          hours_needed: data.hours_needed,
+        });
         setLoading(false);
+      } catch (error) {
+        console.error("Error fetching request:", error.message);
       }
     };
 
-    fetchRequestData();
+    fetchRequest();
   }, [id]);
 
-  const handleFormSubmit = async (formData) => {
+  const handleSubmit = async (formData) => {
+    const updatedData = {
+      requester: formData.requester,
+      category: formData.category,
+      description: formData.description,
+      due_date: formData.due_date,
+      tasks: formData.tasks.map((task) => ({
+        task: task.task,
+        points: task.points,
+      })),
+      hours_needed: formData.hours_needed,
+    };
+
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
@@ -50,28 +72,31 @@ export default function EditRequestPage() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(updatedData),
         }
       );
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(`Failed to update request: ${errorData.message}`);
+        throw new Error(
+          `Failed to update request: ${response.status} ${errorData.message}`
+        );
       }
 
       navigate("/dashboard");
-    } catch (err) {
-      console.error("Error updating request:", err.message);
+    } catch (error) {
+      console.error("Error updating request:", error.message);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>
       <h1 className="ml-4 text-[18px] font-bold mb-4">Edit Request</h1>
-      <RequestForm initialData={initialData} onSubmit={handleFormSubmit} />
+      <RequestForm initialData={initialData} onSubmit={handleSubmit} />
     </div>
   );
 }
