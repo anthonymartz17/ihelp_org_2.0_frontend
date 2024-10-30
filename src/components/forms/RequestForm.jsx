@@ -4,15 +4,15 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
   const today = new Date().toISOString().split("T")[0];
 
   const [formData, setFormData] = useState({
-    requester: initialData.requester || "",
-    category: initialData.category || "",
+    requester: initialData.requester_id || "",
+    category: initialData.category_id || "",
     description: initialData.description || "",
     due_date: initialData.due_date || today,
     tasks: initialData.tasks || [],
     hours_needed: initialData.hours_needed || "",
   });
 
-  const [taskInput, setTaskInput] = useState({ task: "", points: "" });
+  const [taskInput, setTaskInput] = useState({ description: "", points_earned: "" });
   const [requesters, setRequesters] = useState([]);
 
   const categories = [
@@ -207,7 +207,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
                 {formData.tasks.map((task, index) => (
                   <li key={index} className="flex justify-between items-center">
                     <span>
-                      {task.task} - {task.points} Points
+                      {task.description} - {task.points_earned} Points
                     </span>
                     <button
                       type="button"

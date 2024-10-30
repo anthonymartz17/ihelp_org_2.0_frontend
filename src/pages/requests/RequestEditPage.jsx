@@ -26,6 +26,7 @@ export default function EditRequestPage() {
         }
 
         const data = await response.json();
+        console.log("Fetched request data:", data);
         setInitialData(data);
       } catch (err) {
         console.error("Error fetching request data:", err.message);
