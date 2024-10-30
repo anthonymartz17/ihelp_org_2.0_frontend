@@ -55,11 +55,11 @@ export default function EditRequestPage() {
       category: formData.category,
       description: formData.description,
       due_date: formData.due_date,
+      hours_needed: formData.hours_needed,
       tasks: formData.tasks.map((task) => ({
         task: task.task,
         points: task.points,
       })),
-      hours_needed: formData.hours_needed,
     };
 
     try {

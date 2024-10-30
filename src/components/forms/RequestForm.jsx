@@ -16,12 +16,19 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
   const [requesters, setRequesters] = useState([]);
 
   const categories = [
-    { key: 1, value: "Errands" },
-    { key: 2, value: "Cleaning" },
-    { key: 3, value: "Various" },
-    { key: 4, value: "Technology" },
-    { key: 5, value: "Pet Care" },
-    { key: 6, value: "Meal Prep" },
+    { key: 1, value: "Various" },
+    { key: 2, value: "Errands" },
+    { key: 3, value: "Technology" },
+    { key: 4, value: "Cleaning" },
+    { key: 5, value: "Pets" },
+    { key: 6, value: "Gardening" },
+    { key: 7, value: "Tutoring" },
+    { key: 8, value: "Meal Prep" },
+    { key: 9, value: "Event Setup" },
+    { key: 10, value: "Delivery" },
+    { key: 11, value: "Sports Coaching" },
+    { key: 12, value: "Crafts" },
+    { key: 13, value: "Office Assistance" },
   ];
 
   useEffect(() => {
