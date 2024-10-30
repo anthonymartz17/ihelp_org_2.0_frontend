@@ -61,7 +61,6 @@ export default function EditRequestPage() {
       navigate("/dashboard");
     } catch (err) {
       console.error("Error updating request:", err.message);
-      alert("An error occurred. Please try again.");
     }
   };
 

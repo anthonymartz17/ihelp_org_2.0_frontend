@@ -1,10 +1,8 @@
 const IHELP_API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function fetchRequests() {
-  console.log("firring");
   try {
     const response = await fetch(`${IHELP_API_BASE_URL}/requests`);
-    console.log(response, "response");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

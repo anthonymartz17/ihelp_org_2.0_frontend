@@ -14,7 +14,6 @@ export default function BadgesForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
   };
 
   return (
