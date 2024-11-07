@@ -11,6 +11,7 @@ export default function NewRequestPage() {
       category: formData.category,
       description: formData.description,
       due_date: formData.due_date,
+      event_time: formData.event_time,
       tasks: formData.tasks.map((task) => ({
         task: task.task,
         points: task.points,
