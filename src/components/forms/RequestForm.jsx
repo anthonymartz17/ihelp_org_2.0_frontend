@@ -11,6 +11,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 		due_date: initialData.due_date || today,
 		tasks: initialData.tasks || [],
 		hours_needed: initialData.hours_needed || "",
+		event_time: initialData.event_time || "",
 	});
 
 	const [taskInput, setTaskInput] = useState({ task: "", points: "" });
@@ -99,12 +100,14 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 	};
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value } = e.target;
+    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
 	};
 
 	const handleSubmit = (e) => {
-		e.preventDefault();
+    e.preventDefault();
 		if (onSubmit) {
 			onSubmit(formData);
 		}
@@ -187,6 +190,17 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 										type="number"
 										name="hours_needed"
 										value={formData.hours_needed}
+										onChange={handleChange}
+										className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
+									/>
+								</label>
+								<label className="flex flex-col gap-2">
+									Time
+									<input
+										type="time"
+										name="event_time"
+										step={"300"}
+										value={formData.event_time}
 										onChange={handleChange}
 										className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
 									/>
