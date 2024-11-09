@@ -58,7 +58,7 @@ export default function RequestListTable() {
 	return (
 		<div className="mt-10">
 			<div className="flex justify-between items-center mb-2">
-				<div className="flex gap-2 justify-end">
+				<div className="flex gap-2 justify-between items-center  w-full">
 					<form className="w-[25em]">
 						<label
 							htmlFor="default-search"
@@ -83,7 +83,7 @@ export default function RequestListTable() {
 						<button
 							onClick={() => navigate("/dashboard/requests/new")}
 							type="button"
-							className=" h-full w-56 text-white bg-primary hover:bg-primaryLighter focus:ring-4 focus:outline-none focus:ring-primaryLighter text-l rounded-lg py-2.5 flex justify-center items-center"
+							className=" h-full w-56 text-white bg-secondary hover:bg-secondaryLighter focus:ring-4 focus:outline-none  text-l rounded-lg py-2.5 flex justify-center items-center"
 						>
 							+ New Request
 						</button>
@@ -91,8 +91,8 @@ export default function RequestListTable() {
 				</div>
 			</div>
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-				<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray">
-					<thead className="text-gray-700 bg-gray-50 dark:bg-secondary dark:text-gray-400">
+				<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray ">
+					<thead className="text-gray-700 bg-gray-50 dark:bg-dark dark:text-gray-400 ">
 						<tr className="text-white">
 							<th scope="col" className="px-6 py-3">
 								ID
@@ -118,6 +118,7 @@ export default function RequestListTable() {
 							</th>
 						</tr>
 					</thead>
+
 					<tbody>
 						{requests.map((request) => (
 							<tr

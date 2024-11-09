@@ -100,33 +100,32 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 	};
 
 	const handleChange = (e) => {
-    const { name, value } = e.target;
-    
-    setFormData((prev) => ({ ...prev, [name]: value }));
+		const { name, value } = e.target;
 
+		setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
 	const handleSubmit = (e) => {
-    e.preventDefault();
+		e.preventDefault();
 		if (onSubmit) {
 			onSubmit(formData);
 		}
 	};
 
 	return (
-		<div className="flex items-center justify-center">
+		<div className="flex items-center justify-center text-dark">
 			<form className="w-[100%] p-[5px_20px]" onSubmit={handleSubmit}>
 				<div className="flex gap-4">
-					<div className="p-2 w-[50%]">
-						<div className="flex items-center gap-7 mb-3">
-							<label className="w-[50%]">
-								Requester
+					<div className="p-2 w-[50%] card-shadow">
+						<div className="flex items-center gap-7 mb-3 ">
+							<label className="w-[50%] ">
+								<span className="roboto-bold">Requester</span>
 								<br />
 								<select
 									name="requester"
 									value={formData.requester}
 									onChange={handleChange}
-									className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] mt-[3%]"
+									className="border border-gray-500 border-opacity-20 rounded-md p-[5px_10px] w-[100%] mt-[3%] "
 								>
 									<option disabled value="">
 										Select
@@ -140,13 +139,14 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 							</label>
 
 							<label className="w-[50%]">
-								Category
+								<span className="roboto-bold">Category</span>
+
 								<br />
 								<select
 									name="category"
 									value={formData.category}
 									onChange={handleChange}
-									className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] mt-[3%]"
+									className="border border-gray-500 border-opacity-20  rounded-md p-[5px_10px] w-[100%] mt-[3%]"
 								>
 									<option disabled value="">
 										Select
@@ -160,14 +160,14 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 							</label>
 						</div>
 
-						<div className="flex flex-col gap-4">
+						<div className="flex flex-col gap-4 mt-5">
 							<label className="flex flex-col gap-2">
-								General Description
+								<span className="roboto-bold">General Description</span>
 								<textarea
 									name="description"
 									value={formData.description}
 									onChange={handleChange}
-									className="border border-gray-500 rounded-md p-[5px_10px] w-[100%] resize-none h-[300px] overflow-scroll"
+									className="border border-gray-500 border-opacity-20  rounded-md p-[5px_10px] w-[100%] resize-none h-[300px] overflow-scroll"
 									placeholder="Write your description..."
 									style={{ maxHeight: "150px" }}
 								/>
@@ -175,43 +175,43 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 
 							<div className="flex items-center gap-7">
 								<label className="flex flex-col gap-2">
-									Due Date
+									<span className="roboto-bold"> Due Date</span>
 									<input
 										type="date"
 										name="due_date"
 										value={formData.due_date}
 										onChange={handleChange}
-										className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
+										className="border border-gray-500 border-opacity-20  rounded-md p-[5px_10px] w-[100%]"
 									/>
 								</label>
 								<label className="flex flex-col gap-2">
-									Hours Required
+									<span className="roboto-bold">Hours Required</span>
 									<input
 										type="number"
 										name="hours_needed"
 										value={formData.hours_needed}
 										onChange={handleChange}
-										className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
+										className="border border-gray-500 border-opacity-20  rounded-md p-[5px_10px] w-[100%]"
 									/>
 								</label>
 								<label className="flex flex-col gap-2">
-									Time
+									<span className="roboto-bold">Time</span>
 									<input
 										type="time"
 										name="event_time"
 										step={"300"}
 										value={formData.event_time}
 										onChange={handleChange}
-										className="border border-gray-500 rounded-md p-[5px_10px] w-[100%]"
+										className="border border-gray-500 border-opacity-20  rounded-md p-[5px_10px] w-[100%]"
 									/>
 								</label>
 							</div>
 						</div>
 					</div>
 
-					<div className="p-2 w-[50%]">
-						<h3>Tasks</h3>
-						<div className="border border-gray-500 rounded-lg px-7 py-4 mt-[1%] h-[90%]">
+					<div className="p-2 w-[50%] card-shadow ">
+						<span className="roboto-bold">Tasks</span>
+						<div className="  rounded-lg py-4 mt-[1%] h-[90%]">
 							<div className="grid grid-cols-[6fr_1fr_1fr] gap-4 mb-4">
 								<input
 									type="text"
@@ -220,7 +220,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 									onChange={(e) =>
 										setTaskInput({ ...taskInput, task: e.target.value })
 									}
-									className="border border-gray-500 rounded-md p-[5px_10px]"
+									className="border border-gray-500 border-opacity-20  rounded-md p-[5px_10px]"
 								/>
 								<input
 									type="number"
@@ -229,20 +229,20 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 									onChange={(e) =>
 										setTaskInput({ ...taskInput, points: e.target.value })
 									}
-									className="border border-gray-500 rounded-md p-[5px_10px]"
+									className="border border-gray-500 border-opacity-20  rounded-md p-[5px_10px]"
 								/>
 								<button
 									type="button"
-									className="bg-[#46494C] text-white rounded-md p-[5px_10px]"
+									className="bg-primary text-white rounded-md p-[5px_10px]"
 									onClick={handleAddTask}
 								>
 									Add
 								</button>
 							</div>
 
-							<ul className="list-disc pl-5 space-y-2">
+							<ul className="list-disc  space-y-2">
 								{formData.tasks.map((task, index) => (
-									<li key={index} className="flex justify-between items-center">
+									<li key={index} className="flex justify-between items-center card-shadow">
 										<span>
 											{task.task} - {task.points} Points
 										</span>
@@ -263,7 +263,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 				<div className="flex justify-end w-[100%] mt-[1.5%]">
 					<button
 						type="submit"
-						className="bg-[#1985A1] text-white rounded-lg p-[5px_20px]"
+						className="bg-secondary text-white rounded-lg p-[5px_20px]"
 					>
 						Submit
 					</button>
