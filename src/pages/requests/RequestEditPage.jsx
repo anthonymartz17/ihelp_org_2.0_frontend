@@ -36,7 +36,7 @@ export default function EditRequestPage() {
           due_date: data.due_date,
           tasks: data.tasks.map((task) => ({
             task: task.description,
-            points: task.point_earnings,
+            point_earnings: task.point_earnings,
           })),
           hours_needed: data.hours_needed,
         });
@@ -58,7 +58,7 @@ export default function EditRequestPage() {
       hours_needed: formData.hours_needed,
       tasks: formData.tasks.map((task) => ({
         task: task.task,
-        points: task.points,
+        point_earnings: task.point_earnings,
       })),
     };
 

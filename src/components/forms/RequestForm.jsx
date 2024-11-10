@@ -14,7 +14,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 		event_time: initialData.event_time || "",
 	});
 
-	const [taskInput, setTaskInput] = useState({ task: "", points: "" });
+	const [taskInput, setTaskInput] = useState({ task: "", point_earnings: "" });
 	const [requesters, setRequesters] = useState([]);
 
 	// const categories = [
@@ -77,7 +77,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 	}, []);
 
 	const handleAddTask = () => {
-		if (taskInput.task && taskInput.points) {
+		if (taskInput.task && taskInput.point_earnings) {
 			setFormData((prev) => ({
 				...prev,
 				tasks: [
@@ -88,7 +88,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 					},
 				],
 			}));
-			setTaskInput({ task: "", points: "" });
+			setTaskInput({ task: "", point_earnings: "" });
 		}
 	};
 
@@ -224,10 +224,13 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 								/>
 								<input
 									type="number"
-									placeholder="Points"
-									value={taskInput.points}
+									placeholder="point_earnings"
+									value={taskInput.point_earnings}
 									onChange={(e) =>
-										setTaskInput({ ...taskInput, points: e.target.value })
+										setTaskInput({
+											...taskInput,
+											point_earnings: e.target.value,
+										})
 									}
 									className="border border-gray-500 border-opacity-20  rounded-md p-[5px_10px]"
 								/>
@@ -242,9 +245,12 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 
 							<ul className="list-disc  space-y-2">
 								{formData.tasks.map((task, index) => (
-									<li key={index} className="flex justify-between items-center card-shadow">
+									<li
+										key={index}
+										className="flex justify-between items-center card-shadow"
+									>
 										<span>
-											{task.task} - {task.points} Points
+											{task.task} - {task.point_earnings} Points
 										</span>
 										<button
 											type="button"
