@@ -92,7 +92,7 @@ export default function RequestListTable() {
 			</div>
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
 				<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray ">
-					<thead className="text-gray-700 bg-gray-50 dark:bg-dark dark:text-gray-400 ">
+					<thead className="text-gray-700 bg-gray-50  dark:bg-dark dark:text-gray-400 ">
 						<tr className="text-white">
 							<th scope="col" className="px-6 py-3">
 								ID
