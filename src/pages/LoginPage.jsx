@@ -55,7 +55,7 @@ export default function LoginPage() {
 					<img src={logo} alt="ihelp logo" className="w-[120px]" />
 				</div>
 				<div className="flex flex-col items-center justify-center lg:mt-[15%] mt-[35%]">
-					<h1 className="text-[24px] mb-[6%]">
+					<h1 className="title-heading mb-[6%]">
 						{forgotPassword ? "Forgot Password" : "Sign in"}
 					</h1>
 					{error && <p className="text-red-500">{error}</p>}
@@ -107,9 +107,9 @@ export default function LoginPage() {
 			<div className="bg-primaryLighter text-white relative lg:block hidden">
 				<div className="w-[100%] h-[85%] flex items-center justify-center">
 					<div className="w-[40%] flex flex-col items-center justify-center relative z-10 text-center">
-						<p className="text-4xl roboto-medium">Turn your ideas</p>
-						<p className="text-4xl roboto-medium mb-[3%]">into reality</p>
-						<p className="text-[16px] roboto-light">
+						<p className="title-heading roboto-medium">Turn your ideas</p>
+						<p className="title-heading roboto-medium mb-[3%]">into reality</p>
+						<p className="body-text roboto-light">
 							Creating a stronger, more compassionate community
 						</p>
 					</div>

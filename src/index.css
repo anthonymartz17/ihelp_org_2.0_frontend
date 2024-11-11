@@ -62,5 +62,30 @@
 	padding: 1em;
 	border-radius: 5px;
 }
+.title-heading {
+	font-size: 20px;
+	font-weight: 600;
+	font-style: normal;
+}
+.subtitle-heading {
+	font-size: 16px;
+	font-weight: 700;
+	font-style: normal;
+}
+.body-text {
+	font-weight: 300;
+	font-style: normal;
+	font-size: 13px;
+}
+.body-text-regular {
+	font-weight: 500;
+	font-style: normal;
+	font-size: 13px;
+}
+.label-text {
+	font-size: 13px;
+	font-weight: 600;
+	font-style: normal;
+}
 
 /* End fonts */

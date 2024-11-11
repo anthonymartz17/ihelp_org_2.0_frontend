@@ -125,7 +125,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 									name="requester"
 									value={formData.requester}
 									onChange={handleChange}
-									className="border border-gray-500 border-opacity-20 rounded-md p-[5px_10px] w-[100%] mt-[3%] "
+									className="border text-dark border-gray-500 border-opacity-20 rounded-md p-[5px_10px] w-[100%] mt-[3%] "
 								>
 									<option disabled value="">
 										Select

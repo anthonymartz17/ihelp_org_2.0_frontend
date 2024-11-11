@@ -56,7 +56,7 @@ export default function RequestListTable() {
 	};
 
 	return (
-		<div className="mt-10">
+		<div>
 			<div className="flex justify-between items-center mb-2">
 				<div className="flex gap-2 justify-between items-center  w-full">
 					<form className="w-[25em]">
@@ -68,12 +68,12 @@ export default function RequestListTable() {
 						</label>
 						<div className="relative">
 							<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-								<span className="material-symbols-outlined">search</span>
+								<span className="material-symbols-outlined text-dark opacity-40">search</span>
 							</div>
 							<input
 								type="search"
 								id="default-search"
-								className="block w-full p-4 ps-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-gray-300 focus:border-gray-500"
+								className="block w-full p-2 ps-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-gray-300 focus:border-gray-500"
 								placeholder="Search Mockups, Logos..."
 								required
 							/>
@@ -90,9 +90,9 @@ export default function RequestListTable() {
 					</div>
 				</div>
 			</div>
-			<div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
+			<div className="relative overflow-y-auto max-h-[70vh] shadow-md sm:rounded-lg mt-4">
 				<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray ">
-					<thead className="text-gray-700 bg-gray-50  dark:bg-dark dark:text-gray-400 ">
+					<thead className="text-gray-700 bg-gray-50  dark:bg-dark dark:text-gray-400 sticky top-0">
 						<tr className="text-white">
 							<th scope="col" className="px-6 py-3">
 								ID
