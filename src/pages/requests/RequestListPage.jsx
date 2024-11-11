@@ -5,7 +5,7 @@ import { useRequestsContext } from "../../context/RequestContextProvider";
 export default function RequestsList() {
   useRequestsContext();
   return (
-    <div className="flex flex-col gap-4 pt-[3em] px-6">
+    <div className="flex flex-col gap-4 pt-[2em] px-6">
       <h1 className="roboto-bold text-xl text-dark">Requests</h1>
 
       <RequestListTable />
