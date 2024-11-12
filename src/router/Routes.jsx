@@ -25,105 +25,110 @@ import RewardNewPage from "../pages/rewards/RewardNewPage";
 import RewardEditPage from "../pages/rewards/RewardEditPage";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navigate to="/login" />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/dashboard",
-    element: <Dashboard />,
-    children: [
-      {
-        path: "",
-        element: <RequestsListPage />,
-      },
-      {
-        path: "requests/:id",
-        element: <RequestDetailPage />,
-      },
-      {
-        path: "requests/new",
-        element: <RequestNewPage />,
-      },
-      {
-        path: "requests/:id/edit",
-        element: <RequestEditPage />,
-      },
+	{
+		path: "/",
+		element: <Navigate to="/login" />,
+	},
+	{
+		path: "/login",
+		element: <LoginPage />,
+	},
+	{
+		path: "/dashboard",
+		element: <Dashboard />,
+		children: [
+			{
+				path: "",
+				element: <Navigate to="requests" />,
+				// element: <RequestsListPage />,
+			},
+			{
+				path: "requests",
+				element: <RequestsListPage />,
+			},
+			{
+				path: "requests/:id",
+				element: <RequestDetailPage />,
+			},
+			{
+				path: "requests/new",
+				element: <RequestNewPage />,
+			},
+			{
+				path: "requests/:id/edit",
+				element: <RequestEditPage />,
+			},
 
-      {
-        path: "volunteers",
-        element: <VolunteerListPage />,
-      },
-      {
-        path: "volunteers/:id",
-        element: <VolunteerDetailPage />,
-      },
-      {
-        path: "volunteers/new",
-        element: <VolunteerNewPage />,
-      },
-      {
-        path: "volunteers/:id/edit",
-        element: <VolunteerEditPage />,
-      },
+			{
+				path: "volunteers",
+				element: <VolunteerListPage />,
+			},
+			{
+				path: "volunteers/:id",
+				element: <VolunteerDetailPage />,
+			},
+			{
+				path: "volunteers/new",
+				element: <VolunteerNewPage />,
+			},
+			{
+				path: "volunteers/:id/edit",
+				element: <VolunteerEditPage />,
+			},
 
-      {
-        path: "requesters",
-        element: <RequesterListPage />,
-      },
-      {
-        path: "requesters/:id",
-        element: <RequesterDetailPage />,
-      },
-      {
-        path: "requesters/new",
-        element: <RequesterNewPage />,
-      },
-      {
-        path: "requesters/:id/edit",
-        element: <RequesterEditPage />,
-      },
-      {
-        path: "badges",
-        element: <BadgeListPage />,
-      },
-      {
-        path: "badges/:id",
-        element: <BadgeDetailPage />,
-      },
-      {
-        path: "badges/new",
-        element: <BadgeNewPage />,
-      },
-      {
-        path: "badges/:id/edit",
-        element: <BadgeEditPage />,
-      },
-      {
-        path: "rewards",
-        element: <RewardListPage />,
-      },
-      {
-        path: "rewards/:id",
-        element: <RewardDetailPage />,
-      },
-      {
-        path: "rewards/new",
-        element: <RewardNewPage />,
-      },
-      {
-        path: "rewards/:id/edit",
-        element: <RewardEditPage />,
-      },
-    ],
-  },
-  {
-    path: "*",
-    element: <NotFoundPage />,
-  },
+			{
+				path: "requesters",
+				element: <RequesterListPage />,
+			},
+			{
+				path: "requesters/:id",
+				element: <RequesterDetailPage />,
+			},
+			{
+				path: "requesters/new",
+				element: <RequesterNewPage />,
+			},
+			{
+				path: "requesters/:id/edit",
+				element: <RequesterEditPage />,
+			},
+			{
+				path: "badges",
+				element: <BadgeListPage />,
+			},
+			{
+				path: "badges/:id",
+				element: <BadgeDetailPage />,
+			},
+			{
+				path: "badges/new",
+				element: <BadgeNewPage />,
+			},
+			{
+				path: "badges/:id/edit",
+				element: <BadgeEditPage />,
+			},
+			{
+				path: "rewards",
+				element: <RewardListPage />,
+			},
+			{
+				path: "rewards/:id",
+				element: <RewardDetailPage />,
+			},
+			{
+				path: "rewards/new",
+				element: <RewardNewPage />,
+			},
+			{
+				path: "rewards/:id/edit",
+				element: <RewardEditPage />,
+			},
+		],
+	},
+	{
+		path: "*",
+		element: <NotFoundPage />,
+	},
 ]);
 export default router;

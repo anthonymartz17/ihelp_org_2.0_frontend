@@ -74,14 +74,14 @@ export default function RequestListTable() {
 								type="search"
 								id="default-search"
 								className="block w-full p-2 ps-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-gray-300 focus:border-gray-500"
-								placeholder="Search Mockups, Logos..."
+								placeholder="Search..."
 								required
 							/>
 						</div>
 					</form>
 					<div>
 						<button
-							onClick={() => navigate("/dashboard/requests/new")}
+							onClick={() => navigate("/dashboard/rewards/new")}
 							type="button"
 							className=" h-full w-56 text-white bg-secondary hover:bg-secondaryLighter focus:ring-4 focus:outline-none  text-l rounded-lg py-2.5 flex justify-center items-center"
 						>
