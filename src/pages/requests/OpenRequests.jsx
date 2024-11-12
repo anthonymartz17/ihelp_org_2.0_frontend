@@ -1,42 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import ConfirmationModal from "../ConfirmationModal";
+import ConfirmationModal from "../../components/ConfirmationModal";
+import { useRequestsContext } from "../../context/RequestContextProvider";
+import {
+	formatDate,
+	formatMilitaryToStandardTime,
+} from "../../utils/formatters";
 
 export default function RequestListTable() {
 	const navigate = useNavigate();
-	const [requests, setRequests] = useState([]);
+	const { requests, loading, error } = useRequestsContext();
+	const [filteredRequests, setFilteredRequests] = useState([]);
+
 	const [showModal, setShowModal] = useState(false);
 	const [itemToDelete, setItemToDelete] = useState(null);
-
-	useEffect(() => {
-		const fetchRequests = async () => {
-			try {
-				const token = localStorage.getItem("token");
-				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/requests`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					}
-				);
-
-				if (!response.ok) {
-					const errorData = await response.json();
-					throw new Error(
-						`Failed to fetch requests: ${response.status} ${errorData.message}`
-					);
-				}
-
-				const data = await response.json();
-				setRequests(data.sort((a, b) => b.id - a.id));
-			} catch (error) {
-				console.error("Error fetching requests:", error.message);
-			}
-		};
-
-		fetchRequests();
-	}, []);
 
 	const confirmDelete = async () => {
 		try {
@@ -55,6 +32,13 @@ export default function RequestListTable() {
 		}
 	};
 
+	useEffect(() => {
+		const openStatusId = 1;
+		const openRequests = requests.filter(
+			(request) => request.status_id === openStatusId
+		);
+		setFilteredRequests(openRequests);
+	}, [requests]);
 	return (
 		<div>
 			<div className="flex justify-between items-center mb-2">
@@ -68,7 +52,9 @@ export default function RequestListTable() {
 						</label>
 						<div className="relative">
 							<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-								<span className="material-symbols-outlined text-dark opacity-40">search</span>
+								<span className="material-symbols-outlined text-dark opacity-40">
+									search
+								</span>
 							</div>
 							<input
 								type="search"
@@ -107,11 +93,12 @@ export default function RequestListTable() {
 							<th scope="col" className="px-6 py-3">
 								Committed Tasks
 							</th>
+
 							<th scope="col" className="px-6 py-3">
-								Status
+								Created on
 							</th>
 							<th scope="col" className="px-6 py-3">
-								Created At
+								Due on
 							</th>
 							<th scope="col" className="px-12 py-3 ">
 								Action
@@ -120,7 +107,7 @@ export default function RequestListTable() {
 					</thead>
 
 					<tbody>
-						{requests.map((request) => (
+						{filteredRequests.map((request) => (
 							<tr
 								key={request.id}
 								className="odd:dark:bg-transparent even:bg-purpleLighter even:dark:bg-purpleLightest border-b dark:border-gray-200"
@@ -133,10 +120,9 @@ export default function RequestListTable() {
 								<td className="px-6 py-4">
 									{request.assigned_tasks}/{request.total_tasks}
 								</td>
-								<td className="px-6 py-4">{request.status_name}</td>
-								<td className="px-6 py-4">
-									{new Date(request.created_at).toLocaleString()}
-								</td>
+								<td className="px-6 py-4">{formatDate(request.created_at)}</td>
+								<td className="px-6 py-4">{formatDate(request.due_date)}</td>
+
 								<td className="px-6 py-4 flex gap-4">
 									<Link to={`/dashboard/requests/${request.id}`}>
 										<span className="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">

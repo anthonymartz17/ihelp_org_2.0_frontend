@@ -23,6 +23,10 @@ import RewardListPage from "../pages/rewards/RewardListPage";
 import RewardDetailPage from "../pages/rewards/RewardDetailPage";
 import RewardNewPage from "../pages/rewards/RewardNewPage";
 import RewardEditPage from "../pages/rewards/RewardEditPage";
+import OpenRequests from "../pages/requests/OpenRequests";
+import AssignedRequests from "../pages/requests/AssignedRequests";
+import InProgressRequests from "../pages/requests/InProgressRequests";
+import CompletedRequests from "../pages/requests/CompletedRequests";
 
 const router = createBrowserRouter([
 	{
@@ -40,11 +44,32 @@ const router = createBrowserRouter([
 			{
 				path: "",
 				element: <Navigate to="requests" />,
-				// element: <RequestsListPage />,
 			},
 			{
 				path: "requests",
 				element: <RequestsListPage />,
+				children: [
+					{
+						path: "",
+						element: <Navigate to="open" />,
+					},
+					{
+						path: "open",
+						element: <OpenRequests />,
+					},
+					{
+						path: "assigned",
+						element: <AssignedRequests />,
+					},
+					{
+						path: "in-progress",
+						element: <InProgressRequests />,
+					},
+					{
+						path: "completed",
+						element: <CompletedRequests />,
+					},
+				],
 			},
 			{
 				path: "requests/:id",

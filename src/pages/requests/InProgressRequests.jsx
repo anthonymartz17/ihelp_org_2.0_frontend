@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import ConfirmationModal from "../ConfirmationModal";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 export default function RequestListTable() {
 	const navigate = useNavigate();
@@ -68,7 +68,9 @@ export default function RequestListTable() {
 						</label>
 						<div className="relative">
 							<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-								<span className="material-symbols-outlined text-dark opacity-40">search</span>
+								<span className="material-symbols-outlined text-dark opacity-40">
+									search
+								</span>
 							</div>
 							<input
 								type="search"
@@ -79,15 +81,6 @@ export default function RequestListTable() {
 							/>
 						</div>
 					</form>
-					<div>
-						<button
-							onClick={() => navigate("/dashboard/rewards/new")}
-							type="button"
-							className=" h-full w-56 text-white bg-secondary hover:bg-secondaryLighter focus:ring-4 focus:outline-none  text-l rounded-lg py-2.5 flex justify-center items-center"
-						>
-							+ New Request
-						</button>
-					</div>
 				</div>
 			</div>
 			<div className="relative overflow-y-auto max-h-[60vh] sm:rounded-lg mt-4">
