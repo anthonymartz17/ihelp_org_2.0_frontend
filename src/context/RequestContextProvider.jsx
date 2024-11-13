@@ -4,39 +4,41 @@ import { fetchRequests } from "../services/requestServices";
 const RequestContext = createContext({});
 
 export function RequestContextProvider({ children }) {
-  const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+	const [requests, setRequests] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 
-  useEffect(() => {
-    async function getRequests() {
-      setLoading(true);
-      try {
-        const data = await fetchRequests();
-        setRequests(data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    }
+	async function getRequests() {
+		const token = localStorage.getItem("token");
+		setLoading(true);
+		try {
+			const data = await fetchRequests(token);
+			setRequests(data);
+		} catch (err) {
+			setError(err);
+		} finally {
+			setLoading(false);
+		}
+	}
+	useEffect(() => {
+		getRequests();
+	}, []);
 
-    getRequests();
-  }, []);
+	const contextValue = {
+		requests,
+		loading,
+		error,
+    setRequests,
+    getRequests
+	};
 
-  const contextValue = {
-    requests,
-    loading,
-    error,
-  };
-
-  return (
-    <RequestContext.Provider value={contextValue}>
-      {children}
-    </RequestContext.Provider>
-  );
+	return (
+		<RequestContext.Provider value={contextValue}>
+			{children}
+		</RequestContext.Provider>
+	);
 }
 
 export function useRequestsContext() {
-  return useContext(RequestContext);
+	return useContext(RequestContext);
 }
