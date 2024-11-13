@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import RequestForm from "../../components/forms/RequestForm";
+import { useRequestsContext } from "../../context/RequestContextProvider";
 
 export default function NewRequestPage() {
 	const navigate = useNavigate();
+	const { setRequests,getRequests } = useRequestsContext();
 
 	const handleSubmit = async (formData) => {
 		const requestData = {
@@ -36,7 +38,10 @@ export default function NewRequestPage() {
 					`Failed to create request: ${response.status} ${errorData.message}`
 				);
 			}
+			const newRequest = await response.json();
 
+			// setRequests((prevRequests) => [...prevRequests, newRequest])
+			getRequests();
 			navigate("/dashboard");
 		} catch (error) {
 			console.error("Error creating request:", error.message);

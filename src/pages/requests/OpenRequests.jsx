@@ -37,7 +37,7 @@ export default function RequestListTable() {
 		const openRequests = requests.filter(
 			(request) => request.status_id === openStatusId
 		);
-		setFilteredRequests(openRequests);
+		setFilteredRequests(openRequests.sort((a, b) => b.id - a.id));
 	}, [requests]);
 	return (
 		<div>
@@ -67,7 +67,7 @@ export default function RequestListTable() {
 					</form>
 					<div>
 						<button
-							onClick={() => navigate("/dashboard/rewards/new")}
+							onClick={() => navigate("/dashboard/requests/new")}
 							type="button"
 							className=" h-full w-56 text-white bg-secondary hover:bg-secondaryLighter focus:ring-4 focus:outline-none  text-l rounded-lg py-2.5 flex justify-center items-center"
 						>

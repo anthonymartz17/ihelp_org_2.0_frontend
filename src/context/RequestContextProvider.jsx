@@ -8,20 +8,19 @@ export function RequestContextProvider({ children }) {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
-	useEffect(() => {
-    async function getRequests() {
-      const token = localStorage.getItem("token");
-			setLoading(true);
-			try {
-				const data = await fetchRequests(token);
-				setRequests(data);
-			} catch (err) {
-				setError(err);
-			} finally {
-				setLoading(false);
-			}
+	async function getRequests() {
+		const token = localStorage.getItem("token");
+		setLoading(true);
+		try {
+			const data = await fetchRequests(token);
+			setRequests(data);
+		} catch (err) {
+			setError(err);
+		} finally {
+			setLoading(false);
 		}
-
+	}
+	useEffect(() => {
 		getRequests();
 	}, []);
 
@@ -29,6 +28,8 @@ export function RequestContextProvider({ children }) {
 		requests,
 		loading,
 		error,
+    setRequests,
+    getRequests
 	};
 
 	return (

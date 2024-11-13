@@ -29,16 +29,16 @@ export default function RequestsList() {
 			<h1 className="roboto-bold text-xl text-dark">Requests</h1>
 
 			<div>
-				<ul className="flex flex-wrap mb-3  lable-text text-center text-dark">
-					{tabs.map((tab) => (
-						<li className="me-2">
+				<ul className="flex flex-wrap mb-6  lable-text text-center text-dark border-b">
+					{tabs.map((tab, idx) => (
+						<li className="me-2" key={idx}>
 							<NavLink
 								to={tab.link}
 								end
 								className={({ isActive }) =>
 									`inline-block p-4 rounded-t-lg hover:text-gray-600 border-t border-l border-r ${
 										isActive
-											? "text-dark label-text border-dark border-opacity-25"
+											? "text-dark label-text border-dark border-opacity-25 "
 											: "border-transparent hover:border-dark hover:border-opacity-25"
 									}`
 								}
