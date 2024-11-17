@@ -1,28 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 import { useRequestsContext } from "../../context/RequestContext";
-import { formatDate } from "../../utils/formatters";
+import socket from "../../services/socket";
+import {
+	formatDate,
+	formatMilitaryToStandardTime,
+} from "../../utils/formatters";
 
 export default function RequestListTable() {
 	const navigate = useNavigate();
-	const { requests, loading, error } = useRequestsContext();
+	const { requests, loading, error, commitTask } = useRequestsContext();
 	const [filteredRequests, setFilteredRequests] = useState([]);
 
-	useEffect(() => {
+	const [showModal, setShowModal] = useState(false);
+
+	function filterRequests() {
 		const completedStatus = 4;
-		const filtered = requests.filter(
+		const completedRequests = requests.filter(
 			(request) => request.status_id === completedStatus
 		);
-		setFilteredRequests(filtered.sort((a, b) => b.id - a.id));
+		setFilteredRequests(completedRequests.sort((a, b) => b.id - a.id));
+	}
+
+	useEffect(() => {
+		filterRequests();
+
+		socket.on("requestsUpdate", (updatedRequests) => {
+			switch (updatedRequests.type) {
+				case "TASK_COMMITTED":
+					commitTask(updatedRequests);
+					filterRequests();
+			}
+		});
+
+		return () => {
+			socket.off("requestsUpdate");
+		};
 	}, [requests]);
+
 	return (
 		<div>
-			<div className="flex justify-between items-center mb-2 ">
+			<div className="flex justify-between items-center mb-2">
 				<div className="flex gap-2 justify-between items-center  w-full">
 					<form className="w-[25em]">
 						<label
 							htmlFor="default-search"
-							className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+							className="mb-2 body-text sr-only dark:text-white"
 						>
 							Search
 						</label>
@@ -35,7 +59,7 @@ export default function RequestListTable() {
 							<input
 								type="search"
 								id="default-search"
-								className="block w-full p-2 ps-10 text-sm text-gray-700 border border-gray-300 rounded-lg focus:ring-gray-300 focus:border-gray-500"
+								className="block w-full p-2 ps-10 body-text border border-greylight rounded-lg focus:ring-gray-300 focus:border-gray-500"
 								placeholder="Search..."
 								required
 							/>
@@ -43,9 +67,9 @@ export default function RequestListTable() {
 					</form>
 				</div>
 			</div>
-			<div className="relative overflow-y-auto max-h-[60vh] sm:rounded-lg mt-4">
+			<div className="relative overflow-y-auto max-h-[60vh] sm:rounded-lg mt-4 ">
 				<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray ">
-					<thead className="text-gray-700 bg-gray-50  dark:bg-dark dark:text-gray-400 sticky top-0">
+					<thead className="text-dark body-text-bold   dark:bg-dark dark:text-gray-400 sticky top-0">
 						<tr className="text-white">
 							<th scope="col" className="px-6 py-3">
 								ID
@@ -73,7 +97,7 @@ export default function RequestListTable() {
 						</tr>
 					</thead>
 
-					<tbody>
+					<tbody className="body-text">
 						{filteredRequests.map((request) => (
 							<tr
 								key={request.id}
@@ -90,19 +114,34 @@ export default function RequestListTable() {
 								<td className="px-6 py-4">{formatDate(request.created_at)}</td>
 								<td className="px-6 py-4">{formatDate(request.due_date)}</td>
 
-								<td className="px-6 py-4 flex gap-4 text-center">
-									<Link to={`/dashboard/requests/${request.id}`}>
-										<span className="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">
-											visibility
-										</span>
-									</Link>
+								<td className="px-6 py-4">
+									<div className="relative group pl-6">
+										<button className="hover:bg-greylight p-1 rounded-md">
+											<span className="material-symbols-outlined">
+												more_horiz
+											</span>
+										</button>
+										<div className="hidden group-hover:block absolute left-0 top-0 bg-white p-2 rounded-md card-shadow min-w-[8rem] z-10">
+											<Link
+												className="flex gap-1 p-2 hover:bg-greylight rounded-md"
+												to={`/dashboard/requests/${request.id}`}
+											>
+												<span className="material-symbols-outlined text-sm">
+													visibility
+												</span>
+												<span>See detail</span>
+											</Link>
+										</div>
+									</div>
 								</td>
 							</tr>
 						))}
 					</tbody>
 				</table>
 				{filteredRequests.length === 0 && (
-					<p className="text-center py-10 text-dark ">No data available</p>
+					<p className="body-text text-dark text-center py-10">
+						No requests found.
+					</p>
 				)}
 			</div>
 		</div>

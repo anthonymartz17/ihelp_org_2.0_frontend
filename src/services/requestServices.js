@@ -34,3 +34,23 @@ export async function fetchCategories(token) {
 		throw error;
 	}
 }
+
+export async function fetchRequestDetail(id, token) {
+	try {
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/requests/${id}`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		if (!response.ok) {
+			throw new Error("Error fetching request details");
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		throw error;
+	}
+}

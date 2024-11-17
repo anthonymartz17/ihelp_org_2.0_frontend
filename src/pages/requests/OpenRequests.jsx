@@ -97,7 +97,7 @@ export default function RequestListTable() {
 			</div>
 			<div className="relative overflow-y-auto max-h-[60vh] sm:rounded-lg mt-4 ">
 				<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray ">
-					<thead className="text-dark body-text-bold   dark:bg-[#B4B4B8] dark:text-gray-400 sticky top-0">
+					<thead className="text-dark body-text-bold   dark:bg-dark dark:text-gray-400 sticky top-0">
 						<tr className="text-white">
 							<th scope="col" className="px-6 py-3">
 								ID
@@ -142,41 +142,6 @@ export default function RequestListTable() {
 								<td className="px-6 py-4">{formatDate(request.created_at)}</td>
 								<td className="px-6 py-4">{formatDate(request.due_date)}</td>
 
-								{/* <td className="px-6 py-4 flex gap-4 group relative">
-									<span class="material-symbols-outlined">more_horiz</span>
-									<div className="hidden group-hover:block gap-2 absolute top-0 left-0  card-shadow">
-										<Link
-											className="flex gap-1"
-											to={`/dashboard/requests/${request.id}`}
-										>
-											<span className="material-symbols-outlined text-sm ">
-												visibility
-											</span>
-											<span>See detail</span>
-										</Link>
-										<Link
-											className="flex gap-1"
-											to={`/dashboard/requests/${request.id}/edit`}
-										>
-											<span className="material-symbols-outlined text-sm ">
-												edit
-											</span>
-											<span>Edit</span>
-										</Link>
-										<div className="flex gap-1">
-											<span
-												onClick={() => {
-													setShowModal(true);
-													setItemToDelete(request.id);
-												}}
-												className="material-symbols-outlined text-sm  "
-											>
-												delete
-											</span>
-											<span>Delete</span>
-										</div>
-									</div>
-								</td> */}
 								<td className="px-6 py-4">
 									<div className="relative group pl-6">
 										<button className="hover:bg-greylight p-1 rounded-md">

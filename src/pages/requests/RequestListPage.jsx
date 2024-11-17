@@ -28,7 +28,7 @@ export default function RequestsList() {
 	}, []);
 
 	return (
-		<div className="flex flex-col gap-4 pt-[2em] px-6">
+		<div className="flex flex-col gap-4  px-6">
 			<h1 className="subtitle-heading  text-dark">Requests</h1>
 
 			<div>
