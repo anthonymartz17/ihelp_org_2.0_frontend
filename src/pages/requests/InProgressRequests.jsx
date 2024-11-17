@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useRequestsContext } from "../../context/RequestContextProvider";
+import { useRequestsContext } from "../../context/RequestContext";
 import { formatDate } from "../../utils/formatters";
 
 export default function RequestListTable() {

@@ -23,6 +23,7 @@ export default {
 				dark: "#4c5454",
 				light: "#edeeee",
 				lightest: "#FFFFFF",
+				greylight: "#E4E0E1",
 			},
 			boxShadow: {
 				custom: "rgba(0, 0, 0, 0.16) 0px 1px 4px",

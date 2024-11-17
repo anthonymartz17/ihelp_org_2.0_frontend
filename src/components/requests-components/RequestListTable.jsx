@@ -2,40 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmationModal from "../ConfirmationModal";
 
+import { useRequestsContext } from "../../context/RequestContext";
 export default function RequestListTable() {
+	const { request } = useRequestsContext();
 	const navigate = useNavigate();
-	const [requests, setRequests] = useState([]);
+	// const [requests, setRequests] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [itemToDelete, setItemToDelete] = useState(null);
 
 	useEffect(() => {
-		const fetchRequests = async () => {
-			try {
-				const token = localStorage.getItem("token");
-				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/requests`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					}
-				);
-
-				if (!response.ok) {
-					const errorData = await response.json();
-					throw new Error(
-						`Failed to fetch requests: ${response.status} ${errorData.message}`
-					);
-				}
-
-				const data = await response.json();
-				setRequests(data.sort((a, b) => b.id - a.id));
-			} catch (error) {
-				console.error("Error fetching requests:", error.message);
-			}
-		};
-
-		fetchRequests();
+		// fetchRequests();
 	}, []);
 
 	const confirmDelete = async () => {
@@ -62,13 +38,15 @@ export default function RequestListTable() {
 					<form className="w-[25em]">
 						<label
 							htmlFor="default-search"
-							className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+							className="mb-2 body-text text-gray-900  dark:text-white"
 						>
 							Search
 						</label>
 						<div className="relative">
 							<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-								<span className="material-symbols-outlined text-dark opacity-40">search</span>
+								<span className="material-symbols-outlined text-dark opacity-40">
+									search
+								</span>
 							</div>
 							<input
 								type="search"
@@ -83,7 +61,7 @@ export default function RequestListTable() {
 						<button
 							onClick={() => navigate("/dashboard/rewards/new")}
 							type="button"
-							className=" h-full w-56 text-white bg-secondary hover:bg-secondaryLighter focus:ring-4 focus:outline-none  text-l rounded-lg py-2.5 flex justify-center items-center"
+							className=" h-full w-56 text-white bg-secondary hover:bg-secondaryLighter "
 						>
 							+ New Request
 						</button>

@@ -1,18 +1,18 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { fetchRequests } from "../services/requestServices";
-
+import { useAuth } from "./AuthContext";
 const RequestContext = createContext({});
 
-export function RequestContextProvider({ children }) {
+export default function RequestContextProvider({ children }) {
+	const { currentUser } = useAuth();
 	const [requests, setRequests] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	async function getRequests() {
-		const token = localStorage.getItem("token");
 		setLoading(true);
 		try {
-			const data = await fetchRequests(token);
+			const data = await fetchRequests(currentUser.accessToken);
 			setRequests(data);
 		} catch (err) {
 			setError(err);
@@ -30,7 +30,7 @@ export function RequestContextProvider({ children }) {
 						assigned_tasks: req.assigned_tasks + 1,
 					};
 					console.log(prev);
-					console.log(updatedRequest,'updated');
+					console.log(updatedRequest, "updated");
 
 					if (updatedRequest.assigned_tasks === updatedRequest.total_tasks) {
 						const assignedStatusId = 2;
@@ -43,11 +43,7 @@ export function RequestContextProvider({ children }) {
 				}
 			})
 		);
-		console.log(requests)
 	}
-	useEffect(() => {
-		getRequests();
-	}, []);
 
 	const contextValue = {
 		requests,

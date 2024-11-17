@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import RequestForm from "../../components/forms/RequestForm";
-import { useRequestsContext } from "../../context/RequestContextProvider";
+import { useRequestsContext } from "../../context/RequestContext";
 
 export default function NewRequestPage() {
 	const navigate = useNavigate();
-	const { setRequests,getRequests } = useRequestsContext();
+	const { setRequests, getRequests } = useRequestsContext();
 
 	const handleSubmit = async (formData) => {
 		const requestData = {

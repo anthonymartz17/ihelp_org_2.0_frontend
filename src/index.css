@@ -14,10 +14,23 @@
 	--grayLight: "#DCDCDD";
 	--white: "#FFFFFF";
 }
+/*
+0.625rem = 10px
+0.75rem = 12px
+0.875rem = 14px
+1rem = 16px
+1.125rem = 18px
+1.25rem = 20px
+1.5rem = 24px
+1.75rem = 28px
+2rem = 32px
+2.25rem = 36px
+2.5rem = 40px
+3rem = 48px
+*/
 
 * {
 	font-family: "Roboto", sans-serif;
-	font-size: 13px;
 }
 
 /* Fonts */
@@ -63,29 +76,41 @@
 	border-radius: 5px;
 }
 .title-heading {
-	font-size: 20px;
+	font-size: 1.5rem;
 	font-weight: 600;
 	font-style: normal;
 }
 .subtitle-heading {
-	font-size: 16px;
+	font-size: 1.125rem;
 	font-weight: 700;
 	font-style: normal;
 }
+
 .body-text {
+	font-size: 0.75rem;
 	font-weight: 300;
 	font-style: normal;
-	font-size: 13px;
 }
-.body-text-regular {
-	font-weight: 500;
+.body-text-bold {
+	font-size: 0.75rem;
+	font-weight: 600;
 	font-style: normal;
-	font-size: 13px;
 }
-.label-text {
-	font-size: 13px;
+.body-text-small {
+	font-size: 0.625rem;
+	font-weight: 300;
+	font-style: normal;
+}
+.body-text-small-bold {
+	font-size: 0.625rem;
 	font-weight: 600;
 	font-style: normal;
 }
 
-/* End fonts */
+.btn {
+	padding: 0.5rem 1.5rem;
+	border-radius: 5px;
+	border: none;
+	display: flex;
+	justify-content: center;
+}

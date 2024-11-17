@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../components/ConfirmationModal";
-import { useRequestsContext } from "../../context/RequestContextProvider";
+import { useRequestsContext } from "../../context/RequestContext";
 import {
 	formatDate,
 	formatMilitaryToStandardTime,

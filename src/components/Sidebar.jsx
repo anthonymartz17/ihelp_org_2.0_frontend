@@ -18,10 +18,11 @@ export default function Sidebar() {
 					<li key={item.title} className="hover:bg-primaryLighter">
 						<NavLink
 							to={item.link}
-							
 							className={({ isActive }) =>
-								`flex items-center gap-3 p-4 ${
-									isActive ? "bg-primaryLighter text-lightest" : ""
+								`flex items-center gap-3 p-4 body-text mb-1 ${
+									isActive
+										? "bg-primaryLighter text-lightest body-text-bold"
+										: ""
 								}`
 							}
 						>
