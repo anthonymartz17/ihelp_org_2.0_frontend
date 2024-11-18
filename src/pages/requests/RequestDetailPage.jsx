@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { fetchRequestDetail } from "../../services/requestServices";
 import { formatDate } from "../../utils/formatters";
 
-const statusColors = {
+const requestStatusColor = {
 	1: "bg-blue-500",
 	2: "bg-yellow-500",
 	3: "bg-orange-500",
@@ -63,7 +63,7 @@ export default function RequestDetailPage() {
 								<div>ID: {requestDetail.id}</div>
 								<div
 									className={`${
-										statusColors[requestDetail.status_id]
+										requestStatusColor[requestDetail.status_id]
 									} text-light px-4 rounded-b-md absolute top-0 right-4`}
 								>
 									{requestDetail.status_name}

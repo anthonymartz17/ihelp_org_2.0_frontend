@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { useRequestsContext } from "../../context/RequestContext";
 import socket from "../../services/socket";
+import SearchBar from "../../components/SearchBar";
 import {
 	formatDate,
 	formatMilitaryToStandardTime,
@@ -40,6 +41,23 @@ export default function RequestListTable() {
 		);
 		setFilteredRequests(openRequests.sort((a, b) => b.id - a.id));
 	}
+	function searchRequests(e) {
+		const searchTerm = e.target.value.toLowerCase();
+
+		const openStatusId = 1;
+		const openRequests = requests.filter(
+			(request) => request.status_id === openStatusId
+		);
+
+		const filtered = openRequests.filter(
+			(request) =>
+				request.requester_first_name.toLowerCase().includes(searchTerm) ||
+				request.requester_last_name.toLowerCase().includes(searchTerm) ||
+				request.category_name.toLowerCase().includes(searchTerm)
+		);
+
+		setFilteredRequests(filtered);
+	}
 
 	useEffect(() => {
 		filterOpenRequests();
@@ -62,28 +80,7 @@ export default function RequestListTable() {
 		<div>
 			<div className="flex justify-between items-center mb-2">
 				<div className="flex gap-2 justify-between items-center  w-full">
-					<form className="w-[25em]">
-						<label
-							htmlFor="default-search"
-							className="mb-2 body-text sr-only dark:text-white"
-						>
-							Search
-						</label>
-						<div className="relative">
-							<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-								<span className="material-symbols-outlined text-dark opacity-40">
-									search
-								</span>
-							</div>
-							<input
-								type="search"
-								id="default-search"
-								className="block w-full p-2 ps-10 body-text border border-greylight rounded-lg focus:ring-gray-300 focus:border-gray-500"
-								placeholder="Search..."
-								required
-							/>
-						</div>
-					</form>
+					<SearchBar onSearch={searchRequests} />
 					<div>
 						<button
 							onClick={() => navigate("/dashboard/requests/new")}
