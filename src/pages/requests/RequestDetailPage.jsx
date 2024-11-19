@@ -52,73 +52,129 @@ export default function RequestDetailPage() {
 					to="/dashboard/requests"
 					className="flex gap-2 items-center text-secondary"
 				>
-					<span class="material-symbols-outlined">arrow_back</span>Back
+					<span className="material-symbols-outlined">arrow_back</span>Back
 				</Link>
 			</div>
 			{requestDetail ? (
-				<div>
-					<div className="flex justify-between mb-3 gap-4  pb-2">
-						<div className="card-shadow relative flex-1">
-							<div className="body-text-bold flex justify-between mb-3  pb-2 border-b">
-								<div>ID: {requestDetail.id}</div>
-								<div
-									className={`${
-										requestStatusColor[requestDetail.status_id]
-									} text-light px-4 rounded-b-md absolute top-0 right-4`}
-								>
-									{requestDetail.status_name}
-								</div>
+				<div className="gap-2">
+					<div className="md:flex gap-2">
+						<div className="card-shadow relative mb-4 flex-1">
+							<div className="flex justify-between mb-3  pb-2 border-b">
+								<p className="body-text-bold ">Request Information</p>
 							</div>
-							<div className="flex justify-between mb-3  pb-2 ">
-								<div className="flex gap-2">
-									<span className="body-text-bold">Hours:</span>
+							<div className="flex flex-col gap-2 ">
+								<div className="flex justify-between  items-center bg-greylight bg-opacity-40 p-2 ">
+									<span className="flex items-center body-text opacity-60">
+										<span class="material-symbols-outlined">key</span>
+										<span>ID</span>
+									</span>
+									<p className="body-text">{requestDetail.id}</p>
+								</div>
+
+								<div className="flex justify-between  items-center px-2">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined">schedule</span>
+										<span>Hours</span>
+									</span>
 									<p className="body-text">{requestDetail.hours_needed} Hrs</p>
 								</div>
-								<div className="flex gap-2">
-									<span className="body-text-bold">Created:</span>
+
+								<div className="flex justify-between items-center  bg-greylight bg-opacity-40 p-2 ">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined">
+											calendar_month
+										</span>
+										<span>Created</span>
+									</span>
 									<p className="body-text">
 										{formatDate(requestDetail.created_at)}
 									</p>
 								</div>
-								<div className="flex gap-2">
-									<span className="body-text-bold">Due:</span>
+								<div className="flex justify-between items-center px-2">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined">event</span>
+										<span>Due</span>
+									</span>
 									<p className="body-text">
 										{formatDate(requestDetail.updated_at)}
 									</p>
 								</div>
 							</div>
-							<div>
-								<span className="body-text-bold">Description:</span>
-								<p className="body-text">{requestDetail.description}</p>
+							<div className="mt-4 px-2">
+								<span className="flex items-center body-text opacity-60 mb-1">
+									<span class="material-symbols-outlined">description</span>
+									<span>Description</span>
+								</span>
+
+								<textarea
+									id="description"
+									className="w-full body-text p-2 border border-greylight rounded-md"
+									value={requestDetail.description}
+									col="3"
+									rows="3"
+								></textarea>
 							</div>
 						</div>
 						<div className="card-shadow relative flex-1">
-							<div className="body-text-bold flex justify-between mb-3  pb-2 border-b">
-								<div>Requester Information</div>
+							<div className="flex justify-between mb-3  pb-2 border-b">
+								<p className="body-text-bold ">Requester Information</p>
 							</div>
-							<div className="flex gap-2">
-								<span className="body-text-bold">Name:</span>
-								<p className="body-text">
-									{requestDetail.requester_first_name}{" "}
-									{requestDetail.requester_last_name}
-								</p>
-							</div>
-							<div className="flex gap-2">
-								<span className="body-text-bold">Phone:</span>
-								<p className="body-text">
-									{formatTel(requestDetail.requester_phone)}
-								</p>
+							<div className="flex flex-col gap-2">
+								<div className="flex justify-between  items-center  bg-greylight bg-opacity-40 p-2 ">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined ">person</span>
+										<span>Requester</span>
+									</span>
+									<p className="body-text">
+										{requestDetail.requester_first_name}{" "}
+										{requestDetail.requester_last_name}
+									</p>
+								</div>
+								<div className="flex justify-between items-center px-2">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined">call</span>
+										<span>Phone</span>
+									</span>
+									<p className="body-text">
+										{formatTel(requestDetail.requester_phone)}
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
 
-					<div className="mt-4">
+					<div className="flex-1">
 						<h3 className="subtitle-heading mb-3">Tasks </h3>
 
-						<ul className=" grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+						<ul className="grid md:grid-cols-2 gap-2">
 							{requestDetail.tasks.map((task) => (
-								<li key={task.id} className="card-shadow relative flex-1">
-									<div className="body-text-bold flex justify-between mb-3  pb-2 border-b">
+								<li key={task.id} className="card-shadow relative flex-1 ">
+									<div
+										className={`${
+											requestStatusColor[task.task_status_id]
+										} text-light body-text-bold px-4 rounded-b-md absolute top-0 right-4`}
+									>
+										{task.task_status_name}
+									</div>
+									{task.task_status_id !== 1 && (
+										<div className=" mb-3  pb-2 border-b">
+											<div className="flex gap-2">
+												<img
+													src={task.volunteer_avatar}
+													alt=""
+													className="w-8"
+												/>
+												<div>
+													<p className="body-text-bold">
+														{task.volunteer_name}
+													</p>
+													<p className="body-text">{task.volunteer_email}</p>
+												</div>
+											</div>
+										</div>
+									)}
+
+									<div className="body-text-bold flex justify-between mb-3  py-2 ">
 										<div>
 											Id: <span className="body-text">{task.id}</span>
 										</div>
