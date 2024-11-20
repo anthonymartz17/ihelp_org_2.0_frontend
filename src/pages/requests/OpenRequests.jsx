@@ -184,6 +184,13 @@ export default function RequestListTable() {
 						))}
 					</tbody>
 				</table>
+				{filteredRequests.length === 0 && (
+					<div className="flex justify-center items-center h-full">
+						<p className="body-text h-20 flex items-center justify-center text-dark">
+							No requests found.
+						</p>
+					</div>
+				)}
 			</div>
 			{showModal && (
 				<ConfirmationModal

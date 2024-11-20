@@ -56,11 +56,11 @@ export default function RequestDetailPage() {
 				</Link>
 			</div>
 			{requestDetail ? (
-				<div className="gap-2">
-					<div className="md:flex gap-2">
-						<div className="card-shadow relative mb-4 flex-1">
+				<div className="">
+					<div className="md:grid grid-cols-3 gap-2 mb-6">
+						<div className="card-shadow relative flex-1">
 							<div className="flex justify-between mb-3  pb-2 border-b">
-								<p className="body-text-bold ">Request Information</p>
+								<p className="body-text-bold ">Request</p>
 							</div>
 							<div className="flex flex-col gap-2 ">
 								<div className="flex justify-between  items-center bg-greylight bg-opacity-40 p-2 ">
@@ -117,7 +117,7 @@ export default function RequestDetailPage() {
 						</div>
 						<div className="card-shadow relative flex-1">
 							<div className="flex justify-between mb-3  pb-2 border-b">
-								<p className="body-text-bold ">Requester Information</p>
+								<p className="body-text-bold ">Requester</p>
 							</div>
 							<div className="flex flex-col gap-2">
 								<div className="flex justify-between  items-center  bg-greylight bg-opacity-40 p-2 ">
@@ -194,7 +194,7 @@ export default function RequestDetailPage() {
 					</div>
 				</div>
 			) : (
-				<p>No request details available</p>
+				<p>No requests Found</p>
 			)}
 		</div>
 	);
