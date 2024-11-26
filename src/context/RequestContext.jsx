@@ -22,6 +22,7 @@ export default function RequestContextProvider({ children }) {
 	}
 
 	function commitTask(request) {
+		console.log(request, "request to update task");
 		setRequests((prev) =>
 			prev.map((req) => {
 				if (req.id === request.requestId) {

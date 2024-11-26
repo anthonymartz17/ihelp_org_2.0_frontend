@@ -11,6 +11,8 @@ import {
 
 export default function RequestListTable() {
 	const navigate = useNavigate();
+	const [socketUpdate, setSocketUpdate] = useState(false);
+
 	const { requests, loading, error, commitTask } = useRequestsContext();
 	const [filteredRequests, setFilteredRequests] = useState([]);
 
@@ -61,20 +63,27 @@ export default function RequestListTable() {
 
 	useEffect(() => {
 		filterOpenRequests();
+	}, [requests, socketUpdate]);
+
+	useEffect(() => {
+		socket.on("connect_error", (error) => {
+			console.log("Socket connection error:", error);
+		});
 
 		socket.on("requestsUpdate", (updatedRequests) => {
-			console.log(updatedRequests, "open requests");
+			console.log("Received updated requests:", updatedRequests.type);
 			switch (updatedRequests.type) {
 				case "TASK_COMMITTED":
 					commitTask(updatedRequests);
-					filterOpenRequests();
 			}
+
+			setSocketUpdate((prev) => !prev);
 		});
 
 		return () => {
 			socket.off("requestsUpdate");
 		};
-	}, [requests]);
+	}, []);
 
 	return (
 		<div>

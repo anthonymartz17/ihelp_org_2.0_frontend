@@ -113,7 +113,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 	};
 
 	return (
-		<div className="flex items-center justify-center text-dark">
+		<div className="flex items-center justify-center body-text text-dark">
 			<form className="w-[100%] p-[5px_20px]" onSubmit={handleSubmit}>
 				<div className="flex gap-4">
 					<div className="p-2 w-[50%] card-shadow">
@@ -224,7 +224,7 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 								/>
 								<input
 									type="number"
-									placeholder="point_earnings"
+									placeholder="point earnings"
 									value={taskInput.point_earnings}
 									onChange={(e) =>
 										setTaskInput({
@@ -243,21 +243,22 @@ export default function RequestForm({ initialData = {}, onSubmit }) {
 								</button>
 							</div>
 
-							<ul className="list-disc  space-y-2">
+							<ul className="list-disc  p-1 max-h-[200px] overflow-y-auto">
 								{formData.tasks.map((task, index) => (
 									<li
 										key={index}
-										className="flex justify-between items-center card-shadow"
+										className="flex gap-4 justify-between items-center card-shadow mb-1"
 									>
-										<span>
-											{task.task} - {task.point_earnings} Points
-										</span>
+										<div className="flex justify-between items-center w-full body-text">
+											<span>{task.task}</span>
+											<span>{task.point_earnings} Points</span>
+										</div>
 										<button
 											type="button"
-											className="text-red-500"
+											className="text-red-500 hover:text-red-400"
 											onClick={() => handleDeleteTask(index)}
 										>
-											Delete
+											<span class="material-symbols-outlined">delete</span>
 										</button>
 									</li>
 								))}

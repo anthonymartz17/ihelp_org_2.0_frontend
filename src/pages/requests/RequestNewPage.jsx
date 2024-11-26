@@ -50,7 +50,7 @@ export default function NewRequestPage() {
 
 	return (
 		<div>
-			<h1 className="ml-4 text-[18px] font-bold mb-4">New Request</h1>
+			<h1 className="subtitle-heading text-dark ml-4 mb-4">New Request</h1>
 			<RequestForm onSubmit={handleSubmit} />
 		</div>
 	);

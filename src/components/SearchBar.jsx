@@ -19,7 +19,7 @@ export default function SearchBar({ onSearch }) {
 					onChange={onSearch}
 					type="search"
 					id="search"
-					className="block w-full p-2 ps-10 body-text border border-greylight rounded-lg focus:ring-gray-300 focus:border-gray-500"
+					className="block w-full p-2 ps-10 body-text border border-greylight rounded-lg  focus:border-dark outline-none"
 					placeholder="Search..."
 					required
 				/>

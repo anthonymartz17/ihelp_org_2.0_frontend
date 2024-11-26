@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { fetchRequestDetail } from "../../services/requestServices";
 import { formatDate } from "../../utils/formatters";
+import TaskProgress from "../../components/TaskProgress";
 
 const requestStatusColor = {
 	1: "bg-blue-500",
@@ -65,7 +66,7 @@ export default function RequestDetailPage() {
 							<div className="flex flex-col gap-2 ">
 								<div className="flex justify-between  items-center bg-greylight bg-opacity-40 p-2 ">
 									<span className="flex items-center body-text opacity-60">
-										<span class="material-symbols-outlined">key</span>
+										<span className="material-symbols-outlined">key</span>
 										<span>ID</span>
 									</span>
 									<p className="body-text">{requestDetail.id}</p>
@@ -102,7 +103,7 @@ export default function RequestDetailPage() {
 							</div>
 							<div className="mt-4 px-2">
 								<span className="flex items-center body-text opacity-60 mb-1">
-									<span class="material-symbols-outlined">description</span>
+									<span className="material-symbols-outlined">description</span>
 									<span>Description</span>
 								</span>
 
@@ -110,6 +111,12 @@ export default function RequestDetailPage() {
 									id="description"
 									className="w-full body-text p-2 border border-greylight rounded-md"
 									value={requestDetail.description}
+									onChange={(e) =>
+										setRequestDetail({
+											...requestDetail,
+											description: e.target.value,
+										})
+									}
 									col="3"
 									rows="3"
 								></textarea>
@@ -156,6 +163,11 @@ export default function RequestDetailPage() {
 									>
 										{task.task_status_name}
 									</div>
+
+									{task.task_progress_id > 1 && (
+										<TaskProgress taskProgressId={task.task_progress_id} />
+									)}
+
 									{task.task_status_id !== 1 && (
 										<div className=" mb-3  pb-2 border-b">
 											<div className="flex gap-2">
