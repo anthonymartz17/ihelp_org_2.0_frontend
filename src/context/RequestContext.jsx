@@ -1,5 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchRequests } from "../services/requestServices";
+import {
+	fetchRequests,
+	createRequest,
+	updateRequest,
+} from "../services/requestServices";
 import { useAuth } from "./AuthContext";
 const RequestContext = createContext({});
 
@@ -46,6 +50,31 @@ export default function RequestContextProvider({ children }) {
 		);
 	}
 
+	async function createNewRequest(request, token) {
+		try {
+			const newRequest = await createRequest(request, token);
+			setRequests((prev) => [...prev, newRequest]);
+		} catch (err) {
+			throw new Error("Failed to create new request:", err);
+		}
+	}
+	async function updateRequestById(requestId, updatedRequest, token) {
+		try {
+			const updatedRequestData = await updateRequest(
+				requestId,
+				updatedRequest,
+				token
+			);
+			setRequests((prev) =>
+				prev.map((request) =>
+					request.id === requestId ? updatedRequestData : request
+				)
+			);
+		} catch (err) {
+			throw new Error("Failed to update request:", err);
+		}
+	}
+
 	const contextValue = {
 		requests,
 		loading,
@@ -53,6 +82,8 @@ export default function RequestContextProvider({ children }) {
 		setRequests,
 		getRequests,
 		commitTask,
+		createNewRequest,
+		updateRequestById,
 	};
 
 	return (
