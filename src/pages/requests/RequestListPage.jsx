@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import { useRequestsContext } from "../../context/RequestContext";
 import { Outlet, NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const tabs = [
 	{
@@ -22,10 +23,13 @@ const tabs = [
 	},
 ];
 export default function RequestsList() {
+	const { currentUser } = useAuth();
 	const { getRequests } = useRequestsContext();
 	useEffect(() => {
-		getRequests();
-	}, []);
+		if (currentUser?.accessToken) {
+			getRequests(currentUser.accessToken);
+		}
+	}, [currentUser?.accessToken]);
 
 	return (
 		<div className="flex flex-col gap-4  px-6">

@@ -4,19 +4,18 @@ import {
 	createRequest,
 	updateRequest,
 } from "../services/requestServices";
-import { useAuth } from "./AuthContext";
+
 const RequestContext = createContext({});
 
 export default function RequestContextProvider({ children }) {
-	const { currentUser } = useAuth();
 	const [requests, setRequests] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
-	async function getRequests() {
+	async function getRequests(token) {
 		setLoading(true);
 		try {
-			const data = await fetchRequests(currentUser.accessToken);
+			const data = await fetchRequests(token);
 			setRequests(data);
 		} catch (err) {
 			setError(err);
