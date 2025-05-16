@@ -29,3 +29,7 @@ export function formatMilitaryToStandardTime(militaryTime) {
 
 	return `${hour12}:${minutes} ${period}`;
 }
+
+export function extractDate(dateString) {
+	return new Date(dateString).toISOString().split("T")[0];
+}

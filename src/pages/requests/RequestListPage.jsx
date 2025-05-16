@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 
-import { useRequestsContext } from "../../context/RequestContextProvider";
+import { useRequestsContext } from "../../context/RequestContext";
 import { Outlet, NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const tabs = [
 	{
@@ -22,11 +23,17 @@ const tabs = [
 	},
 ];
 export default function RequestsList() {
-	useRequestsContext();
+	const { currentUser } = useAuth();
+	const { getRequests } = useRequestsContext();
+	useEffect(() => {
+		if (currentUser?.accessToken) {
+			getRequests(currentUser.accessToken);
+		}
+	}, [currentUser?.accessToken]);
 
 	return (
-		<div className="flex flex-col gap-4 pt-[2em] px-6">
-			<h1 className="roboto-bold text-xl text-dark">Requests</h1>
+		<div className="flex flex-col gap-4  px-6">
+			<h1 className="subtitle-heading  text-dark">Requests</h1>
 
 			<div>
 				<ul className="flex flex-wrap mb-6  lable-text text-center text-dark border-b">
@@ -36,9 +43,9 @@ export default function RequestsList() {
 								to={tab.link}
 								end
 								className={({ isActive }) =>
-									`inline-block p-4 rounded-t-lg hover:text-gray-600 border-t border-l border-r ${
+									`inline-block p-4 rounded-t-lg hover:text-gray-600 border-t border-l border-r body-text ${
 										isActive
-											? "text-dark label-text border-dark border-opacity-25 "
+											? "text-dark body-text-bold border-dark border-opacity-25 "
 											: "border-transparent hover:border-dark hover:border-opacity-25"
 									}`
 								}

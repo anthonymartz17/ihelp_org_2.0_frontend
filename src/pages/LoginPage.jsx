@@ -1,107 +1,91 @@
 import React, { useState } from "react";
-import { auth } from "../../firebaseConfig";
 import { useNavigate } from "react-router-dom";
-import {
-	sendPasswordResetEmail,
-	signInWithEmailAndPassword,
-} from "firebase/auth";
-
+import { useAuth } from "../context/AuthContext";
 import logo from "../../src/assets/logo/white_bg_ihelp_logo.png";
 
 export default function LoginPage() {
-	const [forgotPassword, setForgotPassword] = useState(false);
+	const navigate = useNavigate();
+	const { login, loading, error } = useAuth();
+
 	const [email, setEmail] = useState("admin@dev.com");
 	const [password, setPassword] = useState("qwerty12345");
-	const [error, setError] = useState("");
-	const navigate = useNavigate();
 
-	const handleForgotPass = () => setForgotPassword(true);
-
-	const handleSubmit = async (e) => {
+	async function handleSubmit(e) {
 		e.preventDefault();
-		setError("");
-
-		if (forgotPassword) {
-			try {
-				await sendPasswordResetEmail(auth, email);
-				alert("Password reset email sent!");
-			} catch (err) {
-				setError("Failed to send password reset email. Please try again.");
-			}
-		} else {
-			try {
-				const userCredential = await signInWithEmailAndPassword(
-					auth,
-					email,
-					password
-				);
-				const user = userCredential.user;
-				const token = await user.getIdToken();
-
-				localStorage.setItem("token", token);
-
-				navigate("/dashboard");
-			} catch (err) {
-				setError("Login failed. Please check your credentials.");
-			}
+		try {
+			await login(email, password);
+			navigate("/dashboard");
+		} catch (err) {
+			console.log(err);
 		}
-	};
+	}
 
 	return (
 		<div className="grid lg:grid-cols-[40%_60%] grid-cols-[100%] h-screen roboto-bold">
-			<div className="text-dark ">
-				{/* <h2 className="w-max py-[10px] px-[40px] text-[30px]">iHelp</h2> */}
-				<div className=" px-[20%]">
+			<div className="text-dark px-[10%] lg:px-[20%]">
+				<div className="flex justify-center md:justify-start">
 					<img src={logo} alt="ihelp logo" className="w-[120px]" />
 				</div>
-				<div className="flex flex-col items-center justify-center lg:mt-[15%] mt-[35%]">
-					<h1 className="title-heading mb-[6%]">
-						{forgotPassword ? "Forgot Password" : "Sign in"}
-					</h1>
-					{error && <p className="text-red-500">{error}</p>}
+				<div className=" h-[80%] py-[15%]">
+					<h1 className="subtitle-heading mb-10 text-center">Sign In</h1>
+
 					<form
-						className="flex flex-col lg:w-[55%] w-[85%] relative z-10"
+						className="flex flex-col relative z-10 mb-4 "
 						onSubmit={handleSubmit}
 					>
-						<label htmlFor="email" className="flex flex-col gap-1 mb-[5%]">
-							Email:
+						<div className="flex flex-col gap-1 mb-[5%]">
+							<label htmlFor="email" className="body-text-bold">
+								Email:
+							</label>
 							<input
 								required
 								type="email"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
-								className="py-[5px] border-[1px] px-2 border-dark roboto-light rounded-[5px]"
+								className="py-[5px] border px-2 border-greylight body-text rounded-[5px]"
 							/>
-						</label>
-						{!forgotPassword && (
-							<label
-								htmlFor="password"
-								className="flex flex-col gap-1 mb-[12%]"
-							>
-								Password:
-								<input
-									required
-									type="password"
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
-									className="py-[5px] px-2 border-[1px] border-dark roboto-light rounded-[5px]"
-								/>
-							</label>
-						)}
-						<input
-							type="submit"
-							value={forgotPassword ? "Send Request" : "Login"}
-							className="py-[5px] text-white bg-secondary rounded-[5px] cursor-pointer text-[16px] roboto-regular mb-[5%]"
-						/>
+						</div>
+						<div className="flex flex-col gap-1 mb-[12%] body-text-bold">
+							<label htmlFor="password">Password:</label>
+							<input
+								required
+								type="password"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								className="py-[5px] px-2 border border-greylight roboto-light rounded-[5px]"
+							/>
+						</div>
+						<button className="text-white body-text-bold bg-secondary btn ">
+							{loading ? (
+								<svg
+									className="animate-spin h-5 w-5"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+								>
+									<circle
+										className="opacity-25"
+										cx="12"
+										cy="12"
+										r="10"
+										stroke="currentColor"
+										strokeWidth="4"
+									></circle>
+									<path
+										className="opacity-75"
+										fill="currentColor"
+										d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+									></path>
+								</svg>
+							) : (
+								<span>Login</span>
+							)}
+						</button>
 					</form>
-					{!forgotPassword && (
-						<p
-							className="roboto-regular cursor-pointer"
-							onClick={handleForgotPass}
-						>
-							Forgot password
-						</p>
-					)}
+
+					<p className="body-text cursor-pointer text-center">
+						Forgot password
+					</p>
 				</div>
 			</div>
 			<div className="bg-primaryLighter text-white relative lg:block hidden">

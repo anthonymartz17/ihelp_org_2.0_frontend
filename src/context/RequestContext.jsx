@@ -1,15 +1,18 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchRequests } from "../services/requestServices";
+import {
+	fetchRequests,
+	createRequest,
+	updateRequest,
+} from "../services/requestServices";
 
 const RequestContext = createContext({});
 
-export function RequestContextProvider({ children }) {
+export default function RequestContextProvider({ children }) {
 	const [requests, setRequests] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
-	async function getRequests() {
-		const token = localStorage.getItem("token");
+	async function getRequests(token) {
 		setLoading(true);
 		try {
 			const data = await fetchRequests(token);
@@ -22,6 +25,7 @@ export function RequestContextProvider({ children }) {
 	}
 
 	function commitTask(request) {
+		console.log(request, "request to update task");
 		setRequests((prev) =>
 			prev.map((req) => {
 				if (req.id === request.requestId) {
@@ -30,7 +34,7 @@ export function RequestContextProvider({ children }) {
 						assigned_tasks: req.assigned_tasks + 1,
 					};
 					console.log(prev);
-					console.log(updatedRequest,'updated');
+					console.log(updatedRequest, "updated");
 
 					if (updatedRequest.assigned_tasks === updatedRequest.total_tasks) {
 						const assignedStatusId = 2;
@@ -43,11 +47,32 @@ export function RequestContextProvider({ children }) {
 				}
 			})
 		);
-		console.log(requests)
 	}
-	useEffect(() => {
-		getRequests();
-	}, []);
+
+	async function createNewRequest(request, token) {
+		try {
+			const newRequest = await createRequest(request, token);
+			setRequests((prev) => [...prev, newRequest]);
+		} catch (err) {
+			throw new Error("Failed to create new request:", err);
+		}
+	}
+	async function updateRequestById(requestId, updatedRequest, token) {
+		try {
+			const updatedRequestData = await updateRequest(
+				requestId,
+				updatedRequest,
+				token
+			);
+			setRequests((prev) =>
+				prev.map((request) =>
+					request.id === requestId ? updatedRequestData : request
+				)
+			);
+		} catch (err) {
+			throw new Error("Failed to update request:", err);
+		}
+	}
 
 	const contextValue = {
 		requests,
@@ -56,6 +81,8 @@ export function RequestContextProvider({ children }) {
 		setRequests,
 		getRequests,
 		commitTask,
+		createNewRequest,
+		updateRequestById,
 	};
 
 	return (

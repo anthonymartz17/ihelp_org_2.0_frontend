@@ -1,119 +1,213 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { fetchRequestDetail } from "../../services/requestServices";
+import { formatDate } from "../../utils/formatters";
+import TaskProgress from "../../components/TaskProgress";
 
+const requestStatusColor = {
+	1: "bg-blue-500",
+	2: "bg-yellow-500",
+	3: "bg-orange-500",
+	4: "bg-green-500",
+};
 export default function RequestDetailPage() {
-  const { id } = useParams();
-  const [requestDetail, setRequestDetail] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+	const { currentUser } = useAuth();
+	const { id } = useParams();
+	const [requestDetail, setRequestDetail] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 
-  const formatTel = (tel) =>
-    `(${tel.slice(0, 3)}) ${tel.slice(3, 6)} - ${tel.slice(6)}`;
+	const formatTel = (tel) =>
+		`(${tel.slice(0, 3)}) ${tel.slice(3, 6)} - ${tel.slice(6)}`;
 
-  useEffect(() => {
-    const fetchRequestDetail = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/requests/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Error fetching request details");
-        }
-        const data = await response.json();
-        setRequestDetail(data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+	useEffect(() => {
+		async function loadRequestDetails(id, token) {
+			try {
+				setLoading(true);
+				const requestData = await fetchRequestDetail(id, token);
+				setRequestDetail(requestData);
+			} catch (error) {
+				setError(error.message);
+			} finally {
+				setLoading(false);
+			}
+		}
 
-    fetchRequestDetail();
-  }, [id]);
+		loadRequestDetails(id, currentUser.accessToken);
+	}, [id]);
 
-  if (loading) {
-    return <p>Loading request details...</p>;
-  }
+	if (loading) {
+		return <p>Loading request details...</p>;
+	}
 
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
+	if (error) {
+		return <p>Error: {error}</p>;
+	}
 
-  return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-semibold mb-4">Request Details</h1>
-      {requestDetail ? (
-        <div className="border rounded-lg shadow p-4">
-          <h2 className="text-2xl font-bold mb-2">
-            Request ID: {requestDetail.id}
-          </h2>
-          <p>
-            <strong>Description:</strong> {requestDetail.description}
-          </p>
-          <p>
-            <strong>Status:</strong> {requestDetail.status_name}
-          </p>
-          <p>
-            <strong>Hours needed:</strong> {requestDetail.hours_needed}
-          </p>
-          <p>
-            <strong>Created At:</strong>{" "}
-            {new Date(requestDetail.created_at).toLocaleString()}
-          </p>
-          <p>
-            <strong>Updated At:</strong>{" "}
-            {new Date(requestDetail.updated_at).toLocaleString()}
-          </p>
-          <div className="mt-4">
-            <h3 className="text-xl font-bold">Requester Information</h3>
-            <p>
-              <strong>Name:</strong> {requestDetail.requester_first_name}{" "}
-              {requestDetail.requester_last_name}
-            </p>
-            <p>
-              <strong>Phone:</strong> {formatTel(requestDetail.requester_phone)}
-            </p>
-          </div>
+	return (
+		<div className="px-6 text-dark">
+			<div className="flex justify-between mb-6">
+				<h1 className="subtitle-heading  text-dark mb-3">Request Detail</h1>
+				<Link
+					to="/dashboard/requests"
+					className="flex gap-2 items-center text-secondary"
+				>
+					<span className="material-symbols-outlined">arrow_back</span>Back
+				</Link>
+			</div>
+			{requestDetail ? (
+				<div className="">
+					<div className="md:grid grid-cols-3 gap-2 mb-6">
+						<div className="card-shadow relative flex-1">
+							<div className="flex justify-between mb-3  pb-2 border-b">
+								<p className="body-text-bold ">Request</p>
+							</div>
+							<div className="flex flex-col gap-2 ">
+								<div className="flex justify-between  items-center bg-greylight bg-opacity-40 p-2 ">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined">key</span>
+										<span>ID</span>
+									</span>
+									<p className="body-text">{requestDetail.id}</p>
+								</div>
 
-          <div className="mt-4">
-            <h3 className="text-xl font-bold">Tasks Information</h3>
-            <div className="block overflow-y-auto h-[200px]">
-              {requestDetail.tasks.length > 0 ? (
-                requestDetail.tasks.map((task) => (
-                  <div key={task.id} className="border p-2 my-2">
-                    <p>
-                      <strong>Task ID:</strong> {task.id}
-                    </p>
-                    <p>
-                      <strong>Description:</strong> {task.description}
-                    </p>
-                    <p>
-                      <strong>Due Date:</strong>{" "}
-                      {new Date(task.due_date).toLocaleString()}
-                    </p>
-                    <p>
-                      <strong>Points Earned:</strong> {task.points_earned}
-                    </p>
-                    <h4 className="font-bold mt-2">Assigned Volunteer:</h4>
-                    {task.volunteer_name
-                      ? `${task.volunteer_name} (${task.volunteer_email})`
-                      : "Unassigned"}
-                  </div>
-                ))
-              ) : (
-                <p>No tasks assigned</p>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : (
-        <p>No request details available</p>
-      )}
-    </div>
-  );
+								<div className="flex justify-between  items-center px-2">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined">schedule</span>
+										<span>Hours</span>
+									</span>
+									<p className="body-text">{requestDetail.hours_needed} Hrs</p>
+								</div>
+
+								<div className="flex justify-between items-center  bg-greylight bg-opacity-40 p-2 ">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined">
+											calendar_month
+										</span>
+										<span>Created</span>
+									</span>
+									<p className="body-text">
+										{formatDate(requestDetail.created_at)}
+									</p>
+								</div>
+								<div className="flex justify-between items-center px-2">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined">event</span>
+										<span>Due</span>
+									</span>
+									<p className="body-text">
+										{formatDate(requestDetail.updated_at)}
+									</p>
+								</div>
+							</div>
+							<div className="mt-4 px-2">
+								<span className="flex items-center body-text opacity-60 mb-1">
+									<span className="material-symbols-outlined">description</span>
+									<span>Description</span>
+								</span>
+
+								<textarea
+									id="description"
+									className="w-full body-text p-2 border border-greylight rounded-md"
+									value={requestDetail.description}
+									onChange={(e) =>
+										setRequestDetail({
+											...requestDetail,
+											description: e.target.value,
+										})
+									}
+									col="3"
+									rows="3"
+								></textarea>
+							</div>
+						</div>
+						<div className="card-shadow relative flex-1">
+							<div className="flex justify-between mb-3  pb-2 border-b">
+								<p className="body-text-bold ">Requester</p>
+							</div>
+							<div className="flex flex-col gap-2">
+								<div className="flex justify-between  items-center  bg-greylight bg-opacity-40 p-2 ">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined ">person</span>
+										<span>Requester</span>
+									</span>
+									<p className="body-text">
+										{requestDetail.requester_first_name}{" "}
+										{requestDetail.requester_last_name}
+									</p>
+								</div>
+								<div className="flex justify-between items-center px-2">
+									<span className="flex items-center body-text opacity-60">
+										<span className="material-symbols-outlined">call</span>
+										<span>Phone</span>
+									</span>
+									<p className="body-text">
+										{formatTel(requestDetail.requester_phone)}
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div className="flex-1">
+						<h3 className="subtitle-heading mb-3">Tasks </h3>
+
+						<ul className="grid md:grid-cols-2 gap-2">
+							{requestDetail.tasks.map((task) => (
+								<li key={task.id} className="card-shadow relative flex-1 ">
+									<div
+										className={`${
+											requestStatusColor[task.task_status_id]
+										} text-light body-text-bold px-4 rounded-b-md absolute top-0 right-4`}
+									>
+										{task.task_status_name}
+									</div>
+
+									{task.task_progress_id > 1 && (
+										<TaskProgress taskProgressId={task.task_progress_id} />
+									)}
+
+									{task.task_status_id !== 1 && (
+										<div className=" mb-3  pb-2 border-b">
+											<div className="flex gap-2">
+												<img
+													src={task.volunteer_avatar}
+													alt=""
+													className="w-8"
+												/>
+												<div>
+													<p className="body-text-bold">
+														{task.volunteer_name}
+													</p>
+													<p className="body-text">{task.volunteer_email}</p>
+												</div>
+											</div>
+										</div>
+									)}
+
+									<div className="body-text-bold flex justify-between mb-3  py-2 ">
+										<div>
+											Id: <span className="body-text">{task.id}</span>
+										</div>
+										<div className="flex gap-2">
+											<span className="body-text-bold">Points:</span>
+											<p className="body-text">{task.points_earned} Pts</p>
+										</div>
+									</div>
+
+									<div className="flex gap-2">
+										<span className="body-text-bold">Task:</span>
+										<p className="body-text">{task.description}</p>
+									</div>
+								</li>
+							))}
+						</ul>
+					</div>
+				</div>
+			) : (
+				<p>No requests Found</p>
+			)}
+		</div>
+	);
 }
