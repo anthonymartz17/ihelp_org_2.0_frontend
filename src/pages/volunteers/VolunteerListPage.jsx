@@ -1,42 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../components/ConfirmationModal";
-
+import { useAuth } from "../../context/AuthContext";
 export default function VolunteerListPage() {
+	const { currentUser } = useAuth();
+	const { getRequests } = useRequestsContext();
 	const navigate = useNavigate();
 	const [volunteers, setVolunteers] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [itemToDelete, setItemToDelete] = useState(null);
 
 	useEffect(() => {
-		const fetchVolunteers = async () => {
-			try {
-				const token = localStorage.getItem("token");
-				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/volunteers`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					}
-				);
-
-				if (!response.ok) {
-					const errorData = await response.json();
-					throw new Error(
-						`Failed to fetch volunteers: ${response.status} ${errorData.message}`
-					);
-				}
-
-				const data = await response.json();
-				setVolunteers(data);
-			} catch (error) {
-				console.error("Error fetching volunteers:", error.message);
-			}
-		};
-
-		fetchVolunteers();
-	}, []);
+		if (currentUser?.accessToken) {
+			getRequests(currentUser.accessToken);
+		}
+	}, [currentUser?.accessToken]);
 
 	const confirmDelete = async () => {
 		try {
@@ -97,7 +75,7 @@ export default function VolunteerListPage() {
 						</button>
 					</div>
 				</div>
-        <div className="relative overflow-y-auto max-h-[70vh] shadow-md sm:rounded-lg mt-4">
+				<div className="relative overflow-y-auto max-h-[70vh] shadow-md sm:rounded-lg mt-4">
 					<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray">
 						<thead className="text-gray-700 bg-gray-50  dark:bg-dark dark:text-gray-400 sticky top-0">
 							<tr className="text-white">

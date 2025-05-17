@@ -55,11 +55,8 @@ export default function RequestForm() {
 		const { name, value } = e.target;
 		setTask((prev) => ({ ...prev, [name]: value }));
 	}
-	function test() {
-		console.log("formData");
-	}
+
 	async function handleSubmit(e) {
-		console.log(e);
 		e.preventDefault();
 		try {
 			if (id) {
@@ -275,10 +272,7 @@ export default function RequestForm() {
 					</div>
 
 					<div className="flex justify-end w-[100%] mt-[1.5%]">
-						<button
-							onClick={() => test()}
-							className="bg-secondary text-white rounded-lg p-[5px_20px]"
-						>
+						<button className="bg-secondary text-white rounded-lg p-[5px_20px]">
 							Submit
 						</button>
 					</div>

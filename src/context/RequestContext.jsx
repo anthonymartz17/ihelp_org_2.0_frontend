@@ -25,7 +25,6 @@ export default function RequestContextProvider({ children }) {
 	}
 
 	function commitTask(request) {
-		console.log(request, "request to update task");
 		setRequests((prev) =>
 			prev.map((req) => {
 				if (req.id === request.requestId) {
@@ -33,8 +32,6 @@ export default function RequestContextProvider({ children }) {
 						...req,
 						assigned_tasks: req.assigned_tasks + 1,
 					};
-					console.log(prev);
-					console.log(updatedRequest, "updated");
 
 					if (updatedRequest.assigned_tasks === updatedRequest.total_tasks) {
 						const assignedStatusId = 2;

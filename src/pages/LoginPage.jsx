@@ -7,8 +7,8 @@ export default function LoginPage() {
 	const navigate = useNavigate();
 	const { login, loading, error } = useAuth();
 
-	const [email, setEmail] = useState("admin@dev.com");
-	const [password, setPassword] = useState("qwerty12345");
+	const [email, setEmail] = useState("antonio.fr.martinezc@hotmail.com");
+	const [password, setPassword] = useState("@Bc12345");
 
 	async function handleSubmit(e) {
 		e.preventDefault();

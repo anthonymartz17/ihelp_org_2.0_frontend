@@ -1,64 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConformationModal from "../../components/ConfirmationModal";
-
+import { useRequestersContext } from "../../context/RequesterContext";
 export default function RequesterListPage() {
 	const navigate = useNavigate();
-	const [requesters, setRequesters] = useState([]);
+	const { requesters, isLoading, error } = useRequestersContext();
 	const [showModal, setShowModal] = useState(false);
-	const [itemToDelete, setItemToDelete] = useState(null);
+	// const [itemToDelete, setItemToDelete] = useState(null);
 
-	useEffect(() => {
-		const fetchRequesters = async () => {
-			try {
-				const token = localStorage.getItem("token");
-				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/requesters`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					}
-				);
-
-				if (!response.ok) {
-					const errorData = await response.json();
-					throw new Error(
-						`Failed to fetch requesters: ${response.status} ${errorData.message}`
-					);
-				}
-
-				const data = await response.json();
-				setRequesters(data);
-			} catch (error) {
-				console.error("Error fetching requesters:", error.message);
-			}
-		};
-
-		fetchRequesters();
-	}, []);
-
-	const confirmDelete = async () => {
-		try {
-			await fetch(
-				`${import.meta.env.VITE_API_URL}/requesters/${itemToDelete}`,
-				{
-					method: "DELETE",
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem("token")}`,
-					},
-				}
-			);
-			setRequesters(
-				requesters.filter((requester) => requester.id !== itemToDelete)
-			);
-		} catch (error) {
-			console.error("Failed to delete requester:", error);
-		} finally {
-			setShowModal(false);
-			setItemToDelete(null);
-		}
-	};
+	// const confirmDelete = async () => {
+	// 	try {
+	// 		await fetch(
+	// 			`${import.meta.env.VITE_API_URL}/requesters/${itemToDelete}`,
+	// 			{
+	// 				method: "DELETE",
+	// 				headers: {
+	// 					Authorization: `Bearer ${localStorage.getItem("token")}`,
+	// 				},
+	// 			}
+	// 		);
+	// 		setRequesters(
+	// 			requesters.filter((requester) => requester.id !== itemToDelete)
+	// 		);
+	// 	} catch (error) {
+	// 		console.error("Failed to delete requester:", error);
+	// 	} finally {
+	// 		setShowModal(false);
+	// 		setItemToDelete(null);
+	// 	}
+	// };
 
 	return (
 		<div className="flex flex-col gap-4 py-[2em] px-6">
@@ -123,46 +93,67 @@ export default function RequesterListPage() {
 								</th>
 							</tr>
 						</thead>
+
 						<tbody>
-							{requesters.map((requester) => (
-								<tr
-									key={requester.id}
-									className="odd:dark:bg-transparent even:bg-purpleLighter even:dark:bg-purpleLightest border-b dark:border-gray-200"
-								>
-									<td className="px-6 py-4">{requester.id}</td>
-									<td className="px-6 py-4">
-										{requester.first_name} {requester.last_name}
-									</td>
-									<td className="px-6 py-4">{requester.phone}</td>
-									<td className="px-6 py-4">
-										{new Date(requester.created_at).toLocaleString()}
-									</td>
-									<td className="px-6 py-4">
-										{requester.is_active ? "Active" : "Inactive"}
-									</td>
-									<td className="px-6 py-4 flex gap-4">
-										<Link to={`/dashboard/requesters/${requester.id}`}>
-											<span className="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">
-												visibility
-											</span>
-										</Link>
-										<Link to={`/dashboard/requesters/${requester.id}/edit`}>
-											<span className="material-symbols-outlined cursor-pointer hover:text-yellow-600 ">
-												edit
-											</span>
-										</Link>
-										<span
-											onClick={() => {
-												setShowModal(true);
-												setItemToDelete(requester.id);
-											}}
-											className="material-symbols-outlined cursor-pointer hover:text-red-500 "
-										>
-											delete
-										</span>
+							{isLoading ? (
+								<tr>
+									<td colSpan="6" className="text-center py-4">
+										Loading...
 									</td>
 								</tr>
-							))}
+							) : error ? (
+								<tr>
+									<td colSpan="6" className="text-center text-red-500 py-4">
+										{error.message}
+									</td>
+								</tr>
+							) : requesters.length === 0 ? (
+								<tr>
+									<td colSpan="6" className="text-center py-4">
+										No requesters found.
+									</td>
+								</tr>
+							) : (
+								requesters.map((requester) => (
+									<tr
+										key={requester.id}
+										className="odd:dark:bg-transparent even:bg-purpleLighter even:dark:bg-purpleLightest border-b dark:border-gray-200"
+									>
+										<td className="px-6 py-4">{requester.id}</td>
+										<td className="px-6 py-4">
+											{requester.first_name} {requester.last_name}
+										</td>
+										<td className="px-6 py-4">{requester.phone}</td>
+										<td className="px-6 py-4">
+											{new Date(requester.created_at).toLocaleString()}
+										</td>
+										<td className="px-6 py-4">
+											{requester.is_active ? "Active" : "Inactive"}
+										</td>
+										<td className="px-6 py-4 flex gap-4">
+											<Link to={`/dashboard/requesters/${requester.id}`}>
+												<span className="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">
+													visibility
+												</span>
+											</Link>
+											<Link to={`/dashboard/requesters/${requester.id}/edit`}>
+												<span className="material-symbols-outlined cursor-pointer hover:text-yellow-600 ">
+													edit
+												</span>
+											</Link>
+											<span
+												onClick={() => {
+													setShowModal(true);
+													// setItemToDelete(requester.id);
+												}}
+												className="material-symbols-outlined cursor-pointer hover:text-red-500 "
+											>
+												delete
+											</span>
+										</td>
+									</tr>
+								))
+							)}
 						</tbody>
 					</table>
 				</div>
@@ -170,7 +161,6 @@ export default function RequesterListPage() {
 					<ConformationModal
 						message={"Are you sure you want to delete this request?"}
 						onCancel={() => setShowModal(false)}
-						onConfirm={confirmDelete}
 					/>
 				)}
 			</div>
