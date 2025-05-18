@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { fetchRequestDetail } from "../../services/requestServices";
+import { fetchRequestDetail } from "../../services/requestService";
 import { formatDate } from "../../utils/formatters";
 import TaskProgress from "../../components/TaskProgress";
 

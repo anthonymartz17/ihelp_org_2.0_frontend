@@ -1,28 +1,29 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
-import { fetchRequesters } from "../services/requesterService";
+import { fetchVolunteer } from "../services/volunteerService";
 import { useAuth } from "./AuthContext";
-const RequesterContext = createContext({
-	requesters: [],
+
+const VolunteerContext = createContext({
+	volunteers: [],
 	isLoading: false,
 	error: null,
 });
 
-export default function RequesterContextProvider({ children }) {
+export default function VolunteerContextProvider({ children }) {
 	const { currentUser } = useAuth();
-	const [requesters, setRequesters] = useState([]);
+	const [volunteers, setVolunteers] = useState([]);
 	const [isLoading, setIsloading] = useState(false);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		if (!currentUser?.accessToken) return;
 
-		async function getRequesters(token) {
+		async function getVolunteers(token) {
 			setIsloading(true);
 
 			try {
-				const data = await fetchRequesters(token);
-				setRequesters(data);
+				const data = await fetchVolunteer(token);
+				setVolunteers(data);
 				setError(null);
 			} catch (err) {
 				setError(err);
@@ -31,22 +32,22 @@ export default function RequesterContextProvider({ children }) {
 			}
 		}
 
-		getRequesters(currentUser.accessToken);
+		getVolunteers(currentUser.accessToken);
 	}, [currentUser?.accessToken]);
 
 	const contextValue = {
-		requesters,
+		volunteers,
 		isLoading,
 		error,
 	};
 
 	return (
-		<RequesterContext.Provider value={contextValue}>
+		<VolunteerContext.Provider value={contextValue}>
 			{children}
-		</RequesterContext.Provider>
+		</VolunteerContext.Provider>
 	);
 }
 
-export function useRequestersContext() {
-	return useContext(RequesterContext);
+export function useVolunteerContext() {
+	return useContext(VolunteerContext);
 }
