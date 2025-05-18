@@ -1,34 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConformationModal from "../../components/ConfirmationModal";
 import { useRequestersContext } from "../../context/RequesterContext";
+import { useAuth } from "../../context/AuthContext";
 export default function RequesterListPage() {
 	const navigate = useNavigate();
-	const { requesters, isLoading, error } = useRequestersContext();
-	const [showModal, setShowModal] = useState(false);
-	// const [itemToDelete, setItemToDelete] = useState(null);
 
-	// const confirmDelete = async () => {
-	// 	try {
-	// 		await fetch(
-	// 			`${import.meta.env.VITE_API_URL}/requesters/${itemToDelete}`,
-	// 			{
-	// 				method: "DELETE",
-	// 				headers: {
-	// 					Authorization: `Bearer ${localStorage.getItem("token")}`,
-	// 				},
-	// 			}
-	// 		);
-	// 		setRequesters(
-	// 			requesters.filter((requester) => requester.id !== itemToDelete)
-	// 		);
-	// 	} catch (error) {
-	// 		console.error("Failed to delete requester:", error);
-	// 	} finally {
-	// 		setShowModal(false);
-	// 		setItemToDelete(null);
-	// 	}
-	// };
+	const { currentUser } = useAuth();
+	const { getRequesters, requesters, isLoading, error } =
+		useRequestersContext();
+
+	const [showModal, setShowModal] = useState(false);
+
+	useEffect(() => {
+		if (!currentUser?.accessToken) return;
+
+		getRequesters(currentUser.accessToken);
+	}, [currentUser?.accessToken]);
 
 	return (
 		<div className="flex flex-col gap-4 py-[2em] px-6">

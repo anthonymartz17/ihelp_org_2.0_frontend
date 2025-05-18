@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { fetchCategories } from "../../services/requestServices";
+import { fetchCategories } from "../../services/requestService";
 import { extractDate } from "../../utils/formatters";
 import {
 	fetchRequesters,
 	fetchRequestDetail,
-} from "../../services/requestServices";
+} from "../../services/requestService";
 import { useAuth } from "../../context/AuthContext";
 import { useRequestsContext } from "../../context/RequestContext";
 import { useParams, useNavigate } from "react-router-dom";

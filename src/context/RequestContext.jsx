@@ -3,7 +3,7 @@ import {
 	fetchRequests,
 	createRequest,
 	updateRequest,
-} from "../services/requestServices";
+} from "../services/requestService";
 
 const RequestContext = createContext({});
 
