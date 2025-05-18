@@ -1,7 +1,6 @@
 const IHELP_API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function fetchRequests(token) {
-	console.log(token, "tokena en fetchRequests");
 	try {
 		const response = await fetch(`${IHELP_API_BASE_URL}/requests`, {
 			headers: {
