@@ -2,7 +2,11 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 import { fetchRequesters } from "../services/requesterServices";
 import { useAuth } from "./AuthContext";
-const RequesterContext = createContext({});
+const RequesterContext = createContext({
+	requesters: [],
+	isLoading: false,
+	error: null,
+});
 
 export default function RequesterContextProvider({ children }) {
 	const { currentUser } = useAuth();
@@ -11,22 +15,24 @@ export default function RequesterContextProvider({ children }) {
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
+		if (!currentUser?.accessToken) return;
+
 		async function getRequesters(token) {
 			setIsloading(true);
 
 			try {
 				const data = await fetchRequesters(token);
 				setRequesters(data);
+				setError(null);
 			} catch (err) {
 				setError(err);
 			} finally {
 				setIsloading(false);
-				setError(null);
 			}
 		}
 
 		getRequesters(currentUser.accessToken);
-	}, [currentUser.accessToken]);
+	}, [currentUser?.accessToken]);
 
 	const contextValue = {
 		requesters,
