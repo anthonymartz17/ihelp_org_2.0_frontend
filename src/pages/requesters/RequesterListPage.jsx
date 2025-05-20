@@ -6,29 +6,6 @@ export default function RequesterListPage() {
 	const navigate = useNavigate();
 	const { requesters, isLoading, error } = useRequestersContext();
 	const [showModal, setShowModal] = useState(false);
-	// const [itemToDelete, setItemToDelete] = useState(null);
-
-	// const confirmDelete = async () => {
-	// 	try {
-	// 		await fetch(
-	// 			`${import.meta.env.VITE_API_URL}/requesters/${itemToDelete}`,
-	// 			{
-	// 				method: "DELETE",
-	// 				headers: {
-	// 					Authorization: `Bearer ${localStorage.getItem("token")}`,
-	// 				},
-	// 			}
-	// 		);
-	// 		setRequesters(
-	// 			requesters.filter((requester) => requester.id !== itemToDelete)
-	// 		);
-	// 	} catch (error) {
-	// 		console.error("Failed to delete requester:", error);
-	// 	} finally {
-	// 		setShowModal(false);
-	// 		setItemToDelete(null);
-	// 	}
-	// };
 
 	return (
 		<div className="flex flex-col gap-4 py-[2em] px-6">
