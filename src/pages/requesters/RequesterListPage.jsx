@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConformationModal from "../../components/ConfirmationModal";
 import { useRequestersContext } from "../../context/RequesterContext";
+import { useAuth } from "../../context/AuthContext";
 export default function RequesterListPage() {
 	const navigate = useNavigate();
-	const { requesters, isLoading, error } = useRequestersContext();
+
+	const { currentUser } = useAuth();
+	const { getRequesters, requesters, isLoading, error } =
+		useRequestersContext();
+
 	const [showModal, setShowModal] = useState(false);
+
+	useEffect(() => {
+		if (!currentUser?.accessToken) return;
+
+		getRequesters(currentUser.accessToken);
+	}, [currentUser?.accessToken]);
 
 	return (
 		<div className="flex flex-col gap-4 py-[2em] px-6">

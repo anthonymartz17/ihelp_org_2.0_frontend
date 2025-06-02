@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
 import { fetchVolunteer } from "../services/volunteerService";
-import { useAuth } from "./AuthContext";
 
 const VolunteerContext = createContext({
 	volunteers: [],
@@ -10,32 +9,26 @@ const VolunteerContext = createContext({
 });
 
 export default function VolunteerContextProvider({ children }) {
-	const { currentUser } = useAuth();
 	const [volunteers, setVolunteers] = useState([]);
 	const [isLoading, setIsloading] = useState(false);
 	const [error, setError] = useState(null);
 
-	useEffect(() => {
-		if (!currentUser?.accessToken) return;
+	async function getVolunteers(token) {
+		setIsloading(true);
 
-		async function getVolunteers(token) {
-			setIsloading(true);
-
-			try {
-				const data = await fetchVolunteer(token);
-				setVolunteers(data);
-				setError(null);
-			} catch (err) {
-				setError(err);
-			} finally {
-				setIsloading(false);
-			}
+		try {
+			const data = await fetchVolunteer(token);
+			setVolunteers(data);
+			setError(null);
+		} catch (err) {
+			setError(err);
+		} finally {
+			setIsloading(false);
 		}
-
-		getVolunteers(currentUser.accessToken);
-	}, [currentUser?.accessToken]);
+	}
 
 	const contextValue = {
+		getVolunteers,
 		volunteers,
 		isLoading,
 		error,

@@ -3,12 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../components/ConfirmationModal";
 import { useAuth } from "../../context/AuthContext";
 import { useVolunteerContext } from "../../context/VolunteerContext";
+
 export default function VolunteerListPage() {
 	const { currentUser } = useAuth();
-	const { volunteers, isLoading, error } = useVolunteerContext();
+	const { getVolunteers, volunteers, isLoading, error } = useVolunteerContext();
 	const navigate = useNavigate();
 	const [showModal, setShowModal] = useState(false);
 	const [itemToDelete, setItemToDelete] = useState(null);
+
+	useEffect(() => {
+		if (!currentUser?.accessToken) return;
+
+		getVolunteers(currentUser.accessToken);
+	}, [currentUser?.accessToken]);
 
 	return (
 		<div className="flex flex-col gap-4 py-[2em] px-6">
@@ -75,6 +82,62 @@ export default function VolunteerListPage() {
 							</tr>
 						</thead>
 						<tbody>
+							{isLoading ? (
+								<tr>
+									<td colSpan="6" className="text-center py-4">
+										Loading...
+									</td>
+								</tr>
+							) : error ? (
+								<tr>
+									<td colSpan="6" className="text-center text-red-500 py-4">
+										{error.message}
+									</td>
+								</tr>
+							) : volunteers.length === 0 ? (
+								<tr>
+									<td colSpan="6" className="text-center py-4">
+										No requesters found.
+									</td>
+								</tr>
+							) : (
+								volunteers.map((volunteer) => (
+									<tr
+										key={volunteer.id}
+										className="odd:dark:bg-transparent even:bg-purpleLighter even:dark:bg-purpleLightest border-b dark:border-gray-200"
+									>
+										<td className="px-6 py-4">{volunteer.id}</td>
+										<td className="px-6 py-4">{volunteer.name}</td>
+										<td className="px-6 py-4">{volunteer.email}</td>
+										<td className="px-6 py-4">{volunteer.age}</td>
+										<td className="px-6 py-4">{volunteer.points_earned}</td>
+										<td className="px-6 py-4">
+											{volunteer.is_active ? "Active" : "Inactive"}
+										</td>
+										<td className="px-6 py-4 flex gap-4">
+											<Link to={`/dashboard/volunteers/${volunteer.id}`}>
+												<span className="material-symbols-outlined cursor-pointer hover:text-primaryLighter ">
+													visibility
+												</span>
+											</Link>
+											<Link to={`/dashboard/volunteers/${volunteer.id}/edit`}>
+												<span className="material-symbols-outlined cursor-pointer hover:text-yellow-600 ">
+													edit
+												</span>
+											</Link>
+											<span
+												onClick={() => {
+													setShowModal(true);
+													setItemToDelete(volunteer.id);
+												}}
+												className="material-symbols-outlined cursor-pointer hover:text-red-500 "
+											>
+												delete
+											</span>
+										</td>
+									</tr>
+								))
+							)}
 							{isLoading ? (
 								<tr>
 									<td colSpan="6" className="text-center py-4">
