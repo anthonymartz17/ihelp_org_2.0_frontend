@@ -1,42 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import { useRewardsContext } from "../../context/RewardsContext";
+import { useAuth } from "../../context/AuthContext";
 
 export default function RewardListPage() {
 	const navigate = useNavigate();
-	const [rewards, setRewards] = useState([]);
+	const { getRewards, rewards, isLoading, err } = useRewardsContext();
+	const { currentUser } = useAuth();
+
 	const [showModal, setShowModal] = useState(false);
 	const [itemToDelete, setItemToDelete] = useState(null);
 
 	useEffect(() => {
-		const fetchRewards = async () => {
-			try {
-				const token = localStorage.getItem("token");
-				const response = await fetch(
-					`${import.meta.env.VITE_API_URL}/rewards`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					}
-				);
-
-				if (!response.ok) {
-					const errorData = await response.json();
-					throw new Error(
-						`Failed to fetch rewards: ${response.status} ${errorData.message}`
-					);
-				}
-
-				const data = await response.json();
-				setRewards(data);
-			} catch (error) {
-				console.error("Error fetching rewards:", error.message);
-			}
-		};
-
-		fetchRewards();
-	}, []);
+		getRewards(currentUser?.accessToken);
+	}, [currentUser?.accessToken]);
 
 	const confirmDelete = async () => {
 		try {
