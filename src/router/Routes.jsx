@@ -27,6 +27,7 @@ import OpenRequests from "../pages/requests/OpenRequests";
 import AssignedRequests from "../pages/requests/AssignedRequests";
 import InProgressRequests from "../pages/requests/InProgressRequests";
 import CompletedRequests from "../pages/requests/CompletedRequests";
+import CancelledRequests from "../pages/requests/CancelledRequests";
 
 const router = createBrowserRouter([
 	{
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
 					{
 						path: "completed",
 						element: <CompletedRequests />,
+					},
+					{
+						path: "cancelled",
+						element: <CancelledRequests />,
 					},
 				],
 			},

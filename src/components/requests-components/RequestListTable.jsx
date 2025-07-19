@@ -4,7 +4,7 @@ import ConfirmationModal from "../ConfirmationModal";
 
 import { useRequestsContext } from "../../context/RequestContext";
 export default function RequestListTable() {
-	const { request } = useRequestsContext();
+	const { request, deleteRequest } = useRequestsContext();
 	const navigate = useNavigate();
 	// const [requests, setRequests] = useState([]);
 	const [showModal, setShowModal] = useState(false);
@@ -14,26 +14,26 @@ export default function RequestListTable() {
 		// fetchRequests();
 	}, []);
 
-	const confirmDelete = async () => {
-		try {
-			await fetch(`${import.meta.env.VITE_API_URL}/requests/${itemToDelete}`, {
-				method: "DELETE",
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
-				},
-			});
-			setRequests(requests.filter((request) => request.id !== itemToDelete));
-		} catch (error) {
-			console.error("Failed to delete request:", error);
-		} finally {
-			setShowModal(false);
-			setItemToDelete(null);
-		}
-	};
+	// const confirmDelete = async () => {
+	// 	try {
+	// 		await fetch(`${import.meta.env.VITE_API_URL}/requests/${itemToDelete}`, {
+	// 			method: "DELETE",
+	// 			headers: {
+	// 				Authorization: `Bearer ${localStorage.getItem("token")}`,
+	// 			},
+	// 		});
+	// 		setRequests(requests.filter((request) => request.id !== itemToDelete));
+	// 	} catch (error) {
+	// 		console.error("Failed to delete request:", error);
+	// 	} finally {
+	// 		setShowModal(false);
+	// 		setItemToDelete(null);
+	// 	}
+	// };
 
 	return (
 		<div>
-			<div className="flex justify-between items-center mb-2">
+			{/* <div className="flex justify-between items-center mb-2">
 				<div className="flex gap-2 justify-between items-center  w-full">
 					<form className="w-[25em]">
 						<label
@@ -98,7 +98,7 @@ export default function RequestListTable() {
 					</thead>
 
 					<tbody>
-						{requests.map((request) => (
+						{/* {requests.map((request) => (
 							<tr
 								key={request.id}
 								className="odd:dark:bg-transparent even:bg-purpleLighter even:dark:bg-purpleLightest border-b dark:border-gray-200"
@@ -137,7 +137,7 @@ export default function RequestListTable() {
 									</span>
 								</td>
 							</tr>
-						))}
+						))} */}
 					</tbody>
 				</table>
 			</div>
@@ -145,9 +145,9 @@ export default function RequestListTable() {
 				<ConfirmationModal
 					message={"Are you sure you want to delete this request?"}
 					onCancel={() => setShowModal(false)}
-					onConfirm={confirmDelete}
+					onConfirm={deleteRequest}
 				/>
-			)}
+			)} */}
 		</div>
 	);
 }

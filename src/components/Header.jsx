@@ -5,16 +5,16 @@ import logoutIcon from "../assets/icons/logout.svg";
 import { useAuth } from "../context/AuthContext";
 
 const links = [
-	{
-		link: "Profile",
-		route: "/profile",
-		icon: profileIcon,
-	},
-	{
-		link: "Account Settings",
-		route: "/settings",
-		icon: settingsIcon,
-	},
+	// {
+	// 	link: "Profile",
+	// 	route: "/profile",
+	// 	icon: profileIcon,
+	// },
+	// {
+	// 	link: "Account Settings",
+	// 	route: "/settings",
+	// 	icon: settingsIcon,
+	// },
 ];
 
 const user = {

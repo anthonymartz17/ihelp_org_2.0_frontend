@@ -1,38 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import ConfirmationModal from "../../components/ConfirmationModal";
 import { useRequestsContext } from "../../context/RequestContext";
 import socket from "../../services/socket";
-import {
-	formatDate,
-	formatMilitaryToStandardTime,
-} from "../../utils/formatters";
 import SearchBar from "../../components/SearchBar";
+import { formatDate } from "../../utils/formatters";
 
-export default function CompletedRequests() {
+export default function CancelledRequests() {
 	const navigate = useNavigate();
+	const [socketUpdate, setSocketUpdate] = useState(false);
+
 	const { requests, loading, error, commitTask } = useRequestsContext();
 	const [filteredRequests, setFilteredRequests] = useState([]);
 
-	const [showModal, setShowModal] = useState(false);
-
-	function filterRequests() {
-		const completedStatus = 4;
-		const completedRequests = requests.filter(
-			(request) => request.status_id === completedStatus
+	function filterCancelledRequests() {
+		const cancelledStatusId = 5;
+		const cancelledRequests = requests.filter(
+			(request) => request.status_id === cancelledStatusId
 		);
-		setFilteredRequests(completedRequests.sort((a, b) => b.id - a.id));
+		setFilteredRequests(cancelledRequests.sort((a, b) => b.id - a.id));
 	}
-
 	function searchRequests(e) {
 		const searchTerm = e.target.value.toLowerCase();
 
-		const completedStatus = 4;
-		const completedRequests = requests.filter(
-			(request) => request.status_id === completedStatus
+		const cancelledStatusId = 5;
+		const cancelledRequests = requests.filter(
+			(request) => request.status_id === cancelledStatusId
 		);
 
-		const filtered = completedRequests.filter(
+		const filtered = cancelledRequests.filter(
 			(request) =>
 				request.requester_first_name.toLowerCase().includes(searchTerm) ||
 				request.requester_last_name.toLowerCase().includes(searchTerm) ||
@@ -42,21 +38,48 @@ export default function CompletedRequests() {
 		setFilteredRequests(filtered);
 	}
 
+	function searchRequests(e) {
+		const searchTerm = e.target.value.toLowerCase();
+
+		const cancelledStatusId = 5;
+		const cancelledRequests = requests.filter(
+			(request) => request.status_id === cancelledStatusId
+		);
+
+		const filtered = cancelledRequests.filter(
+			(request) =>
+				request.requester_first_name.toLowerCase().includes(searchTerm) ||
+				request.requester_last_name.toLowerCase().includes(searchTerm) ||
+				request.category_name.toLowerCase().includes(searchTerm)
+		);
+
+		setFilteredRequests(filtered);
+	}
+
+
 	useEffect(() => {
-		filterRequests();
+		filterCancelledRequests();
+	}, [requests, socketUpdate]);
+
+	useEffect(() => {
+		socket.on("connect_error", (error) => {
+			console.log("Socket connection error:", error);
+		});
 
 		socket.on("requestsUpdate", (updatedRequests) => {
+			console.log("Received updated requests:", updatedRequests.type);
 			switch (updatedRequests.type) {
 				case "TASK_COMMITTED":
 					commitTask(updatedRequests);
-					filterRequests();
 			}
+
+			setSocketUpdate((prev) => !prev);
 		});
 
 		return () => {
 			socket.off("requestsUpdate");
 		};
-	}, [requests]);
+	}, []);
 
 	return (
 		<div>
@@ -87,7 +110,7 @@ export default function CompletedRequests() {
 								Created on
 							</th>
 							<th scope="col" className="px-6 py-3">
-								Due on
+								Cancelled on
 							</th>
 							<th scope="col" className="px-12 py-3 ">
 								Action
@@ -137,9 +160,11 @@ export default function CompletedRequests() {
 					</tbody>
 				</table>
 				{filteredRequests.length === 0 && (
-					<p className="body-text text-dark text-center py-10">
-						No requests found.
-					</p>
+					<div className="flex justify-center items-center h-full">
+						<p className="body-text h-20 flex items-center justify-center text-dark">
+							No requests found.
+						</p>
+					</div>
 				)}
 			</div>
 		</div>

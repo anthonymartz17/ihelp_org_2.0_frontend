@@ -114,3 +114,25 @@ export async function updateRequest(id, requestData, token) {
 		throw error;
 	}
 }
+
+export async function deleteRequest(id, token) {
+	console.log(id, "token", token);
+	try {
+		const response = await fetch(
+			`${import.meta.env.VITE_API_URL}/requests/${id}`,
+			{
+				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		if (!response.ok) {
+			throw new Error("Error deleting request");
+		}
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		throw error;
+	}
+}

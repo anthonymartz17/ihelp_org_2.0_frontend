@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import CancelRequestModal from "../../components/CancelRequestModal";
 import { useRequestsContext } from "../../context/RequestContext";
+import { useAuth } from "../../context/AuthContext";
 import socket from "../../services/socket";
 import SearchBar from "../../components/SearchBar";
 import {
@@ -9,32 +11,19 @@ import {
 	formatMilitaryToStandardTime,
 } from "../../utils/formatters";
 
-export default function RequestListTable() {
+export default function OpenRequests() {
 	const navigate = useNavigate();
+	const { currentUser } = useAuth();
 	const [socketUpdate, setSocketUpdate] = useState(false);
 
-	const { requests, loading, error, commitTask } = useRequestsContext();
+	const { requests, deleteUnassignedRequest, loading, error, commitTask } =
+		useRequestsContext();
 	const [filteredRequests, setFilteredRequests] = useState([]);
 
 	const [showModal, setShowModal] = useState(false);
-	const [itemToDelete, setItemToDelete] = useState(null);
+	const [modalType, setModalType] = useState(null);
 
-	const confirmDelete = async () => {
-		try {
-			await fetch(`${import.meta.env.VITE_API_URL}/requests/${itemToDelete}`, {
-				method: "DELETE",
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
-				},
-			});
-			setRequests(requests.filter((request) => request.id !== itemToDelete));
-		} catch (error) {
-			console.error("Failed to delete request:", error);
-		} finally {
-			setShowModal(false);
-			setItemToDelete(null);
-		}
-	};
+	const [selectedItemId, setSelectedItemId] = useState(null);
 
 	function filterOpenRequests() {
 		const openStatusId = 1;
@@ -42,6 +31,36 @@ export default function RequestListTable() {
 			(request) => request.status_id === openStatusId
 		);
 		setFilteredRequests(openRequests.sort((a, b) => b.id - a.id));
+	}
+
+	function onDanger(selectedRequest) {
+		setShowModal(true);
+		setSelectedItemId(selectedRequest.id);
+		setModalType(
+			selectedRequest.assigned_tasks == 0 ? "confirmDelete" : "confirmCancel"
+		);
+	}
+
+	async function confirmAction() {
+		try {
+			const response = await deleteUnassignedRequest(
+				selectedItemId,
+				currentUser.accessToken
+			);
+			setShowModal(false);
+		} catch (err) {
+			//handle error
+		}
+	}
+
+	async function handleConfirmCancel(reason) {
+		console.log(reason)
+	}
+
+	function handleCloseModal() {
+		setShowModal(false);
+		setSelectedItemId(null);
+		setModalType(null);
 	}
 	function searchRequests(e) {
 		const searchTerm = e.target.value.toLowerCase();
@@ -174,17 +193,26 @@ export default function RequestListTable() {
 												</span>
 												<span>Edit</span>
 											</Link>
+
 											<button
-												onClick={() => {
-													setShowModal(true);
-													setItemToDelete(request.id);
-												}}
+												onClick={() => onDanger(request)}
 												className="flex gap-1 p-2 hover:bg-greylight rounded-md w-full text-left"
 											>
-												<span className="material-symbols-outlined text-sm">
-													delete
-												</span>
-												<span>Delete</span>
+												{request.assigned_tasks === 0 ? (
+													<div className="flex gap-1 align-middle">
+														<span className="material-symbols-outlined text-sm">
+															delete
+														</span>
+														<span>Delete</span>
+													</div>
+												) : (
+													<div className="flex gap-1 align-middle">
+														<span className="material-symbols-outlined text-sm">
+															cancel
+														</span>
+														<span>Cancel</span>
+													</div>
+												)}
 											</button>
 										</div>
 									</div>
@@ -201,11 +229,20 @@ export default function RequestListTable() {
 					</div>
 				)}
 			</div>
-			{showModal && (
+			{showModal && modalType == "confirmDelete" && (
 				<ConfirmationModal
 					message={"Are you sure you want to delete this request?"}
-					onCancel={() => setShowModal(false)}
-					onConfirm={confirmDelete}
+					onCancel={handleCloseModal}
+					onConfirm={confirmAction}
+				/>
+			)}
+			{showModal && modalType === "confirmCancel" && (
+				<CancelRequestModal
+					title="Cancel Request"
+					message="Provide reason for cancellation."
+					employeeUser={currentUser.email}
+					onCancel={handleCloseModal}
+					onConfirm={handleConfirmCancel}
 				/>
 			)}
 		</div>

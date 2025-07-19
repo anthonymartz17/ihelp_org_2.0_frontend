@@ -7,8 +7,9 @@ import {
 	formatDate,
 	formatMilitaryToStandardTime,
 } from "../../utils/formatters";
+import SearchBar from "../../components/SearchBar";
 
-export default function RequestListTable() {
+export default function InProgressRequests() {
 	const navigate = useNavigate();
 	const { requests, loading, error, commitTask } = useRequestsContext();
 	const [filteredRequests, setFilteredRequests] = useState([]);
@@ -21,6 +22,24 @@ export default function RequestListTable() {
 			(request) => request.status_id === inProgressStatus
 		);
 		setFilteredRequests(inProgressRequests.sort((a, b) => b.id - a.id));
+	}
+
+	function searchRequests(e) {
+		const searchTerm = e.target.value.toLowerCase();
+
+		const inProgressStatus = 3;
+		const inProgressRequests = requests.filter(
+			(request) => request.status_id === inProgressStatus
+		);
+
+		const filtered = inProgressRequests.filter(
+			(request) =>
+				request.requester_first_name.toLowerCase().includes(searchTerm) ||
+				request.requester_last_name.toLowerCase().includes(searchTerm) ||
+				request.category_name.toLowerCase().includes(searchTerm)
+		);
+
+		setFilteredRequests(filtered);
 	}
 
 	useEffect(() => {
@@ -43,28 +62,7 @@ export default function RequestListTable() {
 		<div>
 			<div className="flex justify-between items-center mb-2">
 				<div className="flex gap-2 justify-between items-center  w-full">
-					<form className="w-[25em]">
-						<label
-							htmlFor="default-search"
-							className="mb-2 body-text sr-only dark:text-white"
-						>
-							Search
-						</label>
-						<div className="relative">
-							<div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-								<span className="material-symbols-outlined text-dark opacity-40">
-									search
-								</span>
-							</div>
-							<input
-								type="search"
-								id="default-search"
-								className="block w-full p-2 ps-10 body-text border border-greylight rounded-lg focus:ring-gray-300 focus:border-gray-500"
-								placeholder="Search..."
-								required
-							/>
-						</div>
-					</form>
+					<SearchBar onSearch={searchRequests} />
 				</div>
 			</div>
 			<div className="relative overflow-y-auto max-h-[60vh] sm:rounded-lg mt-4 ">

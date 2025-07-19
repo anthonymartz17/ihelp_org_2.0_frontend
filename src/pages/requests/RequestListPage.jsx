@@ -21,10 +21,15 @@ const tabs = [
 		name: "Completed",
 		link: "/dashboard/requests/completed",
 	},
+	{
+		name: "Cancelled",
+		link: "/dashboard/requests/cancelled",
+	},
 ];
 export default function RequestsList() {
 	const { currentUser } = useAuth();
 	const { getRequests } = useRequestsContext();
+
 	useEffect(() => {
 		if (currentUser?.accessToken) {
 			getRequests(currentUser.accessToken);

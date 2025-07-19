@@ -3,6 +3,7 @@ import {
 	fetchRequests,
 	createRequest,
 	updateRequest,
+	deleteRequest,
 } from "../services/requestService";
 
 const RequestContext = createContext({});
@@ -70,6 +71,14 @@ export default function RequestContextProvider({ children }) {
 			throw new Error("Failed to update request:", err);
 		}
 	}
+	async function deleteUnassignedRequest(requestId, token) {
+		try {
+			await deleteRequest(requestId, token);
+			setRequests((prev) => prev.filter((request) => request.id !== requestId));
+		} catch (err) {
+			throw new Error("Failed to delete request:", err);
+		}
+	}
 
 	const contextValue = {
 		requests,
@@ -80,6 +89,7 @@ export default function RequestContextProvider({ children }) {
 		commitTask,
 		createNewRequest,
 		updateRequestById,
+		deleteUnassignedRequest,
 	};
 
 	return (

@@ -192,13 +192,13 @@ export default function RequestDetailPage() {
 										</div>
 										<div className="flex gap-2">
 											<span className="body-text-bold">Points:</span>
-											<p className="body-text">{task.points_earned} Pts</p>
+											<p className="body-text">{task.point_earnings} Pts</p>
 										</div>
 									</div>
 
 									<div className="flex gap-2">
 										<span className="body-text-bold">Task:</span>
-										<p className="body-text">{task.description}</p>
+										<p className="body-text">{task.task}</p>
 									</div>
 								</li>
 							))}
